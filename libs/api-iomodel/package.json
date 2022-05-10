@@ -1,0 +1,7 @@
+{
+    "name": "@api/io-model",
+    "version": "0.0.1",
+    "dependencies": {
+        "fuzzy": "^0.1.3"
+    }
+}

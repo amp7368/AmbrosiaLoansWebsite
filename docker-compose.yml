@@ -1,0 +1,88 @@
+version: '3.8'
+services:
+    postgres:
+        image: ${COMPOSE_NAME}/${DATABASE_IMAGE}
+        container_name: ${POSTGRES_VERSION}
+        build:
+            context: .
+            dockerfile: ./apps/postgres/pg.Dockerfile
+        environment:
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            - POSTGRES_DB=${POSTGRES_DB}
+        networks:
+            - 'ambrosia-loans'
+        volumes:
+            - database:/${WORKINGDIR}/database
+        # Remove these probably
+        ports:
+            - '6546:${POSTGRES_PORT}'
+        # Remove these probably
+    api:
+        image: ${COMPOSE_NAME}/${API_IMAGE}
+        container_name: ${COMPOSE_NAME}.${API_IMAGE}
+        depends_on:
+            - postgres
+        build:
+            context: .
+            dockerfile: ./apps/api/Dockerfile
+            args:
+                - WORKINGDIR=${WORKINGDIR}
+                - COMPOSE_NAME=${COMPOSE_NAME}
+                - BASE_IMAGE=${BASE_IMAGE}
+                - NODE_VERSION=${NODE_VERSION}
+        networks:
+            - 'ambrosia-loans'
+        environment:
+            - PORT=${NGINX_PORT}
+            - WORKINGDIR=${WORKINGDIR}
+    website:
+        image: ${COMPOSE_NAME}/${WEBSITE_IMAGE}
+        container_name: ${COMPOSE_NAME}.${WEBSITE_IMAGE}
+        build:
+            context: .
+            dockerfile: ./apps/website/Dockerfile
+            args:
+                - WORKINGDIR=${WORKINGDIR}
+                - COMPOSE_NAME=${COMPOSE_NAME}
+                - BASE_IMAGE=${BASE_IMAGE}
+                - NGINX_VERSION=${NGINX_VERSION}
+                - NGINX_PORT=${NGINX_PORT}
+        networks:
+            - 'ambrosia-loans'
+        environment:
+            - PORT=${NGINX_PORT}
+            - WORKINGDIR=${WORKINGDIR}
+            - NGINX_PORT=${NGINX_PORT}
+    nginx:
+        depends_on:
+            - website
+            - api
+        container_name: ${COMPOSE_NAME}.${NGINX_IMAGE}
+        image: ${COMPOSE_NAME}/${NGINX_IMAGE}
+        build:
+            context: .
+            dockerfile: ./apps/nginx/Dockerfile
+            args:
+                - WORKINGDIR=${WORKINGDIR}
+                - COMPOSE_NAME=${COMPOSE_NAME}
+                - BASE_IMAGE=${BASE_IMAGE}
+                - NGINX_VERSION=${NGINX_VERSION}
+        networks:
+            - 'appleptr16'
+            - 'ambrosia-loans'
+        environment:
+            - WEBSITE_DOMAIN=${WEBSITE_DOMAIN}
+            - WEBSITE_IMAGE=${WEBSITE_IMAGE}
+            - API_DOMAIN=${API_DOMAIN}
+            - API_IMAGE=${API_IMAGE}
+
+            - COMPOSE_NAME=${COMPOSE_NAME}
+            - DOMAIN_PREFIX=${DOMAIN_PREFIX}
+            - NGINX_PORT=${NGINX_PORT}
+
+            - WORKINGDIR=${WORKINGDIR}
+        ports:
+            - '${NGINX_PORT}:${NGINX_PORT}'
+networks:
+    ambrosia-loans:

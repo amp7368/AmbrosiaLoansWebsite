@@ -1,4 +1,11 @@
 {
   "version": 2,
-  "projects": {}
+  "projects": {
+    "@appleptr16/elemental": "libs/elemental",
+    "@appleptr16/utilities": "libs/misc-utilities",
+    "api-iomodel": "libs/api-iomodel",
+    "nginx": "apps/nginx",
+    "api": "apps/api",
+    "website": "apps/website"
+  }
 }
