@@ -6,7 +6,7 @@ export class PublicOnlyRouteInfo extends RestrictedRouteInfo {
     protected mapToElement(isLoggedIn: boolean) {
         if (isLoggedIn) {
             // if you're logged in, don't log in again
-            return <Navigate to={RouteProps.Profile.link} replace={true} />;
+            return <Navigate to={RouteProps.Client.link} replace={true} />;
         } else {
             return this.renderPage();
         }

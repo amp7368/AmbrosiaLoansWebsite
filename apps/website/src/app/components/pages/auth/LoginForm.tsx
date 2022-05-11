@@ -1,3 +1,4 @@
+import { LoginRequest } from '@api/io-model';
 import { Box, FormControl, Stack, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { sessionService } from '../../../model/session/Session.service';
@@ -8,10 +9,10 @@ function onValidFormSubmit() {
     sessionService.login({ username: 'appleptr16', password: 'appleptr16' });
 }
 export function LoginForm() {
-    const { register, handleSubmit, formState } = useForm();
+    const { register, handleSubmit } = useForm<LoginRequest['input']>();
     return (
         <form>
-            <Stack direction="column">
+            <Stack direction="column" alignContent="center">
                 <Box>
                     <FormControl color="secondary">
                         <TextField
@@ -29,7 +30,6 @@ export function LoginForm() {
                     <TextField
                         {...register('password')}
                         required={true}
-                        autoFocus
                         inputMode="text"
                         type="password"
                         focused
@@ -37,8 +37,17 @@ export function LoginForm() {
                         placeholder="Password"
                     />
                 </Box>
-                <Stack direction="row" padding={4} justifyContent="center">
+                <Stack
+                    direction="row"
+                    justifyContent="space-evenly"
+                    marginTop={4}
+                >
                     <AuthLoginButton
+                        text="Login"
+                        onClick={handleSubmit(sessionService.login)}
+                    />
+                    <AuthLoginButton
+                        text="Bypass"
                         onClick={handleSubmit(onValidFormSubmit)}
                     />
                 </Stack>

@@ -1,5 +1,4 @@
-import { ProfileBase } from '@api/io-model';
 import { EntityState } from '@datorama/akita';
 
-export interface Profile extends ProfileBase {}
+export interface Profile {}
 export type ProfileState = EntityState<Profile, number>;

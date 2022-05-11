@@ -32,7 +32,7 @@ export function TopNavigation() {
             render={renderHomeButton}
         />
     );
-    let buttons = [AllRoutes.Auth].map((route, i) => (
+    let buttons = [AllRoutes.Auth, AllRoutes.Client].map((route, i) => (
         <AppBarLink key={i} route={route} />
     ));
     buttons = [HomeButton, ...buttons].map((button, i) => (

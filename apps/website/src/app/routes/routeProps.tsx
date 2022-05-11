@@ -19,6 +19,6 @@ function createProps(pageType: PageId, title: string, link: string) {
 }
 export const RouteProps = {
     Home: createProps(PageId.Home, 'Home', '/'),
-    Profile: createProps(PageId.Profile, 'Profile', '/profile'),
+    Client: createProps(PageId.Profile, 'Client', '/client'),
     Auth: createProps(PageId.Auth, 'Login', '/login'),
 };

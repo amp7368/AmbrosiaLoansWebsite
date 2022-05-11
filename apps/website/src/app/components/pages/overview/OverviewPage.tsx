@@ -1,4 +1,4 @@
-import { Box, Button, Container } from '@mui/material';
+import { Box, Button, Container, Typography } from '@mui/material';
 
 import { clearAppStorage } from '../../../../persistState';
 import { RouteInfo } from '../../../routes/RouteInfo';
@@ -18,17 +18,16 @@ export class HomePage extends PageWrapper<undefined> {
     renderMainPage(props: MainPageProps<undefined>): JSX.Element {
         return (
             <Box>
-                <AppTypography>
-                    <Container>
-                        <Button
-                            onClick={clearAppStorage}
-                            color="secondary"
-                            variant="contained"
-                        >
-                            Reset Stores
-                        </Button>
-                    </Container>
-                </AppTypography>
+                <Typography>Overview</Typography>
+                <Container>
+                    <Button
+                        onClick={clearAppStorage}
+                        color="secondary"
+                        variant="contained"
+                    >
+                        Reset Stores
+                    </Button>
+                </Container>
             </Box>
         );
     }

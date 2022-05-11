@@ -46,18 +46,18 @@ export namespace DateFactory {
     }
 
     export function fromNowDays(amount: number): Date {
-        return this.addDays(new Date(), amount);
+        return addDays(new Date(), amount);
     }
     export function fromNowHours(amount: number): Date {
-        return this.addHours(new Date(), amount);
+        return addHours(new Date(), amount);
     }
     export function fromNowMinutes(amount: number): Date {
-        return this.addMinutes(new Date(), amount);
+        return addMinutes(new Date(), amount);
     }
     export function fromNowSeconds(amount: number): Date {
-        return this.addSeconds(new Date(), amount);
+        return addSeconds(new Date(), amount);
     }
     export function fromNowMillis(amount: number): Date {
-        return this.addMillis(new Date(), amount);
+        return addMillis(new Date(), amount);
     }
 }

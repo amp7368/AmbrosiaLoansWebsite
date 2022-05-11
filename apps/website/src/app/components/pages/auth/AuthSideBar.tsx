@@ -15,7 +15,7 @@ const welcomeRow = (
         <DarkShadowText color="text.primary" fontSize="2rem" fontWeight="bold">
             Welcome to
             <br />
-            Ambrosia Markets!
+            Ambrosia Loans!
         </DarkShadowText>
     </Stack>
 );
@@ -43,10 +43,9 @@ const signupRow = (
 );
 export function AuthSideDrawer() {
     return (
-        <Stack direction="column" justifyContent="space-between">
+        <Stack direction="column" justifyContent="stretch">
             {welcomeRow}
             {<LoginForm />}
-            {signupRow}
         </Stack>
     );
 }
