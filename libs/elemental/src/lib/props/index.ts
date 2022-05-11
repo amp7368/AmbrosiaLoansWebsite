@@ -1,1 +1,1 @@
-export * from './PropsJustChildren'
+export * from './PropsJustChildren';

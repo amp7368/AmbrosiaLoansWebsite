@@ -1,1 +1,1 @@
-export * from './user';
+export const Test = 0;

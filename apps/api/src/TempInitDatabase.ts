@@ -16,7 +16,7 @@ export class TempInitDatabase implements OnApplicationBootstrap {
             password: 'appleptr16',
         };
         if (this.authService.hasUser(appleptr16)) return;
-        
+
         this.authService.newUser(apiSignupFactory.request(appleptr16));
     }
 }

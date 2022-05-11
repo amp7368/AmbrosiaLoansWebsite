@@ -1,5 +1,5 @@
 import { AuthPage } from '../components/pages/auth/AuthPage';
-import { HomePage } from '../components/pages/home/HomePage';
+import { HomePage } from '../components/pages/overview/OverviewPage';
 import { PageId, PageWrapperProps, RouteProps } from './routeProps';
 
 function createProps(
