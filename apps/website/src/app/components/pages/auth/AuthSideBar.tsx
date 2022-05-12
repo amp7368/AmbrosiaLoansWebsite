@@ -19,28 +19,6 @@ const welcomeRow = (
         </DarkShadowText>
     </Stack>
 );
-
-const signupRow = (
-    <Stack
-        direction="column"
-        padding={4}
-        justifyContent="space-between"
-        alignItems="center"
-    >
-        <LightShadowText fontSize="3rem">Signup using</LightShadowText>
-        <Stack width="100%" direction="row" justifyContent="space-between">
-            <Button variant="contained" color="secondary">
-                <Typography fontSize="1.5rem">Discord</Typography>
-            </Button>
-            <Button variant="contained" color="secondary">
-                <Typography fontSize="1.5rem">Minecraft</Typography>
-            </Button>
-            <Button variant="contained" color="secondary">
-                <Typography fontSize="1.5rem">Don't verify</Typography>
-            </Button>
-        </Stack>
-    </Stack>
-);
 export function AuthSideDrawer() {
     return (
         <Stack direction="column" justifyContent="stretch">

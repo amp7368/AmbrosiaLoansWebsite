@@ -2,9 +2,16 @@
     "extends": "../../tsconfig.base.json",
     "compilerOptions": {
         "jsx": "react-jsx",
-        "allowJs": true,
+        "jsxImportSource": "@emotion/react",
+        "target": "es2018",
+        "module": "commonjs",
+        "moduleResolution": "node",
+
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
+
         "forceConsistentCasingInFileNames": true,
         "strict": true,
         "noImplicitOverride": true,
@@ -16,7 +23,7 @@
     "include": [],
     "references": [
         {
-            "path": "./tsconfig.lib.json"
+            "path": "./tsconfig.app.json"
         },
         {
             "path": "./tsconfig.spec.json"

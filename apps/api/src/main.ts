@@ -11,19 +11,12 @@ import { initTypeOrmDbConnection } from './database/initDbConnection';
 import { PingModule } from './endpoints/ping/ping.module';
 import { AuthModule } from './endpoints/user/auth/auth.module';
 import { TempInitDatabase } from './TempInitDatabase';
-import { ImageModule } from './endpoints/image/Image.module';
 import { MulterInit } from './MulterInit';
 
 const PORT = 80;
 
 @Module({
-    imports: [
-        PingModule,
-        ImageModule,
-        AuthModule,
-        TempInitDatabase,
-        MulterInit,
-    ],
+    imports: [PingModule, AuthModule, TempInitDatabase, MulterInit],
 })
 class AppModule {}
 

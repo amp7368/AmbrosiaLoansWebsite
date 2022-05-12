@@ -2,10 +2,10 @@
     "version": 2,
     "projects": {
         "@appleptr16/elemental": "libs/elemental",
-        "@appleptr16/utilities": "libs/misc-utilities",
+        "@appleptr16/utilities": "libs/utilities",
         "api-iomodel": "libs/api-iomodel",
-        "nginx": "apps/nginx",
         "api": "apps/api",
+        "nginx": "apps/nginx",
         "website": "apps/website"
     }
 }

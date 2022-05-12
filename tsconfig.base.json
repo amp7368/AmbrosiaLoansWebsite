@@ -22,9 +22,10 @@
         "noErrorTruncation": true,
         "baseUrl": ".",
         "paths": {
+            "@ambrosia-loans/test": ["libs/test/src/index.ts"],
             "@api/io-model": ["libs/api-iomodel/src/index.ts"],
             "@appleptr16/elemental": ["libs/elemental/src/index.ts"],
-            "@appleptr16/utilities": ["libs/misc-utilities/src/index.ts"]
+            "@appleptr16/utilities": ["libs/utilities/src/index.ts"]
         }
     },
     "exclude": ["node_modules", "tmp"]

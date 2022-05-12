@@ -1,11 +1,8 @@
 version: '3.8'
 services:
     postgres:
-        image: ${COMPOSE_NAME}/${DATABASE_IMAGE}
-        container_name: ${POSTGRES_VERSION}
-        build:
-            context: .
-            dockerfile: ./apps/postgres/pg.Dockerfile
+        image: ${POSTGRES_VERSION}
+        container_name: ${COMPOSE_NAME}.${DATABASE_IMAGE}
         environment:
             - POSTGRES_USER=${POSTGRES_USER}
             - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -13,10 +10,10 @@ services:
         networks:
             - 'ambrosia-loans'
         volumes:
-            - database:/${WORKINGDIR}/database
+            - ${MOUNT}/database:/${WORKINGDIR}/database
         # Remove these probably
         ports:
-            - '6546:${POSTGRES_PORT}'
+            - '5432:${POSTGRES_PORT}'
         # Remove these probably
     api:
         image: ${COMPOSE_NAME}/${API_IMAGE}
@@ -69,7 +66,7 @@ services:
                 - BASE_IMAGE=${BASE_IMAGE}
                 - NGINX_VERSION=${NGINX_VERSION}
         networks:
-            - 'appleptr16'
+            # - 'appleptr16'
             - 'ambrosia-loans'
         environment:
             - WEBSITE_DOMAIN=${WEBSITE_DOMAIN}

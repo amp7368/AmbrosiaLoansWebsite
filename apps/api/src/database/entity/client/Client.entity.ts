@@ -8,13 +8,13 @@ export class ClientProfile {
 
     @PrimaryGeneratedColumn('uuid')
     uuid: string;
-    @Column('displayName')
+    @Column('varchar', { length: 32 })
     displayName: string;
 
     // discord
     @Column('bigint')
     discordId: number;
-    @Column('nchar', { length: 32 })
+    @Column('varchar', { length: 32 })
     discordTag: string;
 
     @Column('integer')

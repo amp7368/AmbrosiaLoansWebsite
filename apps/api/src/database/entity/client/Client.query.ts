@@ -1,4 +1,3 @@
-import { SignupRequest } from '@api/io-model';
 import { getManager } from 'typeorm';
 
 import { AmbrosiaQuery } from '../../AmbrosiaQuery';
@@ -10,7 +9,7 @@ export class UserAccountQuery extends AmbrosiaQuery {
             .where('user.credentials.username = :username', { username })
             .getOne();
     }
-    async newUser(signup: SignupRequest['output']): Promise<ClientProfile> {
+    async newUser(signup: any): Promise<ClientProfile> {
         const account: ClientProfile = ClientProfile.create({});
         return await getManager().save(account);
     }

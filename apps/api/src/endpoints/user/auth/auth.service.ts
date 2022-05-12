@@ -1,10 +1,9 @@
-import { ILoginId, ServerProfileBase, SignupRequest } from '@api/io-model';
-import { Optional } from '@appleptr16/utilities';
+import { ILoginId } from '@api/io-model';
 
 import { ClientProfile } from '../../../database/entity/client/Client.entity';
+import { userAccountQuery } from '../../../database/entity/client/Client.query';
 import { Session } from '../../../database/session/Session';
 import { sessionStore } from '../../../database/session/SessionStorage';
-import { userAccountQuery } from '../../../database/entity/client/Client.query';
 
 export class AuthService {
     async getUser(credentials: ILoginId): Promise<ClientProfile> {
@@ -17,10 +16,10 @@ export class AuthService {
             .catch(() => false);
     }
 
-    async newUser(signup: SignupRequest['output']): Promise<ClientProfile> {
+    async newUser(signup: any): Promise<ClientProfile> {
         return userAccountQuery.newUser(signup);
     }
-    async newSession(signup: SignupRequest['output']): Promise<Session> {
+    async newSession(signup: any): Promise<Session> {
         return this.newUser(signup).then(sessionStore.newSession);
     }
 }
