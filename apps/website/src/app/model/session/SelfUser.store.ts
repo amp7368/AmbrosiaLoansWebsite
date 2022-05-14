@@ -9,10 +9,13 @@ import { Session } from './Session.model';
 @StoreConfig({ name: 'selfuser' })
 export class SelfUserStore extends StoreBase<SelfUser> {
     setSession(session: Optional<Session>) {
+        if (session) {
+            session = {
+                sessionToken: session.sessionToken,
+                expiration: new Date(session.expiration),
+            };
+        }
         this.update((selfUser: SelfUser) => ({ ...selfUser, session }));
-    }
-    updateSession(update: ReflexiveFn<Optional<Session>>) {
-        this.updateProp('session', update);
     }
     setProfile(profile: Optional<Profile>) {
         this.update((selfUser: SelfUser) => ({ ...selfUser, profile }));

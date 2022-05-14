@@ -1,32 +1,34 @@
 import { uppercaseFirst } from '../formatStrings/formatStrings';
 
 type SetFn = `set${string}`;
+type GetFn = `get${string}`;
 type SetDateUnitFn = keyof {
     [Key in keyof Date as Key extends SetFn ? Key : never]: unknown;
+};
+type GetDateUnitFn = keyof {
+    [Key in keyof Date as Key extends GetFn ? Key : never]: unknown;
 };
 type ExtractUnitFromSet<SetUnit> = SetUnit extends `set${infer Field}`
     ? Field
     : never;
 
-type SetDateFn = (amount: number) => void;
-type GetDateFn = () => number;
-
 export type DateUnit = Uncapitalize<ExtractUnitFromSet<SetDateUnitFn>>;
 export function dateAddUnits(date: Date, unit: DateUnit, amount: number): Date {
-    const newDate = new Date(date);
-    const setFn: SetDateFn = newDate[`set${uppercaseFirst(unit)}`] as SetDateFn;
-    const getFn: GetDateFn = newDate[`get${uppercaseFirst(unit)}`] as GetDateFn;
-    setFn(amount + getFn());
+    const getFn: GetDateUnitFn = `get${uppercaseFirst(unit)}`;
+    const setFn: SetDateUnitFn = `set${uppercaseFirst(unit)}`;
+    const newDate: Date = new Date(date);
+    const gotten: number = newDate[getFn]();
+    newDate[setFn](amount + gotten);
     return newDate;
 }
-export namespace DateFactory {
-    export function hoursToMillis(hours: number) {
+export module DateFactory {
+    export function hoursToMillis(hours: number): number {
         return minutesToMillis(hours * 60);
     }
-    export function minutesToMillis(minutes: number) {
+    export function minutesToMillis(minutes: number): number {
         return secondsToMillis(minutes * 60);
     }
-    export function secondsToMillis(seconds: number) {
+    export function secondsToMillis(seconds: number): number {
         return seconds * 1000;
     }
     export function addDays(date: Date, amount: number): Date {

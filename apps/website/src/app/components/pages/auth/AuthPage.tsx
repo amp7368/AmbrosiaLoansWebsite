@@ -6,18 +6,15 @@ import { PageWrapper } from '../PageWrapper';
 import { MainPageProps, SideBarProps } from '../PageWrapperProps';
 import { AuthSideDrawer } from './AuthSideBar';
 
-export class AuthPage extends PageWrapper<undefined> {
-    listTabs(): undefined[] {
-        return [];
-    }
-    createRoute(): RouteInfo {
+export class AuthPage extends PageWrapper<AuthPageTabs> {
+    createRoute(): RouteInfo<AuthPageTabs> {
         return new PublicOnlyRouteInfo(this);
     }
 
-    renderMainPage(props: MainPageProps<undefined>): JSX.Element {
+    renderMainPage(props: MainPageProps<AuthPageTabs>): JSX.Element {
         return <></>;
     }
-    renderSideBar(props: SideBarProps<undefined>): JSX.Element {
+    renderSideBar(props: SideBarProps<AuthPageTabs>): JSX.Element {
         return (
             <SideDrawer
                 defaultState={SideDrawerState.EXPANDED}
@@ -28,4 +25,8 @@ export class AuthPage extends PageWrapper<undefined> {
             />
         );
     }
+}
+
+export enum AuthPageTabs {
+    Main,
 }

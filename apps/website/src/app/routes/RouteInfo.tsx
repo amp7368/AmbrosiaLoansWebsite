@@ -1,30 +1,28 @@
-import { Route } from 'react-router-dom';
-import { PageWrapperProps } from './routeProps';
+import { Route, RouteProps } from 'react-router-dom';
+import { PageWrapperProps, PageWrapperSkeleton } from './routeProps';
 
-export interface IPageWrapper {
-    props: PageWrapperProps;
+export interface IPageWrapper<Tab> {
+    props: PageWrapperSkeleton<Tab>;
     PageElement(): JSX.Element;
 }
 
-export class RouteInfo {
-    props: PageWrapperProps;
-    page: IPageWrapper;
-    constructor(page: IPageWrapper) {
+export class RouteInfo<Tab> {
+    props: PageWrapperSkeleton<Tab>;
+    page: IPageWrapper<Tab>;
+    constructor(page: IPageWrapper<Tab>) {
         this.props = page.props;
         this.page = page;
-        this.renderRoute = this.renderRoute.bind(this);
+        this.renderPage = this.renderPage.bind(this);
     }
     getName(): string {
         return this.props.title;
     }
-    renderRoute({ key }: { key: number }): JSX.Element {
-        return (
-            <Route
-                key={key}
-                path={this.props.link}
-                element={this.renderPage()}
-            />
-        );
+    renderRouteProps(): RouteProps & { key: number } {
+        return {
+            key: this.props.pageId,
+            path: this.props.link,
+            element: <this.renderPage />,
+        };
     }
     renderPage(): JSX.Element {
         return this.page.PageElement();

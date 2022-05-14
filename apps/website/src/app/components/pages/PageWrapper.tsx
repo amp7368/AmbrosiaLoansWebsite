@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import { useState, useMemo, useRef } from 'react';
 
 import { IPageWrapper, RouteInfo } from '../../routes/RouteInfo';
-import { PageWrapperProps } from '../../routes/routeProps';
+import { PageWrapperProps, PageWrapperSkeleton } from '../../routes/routeProps';
 import { TopNavigation } from '../common/top/TopNavigation';
 import { MainPageProps, SideBarProps } from './PageWrapperProps';
 
@@ -39,12 +39,26 @@ function Page<Tab>({ page }: PageProps<Tab>) {
     );
 }
 
-export abstract class PageWrapper<Tab> implements IPageWrapper {
-    constructor(public props: PageWrapperProps) {}
-    abstract createRoute(): RouteInfo;
+export abstract class PageWrapper<Tab> implements IPageWrapper<Tab> {
+    private currentTabVar: Tab;
+    private tabs: Tab[];
+    constructor(public props: PageWrapperSkeleton<Tab>) {
+        this.currentTabVar = props.tabs[0];
+        this.tabs = props.tabs;
+        this.renderSideBar = this.renderSideBar.bind(this);
+        this.setTab = this.setTab.bind(this);
+    }
+    abstract createRoute(): RouteInfo<Tab>;
 
-    abstract listTabs(): Tab[];
-
+    listTabs() {
+        return this.tabs;
+    }
+    protected setTab(newTab: Tab): void {
+        this.currentTabVar = newTab;
+    }
+    protected get currentTab(): Tab {
+        return this.currentTabVar;
+    }
     PageElement(): JSX.Element {
         return <Page page={this} />;
     }

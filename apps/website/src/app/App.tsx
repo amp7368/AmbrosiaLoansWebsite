@@ -1,9 +1,15 @@
 import { PropsJustChildren } from '@appleptr16/elemental';
 import { Box, ThemeProvider, Typography } from '@mui/material';
-import { BrowserRouter, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { appTheme } from './util/themeManager';
-import { AllRoutes } from './routes/routes';
+import {
+    AllPageIds,
+    AllRoutes,
+    PageId,
+    PageWrapperProps,
+} from './routes/routeProps';
+import { useMemo } from 'react';
 
 const Root = (props: PropsJustChildren) => (
     <ThemeProvider theme={appTheme}>
@@ -12,14 +18,19 @@ const Root = (props: PropsJustChildren) => (
         </Box>
     </ThemeProvider>
 );
-function App() {
-    const routes = Object.values(AllRoutes).map((route, i) =>
-        route.renderRoute({ key: i })
-    );
+function convertRoute(id: PageId) {
+    return AllRoutes[id].page.createRoute();
+}
+function App(): JSX.Element {
+    const routes = useMemo(() => AllPageIds.map(convertRoute), [AllPageIds]);
     return (
         <Root>
             <BrowserRouter>
-                <Routes>{routes}</Routes>
+                <Routes>
+                    {routes.map((route) => (
+                        <Route {...route.renderRouteProps()} />
+                    ))}
+                </Routes>
             </BrowserRouter>
         </Root>
     );

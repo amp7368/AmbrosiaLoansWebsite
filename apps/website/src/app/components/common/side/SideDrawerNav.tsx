@@ -46,7 +46,11 @@ export interface SideDrawerNavListProps {
 export function SideDrawerNavList(props: SideDrawerNavListProps) {
     const mappedButtons: ReactNode = props.buttons.map(
         (buttonProps: SideDrawerNavDefProps) => (
-            <TopButton {...props} {...buttonProps} />
+            <TopButton
+                key={buttonProps.isOpening ? 1 : 0}
+                {...props}
+                {...buttonProps}
+            />
         )
     );
     return (

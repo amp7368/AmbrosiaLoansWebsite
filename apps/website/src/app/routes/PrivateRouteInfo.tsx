@@ -1,15 +1,15 @@
 import { Navigate } from 'react-router-dom';
 
 import { RestrictedRouteInfo } from './RestrictedRouteInfo';
-import { RouteProps } from './routeProps';
+import { PageId, AllRoutes } from './routeProps';
 
-export class PrivateRouteInfo extends RestrictedRouteInfo {
+export class PrivateRouteInfo<Tab> extends RestrictedRouteInfo<Tab> {
     protected mapToElement(isLoggedIn: boolean) {
         if (isLoggedIn) {
-            // if you're not logged in, log in
             return this.renderPage();
         } else {
-            return <Navigate to={RouteProps.Auth.link} replace={true} />;
+            // if you're not logged in, log in
+            return <Navigate to={AllRoutes[PageId.Auth].link} replace={true} />;
         }
     }
 }

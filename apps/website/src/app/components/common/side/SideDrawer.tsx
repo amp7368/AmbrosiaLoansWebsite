@@ -99,7 +99,7 @@ export interface SideDrawerProps<Tab> {
     currentTab: Tab;
     setTab: (tab: Tab) => void;
 }
-export function SideDrawer<Tab = null>({
+export function SideDrawer<Tab extends number>({
     defaultState = SideDrawerState.OPEN,
     drawerStates,
     tabs = [],
@@ -115,7 +115,12 @@ export function SideDrawer<Tab = null>({
 
     const sizeButtons: SideDrawerNavDefProps[] = [];
     const navButtons = tabs.map((tab: Tab) => (
-        <TabButton isActive={tab === currentTab} setTab={setTab} tab={tab} />
+        <TabButton
+            key={tab}
+            isActive={tab === currentTab}
+            setTab={setTab}
+            tab={tab}
+        />
     ));
     if (indexOfState > 0) sizeButtons.push(drawerCloseButton);
     if (indexOfState < allStates.length - 1) sizeButtons.push(drawerOpenButton);

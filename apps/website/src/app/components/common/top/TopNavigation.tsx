@@ -1,20 +1,22 @@
-import { Box, Button, Container, Stack, Typography } from '@mui/material';
+import { Box, Button, Stack } from '@mui/material';
 
-import { RouteInfo } from '../../../routes/RouteInfo';
-import { AllRoutes } from '../../../routes/routes';
-import { AppImg } from '../../../util/imageHandling';
+import {
+    AllRoutes,
+    PageId,
+    PageWrapperProps,
+} from '../../../routes/routeProps';
 import { LightShadowText } from '../../base/AppTypography';
 
 interface AppBarLinkProps {
-    route: RouteInfo;
+    route: PageWrapperProps<number>;
     render?: (name: string) => JSX.Element;
 }
 function AppBarLink({ route, render }: AppBarLinkProps): JSX.Element {
-    const changeRoute = () => window.location.replace(route.props.link);
+    const changeRoute = () => window.location.replace(route.link);
     return (
         <Button variant="text" onClick={changeRoute}>
             <LightShadowText variant="h2" color="text.primary" fontStyle={{}}>
-                {render ? render(route.getName()) : route.getName()}
+                {render ? render(route.title) : route.title}
             </LightShadowText>
         </Button>
     );
@@ -28,13 +30,13 @@ export function TopNavigation() {
     const HomeButton = (
         <AppBarLink
             key="home"
-            route={AllRoutes.Home}
+            route={AllRoutes[PageId.Home]}
             render={renderHomeButton}
         />
     );
-    let buttons = [AllRoutes.Auth, AllRoutes.Client].map((route, i) => (
-        <AppBarLink key={i} route={route} />
-    ));
+    let buttons = [AllRoutes[PageId.Client], AllRoutes[PageId.Auth]].map(
+        (route, i) => <AppBarLink key={i} route={route} />
+    );
     buttons = [HomeButton, ...buttons].map((button, i) => (
         <Box width="5rem" height="5rem" key={i}>
             {button}

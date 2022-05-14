@@ -1,5 +1,4 @@
-import { apiLoginFactory, LoginRequest, LoginResponse } from '@api/io-model';
-import { v4 } from 'uuid';
+import { LoginRequest, LoginResponse } from '@api/io-model';
 
 import { BaseAPI } from '../base/BaseAPI';
 import { RequestMethod } from '../base/RequestBuilder';
