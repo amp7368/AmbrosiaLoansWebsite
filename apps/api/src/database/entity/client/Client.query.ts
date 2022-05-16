@@ -1,18 +1,19 @@
+import { ClientProfileBase } from '@api/io-model';
 import { getManager } from 'typeorm';
 
 import { AmbrosiaQuery } from '../../AmbrosiaQuery';
 import { ClientProfile } from './Client.entity';
 
 export class UserAccountQuery extends AmbrosiaQuery {
-    async getUser(username: string): Promise<ClientProfile> {
-        return await this.managerQueryBuilder(ClientProfile, 'user')
-            .where('user.credentials.username = :username', { username })
-            .getOne();
+    async getClients(): Promise<ClientProfile[]> {
+        return await this.managerQueryBuilder(ClientProfile, 'user').getMany();
     }
-    async newUser(signup: any): Promise<ClientProfile> {
-        const account: ClientProfile = ClientProfile.create({});
-        return await getManager().save(account);
+    async newClient(
+        client: Omit<ClientProfileBase, 'uuid'>
+    ): Promise<ClientProfile> {
+        const entity: ClientProfile = ClientProfile.create(client);
+        return await getManager().save(entity);
     }
 }
 
-export const userAccountQuery = new UserAccountQuery();
+export const clientQuery = new UserAccountQuery();

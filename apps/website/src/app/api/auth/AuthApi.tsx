@@ -4,9 +4,9 @@ import { BaseAPI } from '../base/BaseAPI';
 import { RequestMethod } from '../base/RequestBuilder';
 
 export class AuthAPI extends BaseAPI {
-    async login(props: LoginRequest['input']): LoginResponse['promise'] {
+    async login(props: LoginRequest): Promise<LoginResponse> {
         return this.newRequest()
-            .url('user', 'auth', 'login')
+            .url('auth', 'login')
             .setMethod(RequestMethod.Post)
             .payload(props)
             .build();

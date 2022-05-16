@@ -1,21 +1,19 @@
-import { AuthResponse, LoginRequest, LoginResponse } from '@api/io-model';
-import { emptyRunnable } from '@appleptr16/utilities';
+import { LoginRequest, LoginResponse } from '@api/io-model';
 
 import { authAPI } from '../../api/auth/AuthApi';
-import { selfUserQuery } from './SelfUser.query';
 import { selfUserStore } from './SelfUser.store';
 
 export class SessionService {
     async logout() {
         selfUserStore.setSession(undefined);
     }
-    async login(request: LoginRequest['input']): LoginResponse['promise'] {
-        const response: LoginResponse['promise'] = authAPI.login(request);
-        response.then(this.authPost).catch(emptyRunnable);
+    async login(request: LoginRequest): Promise<LoginResponse> {
+        const response: LoginResponse = await authAPI.login(request);
+        this.authPost(response);
         return response;
     }
-    private authPost(response: AuthResponse['output']) {
-        selfUserStore.setSession(response);
+    private authPost(response: LoginResponse) {
+        if (response?.session) selfUserStore.setSession(response.session);
     }
 }
 export const sessionService = new SessionService();

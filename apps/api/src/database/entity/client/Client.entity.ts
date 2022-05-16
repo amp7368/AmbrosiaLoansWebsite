@@ -1,5 +1,5 @@
 import { CreateClassFactory } from '@appleptr16/utilities';
-import { Entity, PrimaryGeneratedColumn, PrimaryColumn, Column } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class ClientProfile {
@@ -17,6 +17,9 @@ export class ClientProfile {
     @Column('varchar', { length: 32 })
     discordTag: string;
 
+    // loans stuff
     @Column('integer')
     credit: number;
+    @Column('bigint')
+    emeraldsInvested: number;
 }

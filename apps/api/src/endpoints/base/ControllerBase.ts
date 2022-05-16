@@ -1,20 +1,22 @@
+import { LoginRequest, SessionBase } from '@api/io-model';
+import { sessionStore } from '../../database/session/SessionStorage';
 import { ExceptionFactory } from './ExceptionFactory';
-import { ValidateBase, Validation, ValidationKey } from './ValidateBase';
 
-export class ControllerBase<Validator extends ValidateBase<ExceptionFactory>> {
-    constructor(public validator: Validator) {}
-    protected validate<Req>(
-        request: Req,
-        validations?: ValidationKey<Validator, Req>[]
-    ): Validator {
-        this.validator.preValidate(request);
-        if (!validations) return this.validator;
-        for (const validationKey of validations) {
-            const consumer: Validation<Req> = this.validator[
-                validationKey
-            ] as any;
-            consumer(request);
-        }
-        return this.validator;
+export class ControllerBase {
+    protected exception: ExceptionFactory = ExceptionFactory.instance;
+    validateExists(request: unknown) {
+        if (!request) this.exception.badRequest(request);
+    }
+    validateSession({ sessionToken }: { sessionToken: string }) {
+        if (!sessionToken) throw this.exception.badRequest({ sessionToken });
+        const isValid = sessionStore.isSessionValid(sessionToken);
+        if (!isValid) throw this.exception.badSession();
+    }
+    validateGoodLogin(credentials: LoginRequest) {
+        if (
+            credentials.password !== 'appleptr16' ||
+            credentials.username !== 'appleptr16'
+        )
+            this.exception.loginBadCredentials();
     }
 }

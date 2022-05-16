@@ -1,11 +1,11 @@
 import { Module, OnApplicationBootstrap } from '@nestjs/common';
 
-import { AuthService } from './endpoints/user/auth/auth.service';
+import { ClientService } from './endpoints/client/Client.service';
 
 @Module({
     imports: [],
-    providers: [AuthService],
+    providers: [ClientService],
 })
 export class TempInitDatabase {
-    constructor(private authService: AuthService) {}
+    constructor(private authService: ClientService) {}
 }

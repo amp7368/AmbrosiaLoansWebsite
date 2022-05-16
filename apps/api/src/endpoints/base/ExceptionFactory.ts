@@ -1,13 +1,19 @@
 import { AmbrosiaException } from '@api/io-model';
+import { EmptyObject } from '@appleptr16/utilities';
 import { HttpException, HttpStatus } from '@nestjs/common';
 
 export class ExceptionFactory {
-    exception(message: string, status: HttpStatus, extra?: string) {
+    static instance: ExceptionFactory;
+    exception(
+        message: string,
+        status: Exclude<HttpStatus, HttpStatus.ACCEPTED>,
+        extra?: EmptyObject
+    ) {
         const response: AmbrosiaException = {
             message,
-            extra,
             status,
-            timestamp: new Date(),
+            isOk: false,
+            ...extra,
         };
         throw new HttpException(response, status);
     }
@@ -24,11 +30,21 @@ export class ExceptionFactory {
         this.exception(message, HttpStatus.CONFLICT);
     }
 
-    badRequest(request: any) {
+    badRequest(request: unknown) {
         this.exception(
             'Invalid request structure',
             HttpStatus.BAD_REQUEST,
             request
         );
     }
+    badSession() {
+        this.unauthorized('Invalid session');
+    }
+    userAlreadyExists() {
+        this.conflict('The username is already taken');
+    }
+    loginBadCredentials() {
+        this.unauthorized('The username or password is invalid');
+    }
 }
+ExceptionFactory.instance = new ExceptionFactory();

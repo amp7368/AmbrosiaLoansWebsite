@@ -49,7 +49,8 @@ export class RequestBuilder {
                 return response.data;
             })
             .catch((error: { request: XMLHttpRequest }) => {
-                let msg = JSON.parse(error.request.response);
+                let msg = error.request.response;
+                console.log(msg);
                 try {
                     msg = msg['message'] ?? msg;
                     // eslint-disable-next-line no-empty

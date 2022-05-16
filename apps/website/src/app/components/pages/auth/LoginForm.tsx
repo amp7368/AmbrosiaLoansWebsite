@@ -9,7 +9,7 @@ function onValidFormSubmit() {
     sessionService.login({ username: 'appleptr16', password: 'appleptr16' });
 }
 export function LoginForm() {
-    const { register, handleSubmit } = useForm<LoginRequest['input']>();
+    const { register, handleSubmit } = useForm<LoginRequest>();
     return (
         <form>
             <Stack direction="column" alignContent="center">

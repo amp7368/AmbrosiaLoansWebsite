@@ -9,7 +9,7 @@ import { NestFactory } from '@nestjs/core';
 
 import { initTypeOrmDbConnection } from './database/initDbConnection';
 import { PingModule } from './endpoints/ping/ping.module';
-import { AuthModule } from './endpoints/user/auth/auth.module';
+import { AuthModule } from './endpoints/auth/auth.module';
 import { TempInitDatabase } from './TempInitDatabase';
 import { MulterInit } from './MulterInit';
 
