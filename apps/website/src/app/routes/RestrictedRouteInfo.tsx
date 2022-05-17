@@ -1,10 +1,13 @@
 import { ObserveableToElement } from '@appleptr16/elemental';
-import { Route, RouteProps } from 'react-router-dom';
+import { RouteProps } from 'react-router-dom';
 
 import { selfUserQuery } from '../model/session/SelfUser.query';
 import { IPageWrapper, RouteInfo } from './RouteInfo';
+import { TabEntryKey } from './routeProps';
 
-export abstract class RestrictedRouteInfo<Tab> extends RouteInfo<Tab> {
+export abstract class RestrictedRouteInfo<
+    Tab extends TabEntryKey
+> extends RouteInfo<Tab> {
     protected abstract mapToElement(isLoggedIn: boolean): JSX.Element;
     constructor(props: IPageWrapper<Tab>) {
         super(props);

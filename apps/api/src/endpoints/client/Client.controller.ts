@@ -13,7 +13,7 @@ import { EndpointUrls } from '../EndpointUrls';
 
 @Controller(EndpointUrls.client.url)
 export class ClientController extends ControllerBase {
-    @Get()
+    @Get('list')
     async getClient(
         @Body() request: ClientListRequest
     ): Promise<ClientListResponse> {
@@ -23,7 +23,7 @@ export class ClientController extends ControllerBase {
             .getClients()
             .then((clients) => ({ clients, ...okResponse }));
     }
-    @Post()
+    @Post('create')
     async createClient(
         @Body() request: ClientCreateRequest
     ): Promise<ClientCreateResponse> {

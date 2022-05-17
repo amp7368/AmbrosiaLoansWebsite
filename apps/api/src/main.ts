@@ -12,11 +12,18 @@ import { PingModule } from './endpoints/ping/ping.module';
 import { AuthModule } from './endpoints/auth/auth.module';
 import { TempInitDatabase } from './TempInitDatabase';
 import { MulterInit } from './MulterInit';
+import { ClientModule } from './endpoints/client/Client.module';
 
 const PORT = 80;
 
 @Module({
-    imports: [PingModule, AuthModule, TempInitDatabase, MulterInit],
+    imports: [
+        PingModule,
+        AuthModule,
+        ClientModule,
+        TempInitDatabase,
+        MulterInit,
+    ],
 })
 class AppModule {}
 

@@ -1,19 +1,19 @@
-import { HttpStatus } from '@nestjs/common';
+import { StatusCodes } from 'http-status-codes';
 
 export interface AmbrosiaException {
     message: string;
-    status: Exclude<HttpStatus, HttpStatus.ACCEPTED>;
+    status: Exclude<StatusCodes, StatusCodes.ACCEPTED>;
     isOk: false;
 }
 export interface AmbrosiaResponseOK extends AmbrosiaResponse {
-    status: HttpStatus.ACCEPTED;
+    status: StatusCodes.ACCEPTED;
     isOk: true;
 }
 export interface AmbrosiaResponse {
-    status: HttpStatus;
+    status: StatusCodes;
     isOk: boolean;
 }
-export const okResponse = {
-    status: HttpStatus.ACCEPTED,
+export const okResponse: AmbrosiaResponseOK = {
+    status: StatusCodes.ACCEPTED,
     isOk: true,
-} as AmbrosiaResponseOK;
+};

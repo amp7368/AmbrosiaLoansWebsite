@@ -1,9 +1,6 @@
-import axios from 'axios';
+import { AmbrosiaException, AmbrosiaResponse, okResponse } from '@api/io-model';
+import axios, { AxiosRequestConfig, Method } from 'axios';
 
-export enum RequestMethod {
-    Get = 'get',
-    Post = 'post',
-}
 export interface RequestParam {
     key: string;
     val: string;
@@ -13,7 +10,7 @@ export class RequestBuilder {
     private urlField: string[] = [];
     private queryParams: RequestParam[] = [];
     private body: any = {};
-    private requestMethod: RequestMethod = RequestMethod.Get;
+    private requestMethod: Method;
     constructor(baseUrl: string) {
         this.urlField.push(baseUrl);
         this.url = this.url.bind(this);
@@ -32,30 +29,35 @@ export class RequestBuilder {
         return this;
     }
     queryParam(key: string, val: string): RequestBuilder {
-        this.queryParams.push({ key: key, val: val });
+        this.queryParams.push({ key, val });
         return this;
     }
     payload(payload: any): RequestBuilder {
         this.body = payload;
         return this;
     }
-    setMethod(method: RequestMethod) {
+    setMethod(method: Method) {
         this.requestMethod = method;
         return this;
     }
-    async build(): Promise<any> {
+    asPost() {
+        return this.setMethod('post');
+    }
+    asGet() {
+        return this.setMethod('get');
+    }
+    async build(): Promise<AmbrosiaResponse & any> {
         return axios(this.buildUrl())
             .then((response) => {
-                return response.data;
+                return { ...okResponse, ...response.data };
             })
-            .catch((error: { request: XMLHttpRequest }) => {
-                let msg = error.request.response;
-                console.log(msg);
-                try {
-                    msg = msg['message'] ?? msg;
-                    // eslint-disable-next-line no-empty
-                } catch (ignored) {}
-                throw new Error(msg);
+            .catch((error) => {
+                console.error(error);
+                return {
+                    isOk: false,
+                    status: error.status,
+                    ...error,
+                } as AmbrosiaException;
             });
     }
 
@@ -64,15 +66,14 @@ export class RequestBuilder {
     }
 
     private buildUrl() {
-        let url: string = this.urlField.join('/');
         const params: string = this.queryParams
             .map((queryParam) => this.serializeQueryParams(queryParam))
             .join('&');
-        url = `${url}?${params}`;
+        const url = `${this.urlField.join('/')}?${params}`;
         return {
             method: this.requestMethod,
-            url: url,
+            url,
             data: this.body,
-        };
+        } as AxiosRequestConfig;
     }
 }

@@ -1,11 +1,10 @@
-// import 'reflect-metadata';
 import './persistState';
 import { StrictMode } from 'react';
-import * as ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 
 import App from './app/App';
 
-ReactDOM.render(
+render(
     <StrictMode>
         <App />
     </StrictMode>,

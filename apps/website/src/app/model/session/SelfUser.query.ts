@@ -5,11 +5,14 @@ import { QueryBase } from '../QueryBase';
 import { SelfUser } from './SelfUser.model';
 import { Session } from './Session.model';
 import { selfUserStore } from './SelfUser.store';
-import { Profile } from '../user/Profile.model';
+import { Client } from '../user/Client.model';
 
 export class SelfUserQuery extends QueryBase<SelfUser> {
+    getSessionToken(): Optional<string> {
+        return this.getValue()?.session?.sessionToken;
+    }
     session: Observable<Optional<Session>> = this.selectKey('session');
-    profile: Observable<Optional<Profile>> = this.selectKey('profile');
+    profile: Observable<Optional<Client>> = this.selectKey('profile');
 
     isLoggedIn: Observable<boolean> = this.map(
         this.session,

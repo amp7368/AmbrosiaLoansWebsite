@@ -1,9 +1,9 @@
 import { Optional } from '@appleptr16/utilities';
 
-import { Profile } from '../user/Profile.model';
+import { Client } from '../user/Client.model';
 import { Session } from './Session.model';
 
 export interface SelfUser {
-    profile: Optional<Profile>;
+    profile: Optional<Client>;
     session: Optional<Session>;
 }

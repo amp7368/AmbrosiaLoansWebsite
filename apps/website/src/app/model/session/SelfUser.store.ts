@@ -2,7 +2,7 @@ import { Optional } from '@appleptr16/utilities';
 import { StoreConfig } from '@datorama/akita';
 
 import { ReflexiveFn, StoreBase } from '../StoreBase';
-import { Profile } from '../user/Profile.model';
+import { Client } from '../user/Client.model';
 import { SelfUser } from './SelfUser.model';
 import { Session } from './Session.model';
 
@@ -17,7 +17,7 @@ export class SelfUserStore extends StoreBase<SelfUser> {
         }
         this.update((selfUser: SelfUser) => ({ ...selfUser, session }));
     }
-    setProfile(profile: Optional<Profile>) {
+    setProfile(profile: Optional<Client>) {
         this.update((selfUser: SelfUser) => ({ ...selfUser, profile }));
     }
 }

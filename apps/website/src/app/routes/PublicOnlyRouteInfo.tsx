@@ -1,8 +1,10 @@
 import { Navigate } from 'react-router-dom';
 import { RestrictedRouteInfo } from './RestrictedRouteInfo';
-import { PageId, AllRoutes } from './routeProps';
+import { PageId, AllRoutes, TabEntryKey } from './routeProps';
 
-export class PublicOnlyRouteInfo<Tab> extends RestrictedRouteInfo<Tab> {
+export class PublicOnlyRouteInfo<
+    Tab extends TabEntryKey
+> extends RestrictedRouteInfo<Tab> {
     protected mapToElement(isLoggedIn: boolean) {
         if (isLoggedIn) {
             // if you're logged in, don't log in again

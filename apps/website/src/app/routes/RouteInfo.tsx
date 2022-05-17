@@ -1,12 +1,13 @@
-import { Route, RouteProps } from 'react-router-dom';
-import { PageWrapperProps, PageWrapperSkeleton } from './routeProps';
+import { RouteProps } from 'react-router-dom';
 
-export interface IPageWrapper<Tab> {
+import { PageWrapperSkeleton, TabEntryKey } from './routeProps';
+
+export interface IPageWrapper<Tab extends TabEntryKey> {
     props: PageWrapperSkeleton<Tab>;
     PageElement(): JSX.Element;
 }
 
-export class RouteInfo<Tab> {
+export class RouteInfo<Tab extends TabEntryKey> {
     props: PageWrapperSkeleton<Tab>;
     page: IPageWrapper<Tab>;
     constructor(page: IPageWrapper<Tab>) {

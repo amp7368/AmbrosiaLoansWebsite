@@ -1,7 +1,6 @@
-import { Box, Button, Stack, Typography } from '@mui/material';
+import { Stack } from '@mui/material';
 
-import { AppImg } from '../../../util/imageHandling';
-import { DarkShadowText, LightShadowText } from '../../base/AppTypography';
+import { DarkShadowText } from '../../base/AppTypography';
 import { LoginForm } from './LoginForm';
 
 const welcomeRow = (

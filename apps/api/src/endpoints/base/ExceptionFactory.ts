@@ -1,12 +1,13 @@
 import { AmbrosiaException } from '@api/io-model';
 import { EmptyObject } from '@appleptr16/utilities';
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { StatusCodes } from 'http-status-codes';
 
 export class ExceptionFactory {
     static instance: ExceptionFactory;
     exception(
         message: string,
-        status: Exclude<HttpStatus, HttpStatus.ACCEPTED>,
+        status: Exclude<StatusCodes, StatusCodes.ACCEPTED>,
         extra?: EmptyObject
     ) {
         const response: AmbrosiaException = {
@@ -19,21 +20,21 @@ export class ExceptionFactory {
     }
 
     forbidden(message: string) {
-        this.exception(message, HttpStatus.FORBIDDEN);
+        this.exception(message, StatusCodes.FORBIDDEN);
     }
 
     unauthorized(message: string) {
-        this.exception(message, HttpStatus.UNAUTHORIZED);
+        this.exception(message, StatusCodes.UNAUTHORIZED);
     }
 
     conflict(message: string) {
-        this.exception(message, HttpStatus.CONFLICT);
+        this.exception(message, StatusCodes.CONFLICT);
     }
 
     badRequest(request: unknown) {
         this.exception(
             'Invalid request structure',
-            HttpStatus.BAD_REQUEST,
+            StatusCodes.BAD_REQUEST,
             request
         );
     }

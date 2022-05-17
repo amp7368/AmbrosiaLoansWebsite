@@ -3,8 +3,8 @@
     "projects": {
         "@appleptr16/elemental": "libs/elemental",
         "@appleptr16/utilities": "libs/utilities",
-        "api-iomodel": "libs/api-iomodel",
         "api": "apps/api",
+        "api-iomodel": "libs/api-iomodel",
         "nginx": "apps/nginx",
         "website": "apps/website"
     }

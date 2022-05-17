@@ -1,3 +1,6 @@
+import { AuthorizedRequest } from '@api/io-model';
+
+import { selfUserQuery } from '../../model/session/SelfUser.query';
 import { RequestBuilder } from './RequestBuilder';
 
 export class BaseAPI {
@@ -8,5 +11,13 @@ export class BaseAPI {
     }
     isStatusOk(status: number): boolean {
         return status === 200;
+    }
+    authorize(payload: {}): AuthorizedRequest | undefined {
+        const sessionToken = selfUserQuery.getSessionToken();
+        if (!sessionToken) return undefined;
+        return {
+            ...payload,
+            sessionToken,
+        };
     }
 }

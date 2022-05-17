@@ -1,31 +1,42 @@
+import { Optional } from '@appleptr16/utilities';
 import { Box } from '@mui/material';
-import { useState, useMemo, useRef } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
 import { IPageWrapper, RouteInfo } from '../../routes/RouteInfo';
-import { PageWrapperProps, PageWrapperSkeleton } from '../../routes/routeProps';
+import {
+    PageWrapperSkeleton,
+    TabEntry,
+    TabEntryKey,
+} from '../../routes/routeProps';
 import { TopNavigation } from '../common/top/TopNavigation';
 import { MainPageProps, SideBarProps } from './PageWrapperProps';
 
-interface PageProps<Tab> {
+interface PageProps<Tab extends TabEntryKey> {
     page: PageWrapper<Tab>;
 }
 interface PageState<Tab> {
     currentTab: Tab;
 }
-function Page<Tab>({ page }: PageProps<Tab>) {
-    const tabs = useRef(page.listTabs());
-    const [state, setState] = useState({
-        currentTab: tabs.current[0],
-    } as PageState<Tab>);
-
-    const sideBarProps: SideBarProps<Tab> = {
-        tabs: tabs.current,
+function Page<Tab extends TabEntryKey>({ page }: PageProps<Tab>) {
+    const tabs: TabEntry[] = page.listTabs();
+    const [state, setState] = useState<PageState<TabEntry>>({
+        currentTab: tabs[0],
+    });
+    const sideBarProps: SideBarProps = {
+        tabs,
         currentTab: state.currentTab,
-        setTab: (tab: Tab) => {
-            setState((state: PageState<Tab>) => ({
-                ...state,
-                currentTab: tab,
-            }));
+        setTab: (newTab: string | number) => {
+            const matchingTabEntry: Optional<TabEntry> = tabs.find(
+                (tab) => tab.str == newTab || tab.num == newTab
+            );
+            if (matchingTabEntry !== undefined) {
+                setState((state: PageState<TabEntry>) => ({
+                    ...state,
+                    currentTab: matchingTabEntry,
+                }));
+            } else {
+                console.error(`${newTab} tab not found`);
+            }
         },
     };
     return (
@@ -39,9 +50,11 @@ function Page<Tab>({ page }: PageProps<Tab>) {
     );
 }
 
-export abstract class PageWrapper<Tab> implements IPageWrapper<Tab> {
-    private currentTabVar: Tab;
-    private tabs: Tab[];
+export abstract class PageWrapper<Tab extends TabEntryKey>
+    implements IPageWrapper<Tab>
+{
+    private currentTabVar: TabEntry;
+    private tabs: TabEntry[];
     constructor(public props: PageWrapperSkeleton<Tab>) {
         this.currentTabVar = props.tabs[0];
         this.tabs = props.tabs;
@@ -54,9 +67,10 @@ export abstract class PageWrapper<Tab> implements IPageWrapper<Tab> {
         return this.tabs;
     }
     protected setTab(newTab: Tab): void {
-        this.currentTabVar = newTab;
+        const find = this.tabs.find((tab) => tab.isSame(newTab));
+        if (find) this.currentTabVar = find;
     }
-    protected get currentTab(): Tab {
+    protected get currentTab(): TabEntry {
         return this.currentTabVar;
     }
     PageElement(): JSX.Element {
@@ -65,6 +79,6 @@ export abstract class PageWrapper<Tab> implements IPageWrapper<Tab> {
     renderTopNav(): JSX.Element {
         return <TopNavigation />;
     }
-    abstract renderMainPage(props: MainPageProps<Tab>): JSX.Element;
-    abstract renderSideBar(props: SideBarProps<Tab>): JSX.Element;
+    abstract renderMainPage(props: MainPageProps): JSX.Element;
+    abstract renderSideBar(props: SideBarProps): JSX.Element;
 }

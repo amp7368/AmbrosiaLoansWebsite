@@ -1,15 +1,11 @@
 import { PropsJustChildren } from '@appleptr16/elemental';
-import { Box, ThemeProvider, Typography } from '@mui/material';
+import { Box, ThemeProvider } from '@mui/material';
+import { ReactNode, useMemo } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
+import { RouteInfo } from './routes/RouteInfo';
+import { AllPageIds, AllRoutes, PageId } from './routes/routeProps';
 import { appTheme } from './util/themeManager';
-import {
-    AllPageIds,
-    AllRoutes,
-    PageId,
-    PageWrapperProps,
-} from './routes/routeProps';
-import { useMemo } from 'react';
 
 const Root = (props: PropsJustChildren) => (
     <ThemeProvider theme={appTheme}>
@@ -18,7 +14,7 @@ const Root = (props: PropsJustChildren) => (
         </Box>
     </ThemeProvider>
 );
-function convertRoute(id: PageId) {
+function convertRoute(id: PageId): RouteInfo<number> {
     return AllRoutes[id].page.createRoute();
 }
 function App(): JSX.Element {

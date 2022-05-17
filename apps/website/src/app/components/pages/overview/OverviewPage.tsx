@@ -2,7 +2,6 @@ import { Box, Button, Container, Typography } from '@mui/material';
 
 import { clearAppStorage } from '../../../../persistState';
 import { RouteInfo } from '../../../routes/RouteInfo';
-import { PageWrapperProps } from '../../../routes/routeProps';
 import { SideDrawer } from '../../common/side/SideDrawer';
 import { SideDrawerState } from '../../common/side/SideDrawerState';
 import { PageWrapper } from '../PageWrapper';
@@ -13,7 +12,7 @@ export class HomePage extends PageWrapper<HomePageTab> {
         return new RouteInfo(this);
     }
 
-    renderMainPage(props: MainPageProps<HomePageTab>): JSX.Element {
+    renderMainPage(props: MainPageProps): JSX.Element {
         return (
             <Box>
                 <Typography>Overview</Typography>
@@ -29,7 +28,7 @@ export class HomePage extends PageWrapper<HomePageTab> {
             </Box>
         );
     }
-    renderSideBar(props: SideBarProps<HomePageTab>): JSX.Element {
+    renderSideBar(props: SideBarProps): JSX.Element {
         return (
             <SideDrawer
                 drawerStates={

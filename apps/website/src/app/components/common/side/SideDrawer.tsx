@@ -1,15 +1,13 @@
-import { useTheme } from '@emotion/react';
-import { StyledComponent } from '@emotion/styled';
 import { ArrowLeft, ArrowRight } from '@mui/icons-material';
-import { Box, BoxProps, Button, Stack } from '@mui/material';
-import { styled, Theme } from '@mui/material/styles';
+import { Box, Button, Stack, styled, Theme, useTheme } from '@mui/material';
 import { ReactNode, useState } from 'react';
 
+import { TabEntry, TabEntryKey } from '../../../routes/routeProps';
 import {
-    sideDrawerCloseButton as drawerCloseButton,
+    sideDrawerCloseButton,
     SideDrawerNavDefProps,
     SideDrawerNavList,
-    sideDrawerOpenButton as drawerOpenButton,
+    sideDrawerOpenButton,
 } from './SideDrawerNav';
 import { SideDrawerState } from './SideDrawerState';
 
@@ -26,7 +24,7 @@ const commonMixin = (theme: Theme) => ({
 interface CreateMixinStylingProps {
     width: string;
 }
-function createMixinStyling(
+export function createMixinStyling(
     props: CreateMixinStylingProps
 ): (theme: Theme) => any {
     return () => ({
@@ -54,26 +52,26 @@ const statedMixin: Record<SideDrawerState, StatedConsts> = {
 interface StyledDrawerProps {
     $currentState: SideDrawerState;
 }
-const StyledDrawer: StyledComponent<BoxProps, StyledDrawerProps> = styled(
-    Box
-)<StyledDrawerProps>(({ theme, $currentState: state }) => {
-    const styling = {
-        ...commonMixin(theme),
-        ...statedMixin[state].styling(theme),
-    };
-    return {
-        ...styling,
-        '& .MuiDrawer-paper': {
+const StyledDrawer = styled(Box)<StyledDrawerProps>(
+    ({ theme, $currentState: state }) => {
+        const styling = {
+            ...commonMixin(theme),
+            ...statedMixin[state].styling(theme),
+        };
+        return {
             ...styling,
-        },
-    };
-});
-interface TabButtonProps<Tab> {
+            '& .MuiDrawer-paper': {
+                ...styling,
+            },
+        };
+    }
+);
+interface TabButtonProps {
     isActive: boolean;
-    tab: Tab;
-    setTab: (tab: Tab) => void;
+    tab: TabEntry;
+    setTab: (tab: TabEntryKey) => void;
 }
-function TabButton<Tab>(props: TabButtonProps<Tab>) {
+function TabButton(props: TabButtonProps) {
     const color = useTheme().palette.secondary;
     return (
         <Button
@@ -84,28 +82,28 @@ function TabButton<Tab>(props: TabButtonProps<Tab>) {
                 borderRadius: 0,
                 boxShadow: 'none',
             }}
-            onClick={() => props.setTab(props.tab)}
+            onClick={() => props.setTab(props.tab.key())}
         >
             {props.isActive && <ArrowRight />}
-            {props.tab}
+            {props.tab.str}
             {props.isActive && <ArrowLeft />}
         </Button>
     );
 }
-export interface SideDrawerProps<Tab> {
+export interface SideDrawerProps {
     defaultState?: SideDrawerState;
     drawerStates: Map<SideDrawerState, ReactNode>;
-    tabs: Tab[];
-    currentTab: Tab;
-    setTab: (tab: Tab) => void;
+    tabs: TabEntry[];
+    currentTab: TabEntry;
+    setTab: (tab: TabEntryKey) => void;
 }
-export function SideDrawer<Tab extends number>({
+export function SideDrawer({
     defaultState = SideDrawerState.OPEN,
     drawerStates,
     tabs = [],
     setTab,
     currentTab,
-}: SideDrawerProps<Tab>) {
+}: SideDrawerProps) {
     const [state, setState] = useState(defaultState);
 
     const allStates: SideDrawerState[] = (
@@ -114,16 +112,17 @@ export function SideDrawer<Tab extends number>({
     const indexOfState: number = allStates.indexOf(state);
 
     const sizeButtons: SideDrawerNavDefProps[] = [];
-    const navButtons = tabs.map((tab: Tab) => (
+    const navButtons = tabs.map((tab: TabEntry) => (
         <TabButton
-            key={tab}
+            key={tab.num}
             isActive={tab === currentTab}
             setTab={setTab}
             tab={tab}
         />
     ));
-    if (indexOfState > 0) sizeButtons.push(drawerCloseButton);
-    if (indexOfState < allStates.length - 1) sizeButtons.push(drawerOpenButton);
+    if (indexOfState > 0) sizeButtons.push(sideDrawerCloseButton);
+    if (indexOfState < allStates.length - 1)
+        sizeButtons.push(sideDrawerOpenButton);
     return (
         <StyledDrawer $currentState={state}>
             <SideDrawerNavList
