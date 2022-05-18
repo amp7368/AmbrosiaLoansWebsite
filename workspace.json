@@ -6,6 +6,8 @@
         "api": "apps/api",
         "api-iomodel": "libs/api-iomodel",
         "nginx": "apps/nginx",
-        "website": "apps/website"
+        "old-website": "apps/old-website",
+        "website": "apps/website",
+        "website-e2e": "apps/website-e2e"
     }
 }

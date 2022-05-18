@@ -1,12 +1,16 @@
-import './persistState';
 import { StrictMode } from 'react';
-import { render } from 'react-dom';
+import * as ReactDOMClient from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 
 import App from './app/App';
 
-render(
+const root = ReactDOMClient.createRoot(
+    document.getElementById('root') as HTMLElement
+);
+root.render(
     <StrictMode>
-        <App />
-    </StrictMode>,
-    document.getElementById('root')
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+    </StrictMode>
 );
