@@ -21,7 +21,6 @@ function convertRoute(id: PageId): RouteInfo<number> {
 }
 function App(): JSX.Element {
     const routes = useMemo(() => AllPageIds.map(convertRoute), [AllPageIds]);
-    // sessionService.login({ password: 'appleptr16', username: 'appleptr16' });
     return (
         <Root>
             <BrowserRouter>
