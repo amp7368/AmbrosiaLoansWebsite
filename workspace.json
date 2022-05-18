@@ -6,6 +6,7 @@
         "api": "apps/api",
         "api-iomodel": "libs/api-iomodel",
         "nginx": "apps/nginx",
+        "old-website": "apps/old-website",
         "website": "apps/website"
     }
 }

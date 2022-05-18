@@ -1,6 +1,6 @@
 {
-    "root": "apps/website",
-    "sourceRoot": "apps/website/src",
+    "root": "apps/old-website",
+    "sourceRoot": "apps/old-website/src",
     "projectType": "application",
     "targets": {
         "build": {
@@ -9,15 +9,15 @@
             "defaultConfiguration": "production",
             "options": {
                 "compiler": "babel",
-                "outputPath": "dist/apps/website",
-                "index": "apps/website/src/index.html",
+                "outputPath": "dist/apps/old-website",
+                "index": "apps/old-website/src/index.html",
                 "baseHref": "/",
-                "main": "apps/website/src/main.tsx",
-                "polyfills": "apps/website/src/polyfills.ts",
-                "tsConfig": "apps/website/tsconfig.app.json",
+                "main": "apps/old-website/src/main.tsx",
+                "polyfills": "apps/old-website/src/polyfills.ts",
+                "tsConfig": "apps/old-website/tsconfig.app.json",
                 "assets": [
-                    "apps/website/src/favicon.ico",
-                    "apps/website/src/assets"
+                    "apps/old-website/src/favicon.ico",
+                    "apps/old-website/src/assets"
                 ],
                 "styles": [],
                 "scripts": [],
@@ -27,13 +27,13 @@
                 "production": {
                     "fileReplacements": [
                         {
-                            "replace": "apps/website/src/environments/environment.ts",
-                            "with": "apps/website/src/environments/environment.prod.ts"
+                            "replace": "apps/old-website/src/environments/environment.ts",
+                            "with": "apps/old-website/src/environments/environment.prod.ts"
                         }
                     ],
                     "optimization": true,
                     "outputHashing": "all",
-                    "sourceMap": false,
+                    "sourceMap": true,
                     "namedChunks": false,
                     "extractLicenses": true,
                     "vendorChunk": false
@@ -43,12 +43,12 @@
         "serve": {
             "executor": "@nrwl/web:dev-server",
             "options": {
-                "buildTarget": "website:build",
+                "buildTarget": "old-website:build",
                 "hmr": true
             },
             "configurations": {
                 "production": {
-                    "buildTarget": "website:build:production",
+                    "buildTarget": "old-website:build:production",
                     "hmr": false
                 }
             }
@@ -57,15 +57,15 @@
             "executor": "@nrwl/linter:eslint",
             "outputs": ["{options.outputFile}"],
             "options": {
-                "lintFilePatterns": ["apps/website/**/*.{ts,tsx,js,jsx}"]
+                "lintFilePatterns": ["apps/old-website/**/*.{ts,tsx,js,jsx}"]
             }
         },
         "test": {
             "executor": "@nrwl/jest:jest",
-            "outputs": ["coverage/apps/website"],
+            "outputs": ["coverage/apps/old-website"],
             "options": {
-                "jestConfig": "apps/website/jest.config.js",
-                "passWithNoTests": true
+                "jestConfig": "apps/old-website/jest.config.js",
+                "passWithNoold-websites": true
             }
         }
     },
