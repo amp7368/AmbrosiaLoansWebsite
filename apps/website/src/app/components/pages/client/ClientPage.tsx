@@ -5,7 +5,8 @@ import { SideDrawer } from '../../common/side/SideDrawer';
 import { SideDrawerState } from '../../common/side/SideDrawerState';
 import { PageWrapper } from '../PageWrapper';
 import { MainPageProps, SideBarProps } from '../PageWrapperProps';
-import { ClientPageList } from './ClientPageList';
+import { ClientPageCreate } from './create/ClientPageCreate';
+import { ClientPageList } from './list/ClientPageList';
 
 export class ClientPage extends PageWrapper<ClientPageTab> {
     createRoute(): RouteInfo<ClientPageTab> {
@@ -13,12 +14,15 @@ export class ClientPage extends PageWrapper<ClientPageTab> {
     }
 
     override renderMainPage(props: MainPageProps): JSX.Element {
-        console.log(props.currentTab);
         if (props.currentTab.isSame(ClientPageTab.LIST_CLIENTS)) {
-            console.log('hey');
             return <ClientPageList />;
         }
-        return <Box> hei</Box>;
+        if (props.currentTab.isSame(ClientPageTab.CREATE_CLIENT)) {
+            return <ClientPageCreate />;
+        }
+
+        console.error('Client page has no tabs');
+        return <h1>This shouldn't be possible?</h1>;
     }
     renderSideBar(props: SideBarProps): JSX.Element {
         return (
@@ -32,6 +36,6 @@ export class ClientPage extends PageWrapper<ClientPageTab> {
     }
 }
 export enum ClientPageTab {
-    LIST_CLIENTS,
     CREATE_CLIENT,
+    LIST_CLIENTS,
 }

@@ -2,8 +2,8 @@ import { ObserveableToElement } from '@appleptr16/elemental';
 import { SortBy } from '@datorama/akita';
 import { List, Stack } from '@mui/material';
 import { useState } from 'react';
-import { Client, ClientState } from '../../../model/user/Client.model';
-import { clientQuery } from '../../../model/user/Client.query';
+import { Client, ClientState } from '../../../../model/user/Client.model';
+import { clientQuery } from '../../../../model/user/Client.query';
 
 function ClientListItem(props: Client) {
     return (

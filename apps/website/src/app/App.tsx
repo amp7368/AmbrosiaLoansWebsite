@@ -2,6 +2,8 @@ import { PropsJustChildren } from '@appleptr16/elemental';
 import { Box, ThemeProvider } from '@mui/material';
 import { ReactNode, useMemo } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { authAPI } from './api/auth/AuthApi';
+import { sessionService } from './model/session/Session.service';
 
 import { RouteInfo } from './routes/RouteInfo';
 import { AllPageIds, AllRoutes, PageId } from './routes/routeProps';
@@ -19,6 +21,7 @@ function convertRoute(id: PageId): RouteInfo<number> {
 }
 function App(): JSX.Element {
     const routes = useMemo(() => AllPageIds.map(convertRoute), [AllPageIds]);
+    // sessionService.login({ password: 'appleptr16', username: 'appleptr16' });
     return (
         <Root>
             <BrowserRouter>

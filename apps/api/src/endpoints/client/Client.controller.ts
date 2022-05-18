@@ -13,7 +13,7 @@ import { EndpointUrls } from '../EndpointUrls';
 
 @Controller(EndpointUrls.client.url)
 export class ClientController extends ControllerBase {
-    @Get('list')
+    @Post('list')
     async getClient(
         @Body() request: ClientListRequest
     ): Promise<ClientListResponse> {

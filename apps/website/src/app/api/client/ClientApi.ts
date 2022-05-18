@@ -14,7 +14,7 @@ export class ClientApi extends BaseAPI {
     async clientList(): Promise<ClientListResponse> {
         return await this.newRequest()
             .url('client', 'list')
-            .asGet()
+            .asPost()
             .payload(this.authorize({}))
             .build();
     }
