@@ -7,5 +7,6 @@ services:
             context: .
             args:
                 - NODE_VERSION=${NODE_VERSION}
+                - WORKINGDIR=${WORKINGDIR}
                 - SCRATCH_VERSION=${SCRATCH_VERSION}
             dockerfile: base.Dockerfile
