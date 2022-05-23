@@ -11,7 +11,7 @@ import { clientQuery } from '../../database/entity/client/Client.query';
 import { ControllerBase } from '../base/ControllerBase';
 import { EndpointUrls } from '../EndpointUrls';
 
-@Controller(EndpointUrls.client.url)
+@Controller(EndpointUrls.api.client.url)
 export class ClientController extends ControllerBase {
     @Post('list')
     async getClient(

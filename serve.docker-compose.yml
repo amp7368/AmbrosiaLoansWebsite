@@ -1,15 +1,8 @@
 version: '3.8'
 services:
     postgres:
-        image: ${COMPOSE_NAME}/${DATABASE_IMAGE}
-        build:
-            context: .
-            dockerfile: ./apps/postgres/Dockerfile
-            args:
-                - POSTGRES_VERSION=${POSTGRES_VERSION}
-                - POSTGRES_USER_FILE=${POSTGRES_USER}
-                - POSTGRES_PASSWORD_FILE=${POSTGRES_PASSWORD}
-                - WORKINGDIR=${WORKINGDIR}
+        restart: unless-stopped
+        image: docker.appleptr16.com/${COMPOSE_NAME}/${DATABASE_IMAGE}:${MAIN_VERSION}
         container_name: ${COMPOSE_NAME}.${DATABASE_IMAGE}
         environment:
             - POSTGRES_USER_FILE=${POSTGRES_USER_FILE}
@@ -19,38 +12,21 @@ services:
             - 'ambrosia-loans'
         volumes:
             - ${MOUNT}/database:/${WORKINGDIR}/database
-        ports:
-            - '5432:5432'
     api:
-        image: ${COMPOSE_NAME}/${API_IMAGE}
+        restart: unless-stopped
+        image: docker.appleptr16.com/${COMPOSE_NAME}/${API_IMAGE}:${MAIN_VERSION}
         container_name: ${COMPOSE_NAME}.${API_IMAGE}
         depends_on:
             - postgres
-        build:
-            context: .
-            dockerfile: ./apps/api/Dockerfile
-            args:
-                - WORKINGDIR=${WORKINGDIR}
-                - COMPOSE_NAME=${COMPOSE_NAME}
-                - BASE_IMAGE=${BASE_IMAGE}
-                - NODE_VERSION=${NODE_VERSION}
         networks:
             - 'ambrosia-loans'
         environment:
             - PORT=${NGINX_PORT}
             - WORKINGDIR=${WORKINGDIR}
     website:
-        image: ${COMPOSE_NAME}/${WEBSITE_IMAGE}
+        restart: unless-stopped
+        image: docker.appleptr16.com/${COMPOSE_NAME}/${WEBSITE_IMAGE}:${MAIN_VERSION}
         container_name: ${COMPOSE_NAME}.${WEBSITE_IMAGE}
-        build:
-            context: .
-            dockerfile: ./apps/website/Dockerfile
-            args:
-                - WORKINGDIR=${WORKINGDIR}
-                - COMPOSE_NAME=${COMPOSE_NAME}
-                - BASE_IMAGE=${BASE_IMAGE}
-                - NGINX_VERSION=${NGINX_VERSION}
-                - NGINX_PORT=${NGINX_PORT}
         networks:
             - 'ambrosia-loans'
         environment:
@@ -58,17 +34,12 @@ services:
             - WORKINGDIR=${WORKINGDIR}
             - NGINX_PORT=${NGINX_PORT}
     nginx:
+        restart: unless-stopped
         depends_on:
             - website
             - api
         container_name: ${COMPOSE_NAME}.${NGINX_IMAGE}
-        image: ${COMPOSE_NAME}/${NGINX_IMAGE}
-        build:
-            context: .
-            dockerfile: ./apps/nginx/Dockerfile
-            args:
-                - WORKINGDIR=${WORKINGDIR}
-                - NGINX_VERSION=${NGINX_VERSION}
+        image: docker.appleptr16.com/${COMPOSE_NAME}/${NGINX_IMAGE}:${MAIN_VERSION}
         networks:
             - 'appleptr16'
             - 'ambrosia-loans'
@@ -81,7 +52,6 @@ services:
             - COMPOSE_NAME=${COMPOSE_NAME}
             - DOMAIN_PREFIX=${DOMAIN_PREFIX}
             - NGINX_PORT=${NGINX_PORT}
-
             - WORKINGDIR=${WORKINGDIR}
         ports:
             - '${NGINX_PORT}:${NGINX_PORT}'

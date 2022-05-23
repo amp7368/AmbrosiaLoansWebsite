@@ -1,5 +1,6 @@
 ARG NODE_VERSION
 ARG SCRATCH_VERSION
+ARG WORKINGDIR
 
 FROM ${NODE_VERSION} as buildstage
 WORKDIR /base
@@ -18,8 +19,17 @@ COPY ./babel* ./
 RUN npx nx affected:build --parallel --all
 # RUN npm prune --production
 
+
+FROM docker.appleptr16.com/util/secrets as secrets
+ARG WORKINGDIR
+WORKDIR ${WORKINGDIR}
+COPY ./secrets/database/extract.config.sh /secrets/
+RUN sh /secrets/extract.sh
+
 FROM ${SCRATCH_VERSION} as servestage
+ARG WORKINGDIR
 COPY --from=buildstage /base/dist /base/dist
 COPY --from=buildstage /base/node_modules /base/node_modules
+COPY --from=secrets ${WORKINGDIR}/* /secrets/
 
 ENTRYPOINT ["tail", "-f", "/dev/null"]

@@ -1,4 +1,14 @@
 import { InitDb } from '../InitDb';
-import { clientInitDb } from './client/Client.initDb';
+import { BrokerEntity } from './broker/Broker.entity';
+import { ClientEntity } from './client/Client.entity';
+import { CollateralEntity } from './collateral/Collateral.entity';
+import { LoanEntity } from './loans/Loan.entity';
+import { LoanPaybackEntity } from './loans/payback/LoanPayback';
 
-export const entityInitDb = new InitDb([...clientInitDb.getEntities()]);
+export const entityInitDb = new InitDb([
+    BrokerEntity,
+    ClientEntity,
+    CollateralEntity,
+    LoanPaybackEntity,
+    LoanEntity,
+]);

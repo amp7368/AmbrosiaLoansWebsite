@@ -3,7 +3,6 @@
     "host": "localhost",
     "port": 5432,
     "username": "appleptr16",
-    "password": "changeToSomething",
     "database": "loans",
     "synchronize": true,
     "logging": true

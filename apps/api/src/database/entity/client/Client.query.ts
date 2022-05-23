@@ -2,16 +2,16 @@ import { ClientProfileBase } from '@api/io-model';
 import { getManager } from 'typeorm';
 
 import { AmbrosiaQuery } from '../../AmbrosiaQuery';
-import { ClientProfile } from './Client.entity';
+import { ClientEntity } from './Client.entity';
 
 export class UserAccountQuery extends AmbrosiaQuery {
-    async getClients(): Promise<ClientProfile[]> {
-        return await this.managerQueryBuilder(ClientProfile, 'user').getMany();
+    async getClients(): Promise<ClientEntity[]> {
+        return await this.managerQueryBuilder(ClientEntity, 'user').getMany();
     }
     async newClient(
         client: Omit<ClientProfileBase, 'uuid'>
-    ): Promise<ClientProfile> {
-        const entity: ClientProfile = ClientProfile.create(client);
+    ): Promise<ClientEntity> {
+        const entity: ClientEntity = ClientEntity.create(client);
         return await getManager().save(entity);
     }
 }
