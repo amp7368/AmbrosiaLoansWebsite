@@ -19,6 +19,8 @@ services:
             - 'ambrosia-loans'
         volumes:
             - ${MOUNT}/database:/${WORKINGDIR}/database
+        ports:
+            - '5432:5432'
     api:
         image: ${COMPOSE_NAME}/${API_IMAGE}
         container_name: ${COMPOSE_NAME}.${API_IMAGE}

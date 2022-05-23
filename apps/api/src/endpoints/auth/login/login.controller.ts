@@ -6,7 +6,7 @@ import { sessionStore } from '../../../database/session/SessionStorage';
 import { ControllerBase } from '../../base/ControllerBase';
 import { EndpointUrls } from '../../EndpointUrls';
 
-@Controller(EndpointUrls.auth.login.url)
+@Controller(EndpointUrls.api.auth.login.url)
 export class LoginController extends ControllerBase {
     @Post()
     async login(@Body() credentials: LoginRequest): Promise<LoginResponse> {

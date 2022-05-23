@@ -4,14 +4,13 @@ import ormconfig from '../../ormconfig.json';
 import { entityInitDb } from './entity/entity.initDb';
 
 export async function initTypeOrmDbConnection() {
-    console.log(readF('username.txt'));
-    console.log(readF('password.txt'));
-    await createConnection({
+    const connectionDetails = {
         ...ormconfig,
-        username: readF('username.txt'),
-        password: readF('password.txt'),
         entities: entityInitDb.getEntities(),
-    } as any);
+    } as any;
+    if (!ormconfig.username) connectionDetails.username = readF('username.txt');
+    connectionDetails.password = readF('password.txt');
+    await createConnection(connectionDetails);
 }
 function readF(file: string) {
     return readFileSync(file, { encoding: 'utf-8' }).replace('\n', '');

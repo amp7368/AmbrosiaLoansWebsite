@@ -1,5 +1,5 @@
 import { DateFactory } from '@appleptr16/utilities';
-import { ClientProfile } from '../entity/client/Client.entity';
+import { ClientEntity } from '../entity/client/Client.entity';
 import { Session } from './Session';
 
 export class SessionStore {
