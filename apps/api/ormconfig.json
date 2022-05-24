@@ -2,7 +2,6 @@
     "type": "postgres",
     "host": "localhost",
     "port": 5432,
-    "username": "appleptr16",
     "database": "loans",
     "synchronize": true,
     "logging": true

@@ -2,7 +2,7 @@ import { ColumnOptions } from 'typeorm';
 
 export const emeraldType: ColumnOptions = {
     type: 'decimal',
-    length: 5,
+    scale: 2,
     precision: 2,
 };
 export const loanRateType: ColumnOptions = {

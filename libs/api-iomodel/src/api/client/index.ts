@@ -1,2 +1,1 @@
-export * from './ClientRequest';
-export * from './ClientResponse';
+export * from './Client';

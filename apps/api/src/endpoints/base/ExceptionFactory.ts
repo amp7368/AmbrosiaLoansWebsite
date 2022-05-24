@@ -1,15 +1,11 @@
-import { AmbrosiaException } from '@api/io-model';
+import { AmbrosiaException, BadStatusCode } from '@api/io-model';
 import { EmptyObject } from '@appleptr16/utilities';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { StatusCodes } from 'http-status-codes';
 
 export class ExceptionFactory {
     static instance: ExceptionFactory;
-    exception(
-        message: string,
-        status: Exclude<StatusCodes, StatusCodes.ACCEPTED>,
-        extra?: EmptyObject
-    ) {
+    exception(message: string, status: BadStatusCode, extra?: EmptyObject) {
         const response: AmbrosiaException = {
             message,
             status,

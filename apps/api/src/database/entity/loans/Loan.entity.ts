@@ -27,7 +27,7 @@ export class LoanEntity {
     rate: number;
     @Column('uuid')
     broker: string;
-    @Column('datetime')
+    @Column('timestamp')
     startDate: Date;
     @OneToMany(() => LoanPaybackEntity, (payback) => payback.loan)
     payback: LoanPaybackEntity[];

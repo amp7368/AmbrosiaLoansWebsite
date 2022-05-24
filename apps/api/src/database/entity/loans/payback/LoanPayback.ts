@@ -10,7 +10,7 @@ export class LoanPaybackEntity {
     @ManyToOne(() => LoanEntity, (loan) => loan.payback)
     loan: LoanEntity;
 
-    @Column('datetime')
+    @Column('timestamp')
     paybackDate: Date;
     @Column(emeraldType)
     amountBack: number;
