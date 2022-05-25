@@ -1,12 +1,11 @@
 import {
     Column,
     Entity,
-    JoinColumn,
     ManyToOne,
     OneToMany,
     PrimaryGeneratedColumn,
 } from 'typeorm';
-import { BrokerEntity } from '../broker/Broker.entity';
+
 import { ClientEntity } from '../client/Client.entity';
 import { CollateralEntity } from '../collateral/Collateral.entity';
 import { emeraldType, loanRateType } from '../EntityTypes';

@@ -1,24 +1,21 @@
-import { Multer } from 'multer';
 import {
     INestApplication,
     Module,
     NestApplicationOptions,
-    UseGuards,
     ValidationPipe,
 } from '@nestjs/common';
 import { APP_GUARD, NestFactory } from '@nestjs/core';
 
-import { initTypeOrmDbConnection } from './database/initDbConnection';
-import { PingModule } from './endpoints/ping/ping.module';
-import { AuthModule } from './endpoints/auth/auth.module';
-import { MulterInit } from './MulterInit';
-import { ClientModule } from './endpoints/client/Client.module';
 import { RolesGuard } from './auth/Role';
+import { initTypeOrmDbConnection } from './database/initDbConnection';
+import { AuthModule } from './endpoints/auth/auth.module';
+import { BaseModule } from './endpoints/Base.module';
+import { MulterInit } from './MulterInit';
 
 const PORT = 80;
 
 @Module({
-    imports: [PingModule, AuthModule, ClientModule, MulterInit],
+    imports: [AuthModule, BaseModule, MulterInit],
     providers: [{ provide: APP_GUARD, useClass: RolesGuard }],
 })
 class AppModule {}

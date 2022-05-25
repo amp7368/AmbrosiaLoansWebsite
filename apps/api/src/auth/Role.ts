@@ -5,6 +5,7 @@ import {
     SetMetadata,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import { isArray } from 'class-validator';
 import { sessionStore } from '../database/session/SessionStorage';
 import { ExceptionFactory } from '../endpoints/base/ExceptionFactory';
 
@@ -26,6 +27,7 @@ export class RolesGuard implements CanActivate {
             ROLES_KEY,
             [context.getHandler(), context.getClass()]
         );
+        if (!isArray(requiredRoles)) return true;
         const request = context.switchToHttp().getRequest();
         for (const role of requiredRoles) {
             switch (role) {

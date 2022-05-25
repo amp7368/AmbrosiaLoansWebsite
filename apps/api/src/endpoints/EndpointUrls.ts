@@ -14,5 +14,8 @@ export const EndpointUrls = {
                 url: '/api/auth/login',
             },
         },
+        collateral: {
+            url: '/api/collateral',
+        },
     },
 };
