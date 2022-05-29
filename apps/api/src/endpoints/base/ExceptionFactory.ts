@@ -10,8 +10,8 @@ export class ExceptionFactory {
             message,
             status,
             isOk: false,
-            ...extra,
         };
+        if (extra) response.extra = extra;
         throw new HttpException(response, status);
     }
 

@@ -1,3 +1,5 @@
+import { Loan } from '@api/io-model';
+import { CreateClassFactory } from '@appleptr16/utilities';
 import {
     Column,
     Entity,
@@ -13,6 +15,7 @@ import { LoanPaybackEntity } from './payback/LoanPayback';
 
 @Entity('loan')
 export class LoanEntity {
+    static create = new CreateClassFactory(LoanEntity).createFn();
     @PrimaryGeneratedColumn('uuid')
     uuid: string;
     @ManyToOne(() => ClientEntity, (client) => client.loans)
@@ -24,7 +27,7 @@ export class LoanEntity {
     amountLoaned: number;
     @Column(loanRateType)
     rate: number;
-    @Column('uuid')
+    @Column({ type: 'varchar', length: 100 })
     broker: string;
     @Column('timestamp')
     startDate: Date;

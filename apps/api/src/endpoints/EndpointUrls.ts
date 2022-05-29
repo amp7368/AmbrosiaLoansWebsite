@@ -2,9 +2,6 @@ export const EndpointUrls = {
     url: '/',
     api: {
         url: '/api',
-        ping: {
-            url: '/api/ping',
-        },
         client: {
             url: '/api/client',
         },
@@ -16,6 +13,9 @@ export const EndpointUrls = {
         },
         collateral: {
             url: '/api/collateral',
+        },
+        loan: {
+            url: '/api/loan',
         },
     },
 };

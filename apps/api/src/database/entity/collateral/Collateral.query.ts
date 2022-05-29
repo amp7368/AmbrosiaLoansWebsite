@@ -5,6 +5,9 @@ import { AmbrosiaQuery } from '../../AmbrosiaQuery';
 import { CollateralEntity } from './Collateral.entity';
 
 export class CollateralQuery extends AmbrosiaQuery {
+    async findByIds(ids: string[]): Promise<CollateralEntity[]> {
+        return await getManager().findByIds(CollateralEntity, ids);
+    }
     async newCollateral(
         client: CollateralCreateRequest
     ): Promise<CollateralEntity> {

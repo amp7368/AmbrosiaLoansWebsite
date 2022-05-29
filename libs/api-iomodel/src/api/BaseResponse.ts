@@ -5,6 +5,7 @@ export interface AmbrosiaException {
     message: string;
     status: BadStatusCode;
     isOk: false;
+    extra?: unknown;
 }
 export interface AmbrosiaResponseOK extends AmbrosiaResponse {
     status: StatusCodes.OK;
