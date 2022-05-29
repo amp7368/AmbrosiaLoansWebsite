@@ -11,7 +11,7 @@ import {
 import { ClientEntity } from '../client/Client.entity';
 import { CollateralEntity } from '../collateral/Collateral.entity';
 import { emeraldType, loanRateType } from '../EntityTypes';
-import { LoanPaybackEntity } from './payback/LoanPayback';
+import { LoanPaybackEntity } from './payback/LoanPayback.entity';
 
 @Entity('loan')
 export class LoanEntity {

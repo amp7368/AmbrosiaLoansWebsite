@@ -8,7 +8,7 @@ import { BrokerEntity } from './entity/broker/Broker.entity';
 import { ClientEntity } from './entity/client/Client.entity';
 import { CollateralEntity } from './entity/collateral/Collateral.entity';
 import { LoanEntity } from './entity/loans/Loan.entity';
-import { LoanPaybackEntity } from './entity/loans/payback/LoanPayback';
+import { LoanPaybackEntity } from './entity/loans/payback/LoanPayback.entity';
 
 const entities = [
     BrokerEntity,

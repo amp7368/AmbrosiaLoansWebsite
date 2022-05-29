@@ -1,9 +1,12 @@
+import { CreateClassFactory } from '@appleptr16/utilities';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+
 import { emeraldType } from '../../EntityTypes';
 import { LoanEntity } from '../Loan.entity';
 
 @Entity('loan_payback')
 export class LoanPaybackEntity {
+    static create = new CreateClassFactory(LoanPaybackEntity).createFn();
     @PrimaryGeneratedColumn('increment')
     uuid: number;
 

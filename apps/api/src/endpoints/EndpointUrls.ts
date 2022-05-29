@@ -16,6 +16,9 @@ export const EndpointUrls = {
         },
         loan: {
             url: '/api/loan',
+            payback: {
+                url: '/api/loan/payback',
+            },
         },
     },
 };
