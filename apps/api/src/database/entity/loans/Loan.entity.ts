@@ -1,19 +1,21 @@
+import { Loan } from '@api/io-model';
+import { CreateClassFactory } from '@appleptr16/utilities';
 import {
     Column,
     Entity,
-    JoinColumn,
     ManyToOne,
     OneToMany,
     PrimaryGeneratedColumn,
 } from 'typeorm';
-import { BrokerEntity } from '../broker/Broker.entity';
+
 import { ClientEntity } from '../client/Client.entity';
 import { CollateralEntity } from '../collateral/Collateral.entity';
 import { emeraldType, loanRateType } from '../EntityTypes';
-import { LoanPaybackEntity } from './payback/LoanPayback';
+import { LoanPaybackEntity } from './payback/LoanPayback.entity';
 
 @Entity('loan')
 export class LoanEntity {
+    static create = new CreateClassFactory(LoanEntity).createFn();
     @PrimaryGeneratedColumn('uuid')
     uuid: string;
     @ManyToOne(() => ClientEntity, (client) => client.loans)
@@ -25,9 +27,9 @@ export class LoanEntity {
     amountLoaned: number;
     @Column(loanRateType)
     rate: number;
-    @Column('uuid')
+    @Column({ type: 'varchar', length: 100 })
     broker: string;
-    @Column('datetime')
+    @Column('timestamp')
     startDate: Date;
     @OneToMany(() => LoanPaybackEntity, (payback) => payback.loan)
     payback: LoanPaybackEntity[];

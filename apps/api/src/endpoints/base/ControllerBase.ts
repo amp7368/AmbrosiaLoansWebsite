@@ -7,11 +7,7 @@ export class ControllerBase {
     validateExists(request: unknown) {
         if (!request) this.exception.badRequest(request);
     }
-    validateSession({ sessionToken }: { sessionToken: string }) {
-        if (!sessionToken) throw this.exception.badRequest({ sessionToken });
-        const isValid = sessionStore.isSessionValid(sessionToken);
-        if (!isValid) throw this.exception.badSession();
-    }
+
     validateGoodLogin(credentials: LoginRequest) {
         if (
             credentials.password !== 'appleptr16' ||

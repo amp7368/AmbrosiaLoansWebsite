@@ -1,17 +1,35 @@
-import { readFile, readFileSync } from 'fs';
-import { createConnection } from 'typeorm';
+import { readFileSync } from 'fs';
+import { join } from 'path';
+import { ConnectionOptions, createConnection } from 'typeorm';
+import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
+
 import ormconfig from '../../ormconfig.json';
-import { entityInitDb } from './entity/entity.initDb';
+import { BrokerEntity } from './entity/broker/Broker.entity';
+import { ClientEntity } from './entity/client/Client.entity';
+import { CollateralEntity } from './entity/collateral/Collateral.entity';
+import { LoanEntity } from './entity/loans/Loan.entity';
+import { LoanPaybackEntity } from './entity/loans/payback/LoanPayback.entity';
+
+const entities = [
+    BrokerEntity,
+    ClientEntity,
+    CollateralEntity,
+    LoanPaybackEntity,
+    LoanEntity,
+];
+type Writeable<T> = { -readonly [P in keyof T]: T[P] };
 
 export async function initTypeOrmDbConnection() {
     const connectionDetails = {
         ...ormconfig,
-        entities: entityInitDb.getEntities(),
-    } as any;
-    if (!ormconfig.username) connectionDetails.username = readF('username.txt');
+        entities,
+    } as Writeable<PostgresConnectionOptions>;
+    connectionDetails.username = readF('username.txt');
     connectionDetails.password = readF('password.txt');
     await createConnection(connectionDetails);
 }
+
 function readF(file: string) {
+    file = join('secrets', 'database', file);
     return readFileSync(file, { encoding: 'utf-8' }).replace('\n', '');
 }

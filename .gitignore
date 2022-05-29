@@ -39,3 +39,5 @@ testem.log
 Thumbs.db
 *extract.config.sh
 *password.txt
+*username.txt
+data/

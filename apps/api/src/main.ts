@@ -1,29 +1,22 @@
-import { Multer } from 'multer';
 import {
     INestApplication,
     Module,
     NestApplicationOptions,
     ValidationPipe,
 } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { APP_GUARD, NestFactory } from '@nestjs/core';
 
+import { RolesGuard } from './auth/Role';
 import { initTypeOrmDbConnection } from './database/initDbConnection';
-import { PingModule } from './endpoints/ping/ping.module';
 import { AuthModule } from './endpoints/auth/auth.module';
-import { TempInitDatabase } from './TempInitDatabase';
+import { BaseModule } from './endpoints/Base.module';
 import { MulterInit } from './MulterInit';
-import { ClientModule } from './endpoints/client/Client.module';
 
 const PORT = 80;
 
 @Module({
-    imports: [
-        PingModule,
-        AuthModule,
-        ClientModule,
-        TempInitDatabase,
-        MulterInit,
-    ],
+    imports: [AuthModule, BaseModule, MulterInit],
+    providers: [{ provide: APP_GUARD, useClass: RolesGuard }],
 })
 class AppModule {}
 
@@ -36,6 +29,7 @@ async function bootstrap() {
     const pipes = new ValidationPipe({
         // whitelist: true,
         enableDebugMessages: true,
+        whitelist: true,
     });
     const nestApp: INestApplication = await NestFactory.create(
         AppModule,

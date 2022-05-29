@@ -1,6 +1,6 @@
 import { CreateClassFactory } from '@appleptr16/utilities';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { InitDb } from '../../InitDb';
+
 import { LoanEntity } from '../loans/Loan.entity';
 
 @Entity('client')
@@ -14,7 +14,7 @@ export class ClientEntity {
     displayName: string;
 
     // discord
-    @Column('bigint')
+    @Column('bigint', { nullable: true })
     discordId: number;
     @Column('varchar', { length: 32 })
     discordTag: string;
