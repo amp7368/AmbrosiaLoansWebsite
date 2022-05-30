@@ -4,7 +4,7 @@ import { distinctUntilChanged, map, Observable } from 'rxjs';
 type DisplayedElement = JSX.Element | null;
 
 export interface ObserveableToElementProps<T> {
-    original: Observable<T>;
+    observable: Observable<T>;
     mappingFn: (original: T) => DisplayedElement;
 }
 
@@ -13,10 +13,10 @@ export function ObserveableToElement<T>(
 ): DisplayedElement {
     const [currentElement, setState] = useState<DisplayedElement>(null);
     const subscription = useMemo(() => {
-        return props.original
+        return props.observable
             .pipe(distinctUntilChanged(), map(props.mappingFn))
             .subscribe(setState);
-    }, [props.original, props.mappingFn]);
+    }, [props.observable, props.mappingFn]);
     useEffect(() => {
         return () => {
             subscription.unsubscribe();

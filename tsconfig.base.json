@@ -1,6 +1,7 @@
 {
     "compileOnSave": false,
     "compilerOptions": {
+        "resolveJsonModule": true,
         "rootDirs": ["."],
         "sourceMap": true,
         "declaration": false,
