@@ -37,14 +37,21 @@ export class UpdatableState<State> {
         this.timeout = cacheMillis;
         this.onErrorMillis = Math.min(onErrorMillis, cacheMillis + 1);
     }
+    getValue(): UpdatedState<State> {
+        return this.cached;
+    }
     select(): Observable<UpdatedState<State>> {
+        this.get();
         return this.observeable.asObservable();
     }
     async get(): Promise<UpdatedState<State>> {
         if (this.nextUpdate > new Date()) return this.cached;
-        return this.update();
+        return this.updateNow();
     }
-    async update(): Promise<UpdatedState<State>> {
+    set(updateFn: (state: UpdatedState<State>) => UpdatedState<State>): void {
+        this.cached = updateFn(this.cached);
+    }
+    async updateNow(): Promise<UpdatedState<State>> {
         this.nextUpdate = DateFactory.fromNowMillis(this.timeout);
         const state: UpdatedState<State> = await this.updateFn();
         if (state.isError) {

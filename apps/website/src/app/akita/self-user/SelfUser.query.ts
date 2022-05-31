@@ -10,7 +10,7 @@ export class SelfUserQuery extends AppQuery<SelfUserState> {
     async login(
         login: LoginRequest
     ): Promise<LoginResponse | AmbrosiaException> {
-        const response = await API.login(login).build<LoginResponse>();
+        const response = await API.login(login);
 
         if (response.isOk) {
             const session = response.session;
@@ -21,9 +21,9 @@ export class SelfUserQuery extends AppQuery<SelfUserState> {
     }
     session$ = this.select().pipe(map((user) => user.session));
     isLoggedIn$ = this.session$.pipe(
-        tap(console.log),
-        map((session) => (session ? session.expiration > new Date() : false)),
-        tap(console.log)
+        map((session) =>
+            session ? new Date(session.expiration) > new Date() : false
+        )
     );
 }
 export const selfUserQuery = new SelfUserQuery(selfUserStore);

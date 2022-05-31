@@ -4,6 +4,7 @@ import {
     AmbrosiaResponseOK,
     okResponse,
 } from '@api/io-model';
+import { Optional } from '@appleptr16/utilities';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { StatusCodes } from 'http-status-codes';
 
@@ -19,24 +20,22 @@ export interface RequestParam {
 export class RequestBuilder {
     private urlField: string[] = [];
     private queryParams: RequestParam[] = [];
-    private body: any = {};
+    private body: unknown = {};
     private requestMethod: RequestMethod = RequestMethod.Get;
     private configData: AxiosRequestConfig = {};
+    private returnWithVal: Optional<AmbrosiaResponse> = undefined;
     constructor(baseUrl: string) {
         this.urlField.push(baseUrl);
-        this.url = this.url.bind(this);
-        this.queryParam = this.queryParam.bind(this);
-        this.payload = this.payload.bind(this);
-        this.setMethod = this.setMethod.bind(this);
-        this.build = this.build.bind(this);
-        this.serializeQueryParams = this.serializeQueryParams.bind(this);
-        this.buildUrl = this.buildUrl.bind(this);
     }
     url(url: string, ...additionalURL: string[]): RequestBuilder {
         this.urlField.push(url);
         for (const additionUrl of additionalURL) {
             this.urlField.push(additionUrl);
         }
+        return this;
+    }
+    returnWith(returnWithVal: AmbrosiaResponse): this {
+        this.returnWithVal = returnWithVal;
         return this;
     }
     config<Key extends keyof AxiosRequestConfig>(
@@ -50,15 +49,22 @@ export class RequestBuilder {
         this.configData = config;
         return this;
     }
-    queryParam(key: string, val: string): RequestBuilder {
+    addHeader(headers: AxiosRequestConfig['headers']): this {
+        this.configData = {
+            ...this.configData,
+            headers: { ...this.configData.headers, ...headers },
+        };
+        return this;
+    }
+    queryParam(key: string, val: string): this {
         this.queryParams.push({ key: key, val: val });
         return this;
     }
-    payload(payload: any): RequestBuilder {
+    payload(payload: any): this {
         this.body = payload;
         return this;
     }
-    setMethod(method: RequestMethod) {
+    setMethod(method: RequestMethod): this {
         this.requestMethod = method;
         return this;
     }
@@ -92,11 +98,12 @@ export class RequestBuilder {
         const params: string = this.queryParams
             .map((queryParam) => this.serializeQueryParams(queryParam))
             .join('&');
-        url = `${url}?${params}`;
+
+        if (params) url += '?' + params;
         return {
             method: this.requestMethod,
             url,
-            data: this.body,
+            data: this.body ?? null,
             ...this.configData,
         };
     }

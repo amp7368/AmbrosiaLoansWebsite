@@ -5,13 +5,18 @@ import { StatusCodes } from 'http-status-codes';
 
 export class ExceptionFactory {
     static instance: ExceptionFactory;
-    exception(message: string, status: BadStatusCode, extra?: EmptyObject) {
+    exception(
+        message: string,
+        status: BadStatusCode,
+        extra?: Record<keyof unknown, unknown>
+    ) {
         const response: AmbrosiaException = {
             message,
             status,
             isOk: false,
+            ...extra,
         };
-        if (extra) response.extra = extra;
+        
         throw new HttpException(response, status);
     }
 
@@ -28,11 +33,9 @@ export class ExceptionFactory {
     }
 
     badRequest(request: unknown) {
-        this.exception(
-            'Invalid request structure',
-            StatusCodes.BAD_REQUEST,
-            request
-        );
+        this.exception('Invalid request structure', StatusCodes.BAD_REQUEST, {
+            request: request === undefined || request === null ? {} : request,
+        });
     }
     badSession() {
         this.unauthorized('Invalid session');
