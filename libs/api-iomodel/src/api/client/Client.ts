@@ -1,5 +1,5 @@
 import { IsObject, IsString, IsUUID } from 'class-validator';
-import { AmbrosiaResponseOK } from '../BaseResponse';
+import { AmbrosiaException, AmbrosiaResponseOK } from '../BaseResponse';
 
 export interface ClientProfile {
     uuid: string;
@@ -14,9 +14,10 @@ export class ClientProfileRuntime implements ClientProfile {
     @IsString()
     discordTag: string;
 }
-export type ClientListResponse = AmbrosiaResponseOK & {
+export type ClientListResponseOk = AmbrosiaResponseOK & {
     clients: ClientProfile[];
 };
+export type ClientListResponse = ClientListResponseOk | AmbrosiaException;
 
 export type ClientCreateResponse = AmbrosiaResponseOK & {
     client: ClientProfile;

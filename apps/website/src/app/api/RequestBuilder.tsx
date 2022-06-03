@@ -68,7 +68,7 @@ export class RequestBuilder {
         this.requestMethod = method;
         return this;
     }
-    async build<T extends AmbrosiaResponse>(): Promise<T | AmbrosiaException> {
+    async build<T extends AmbrosiaResponse | AmbrosiaException>(): Promise<T> {
         return axios(this.buildUrl())
             .then((response: AxiosResponse<any, any>): AmbrosiaResponse => {
                 const status = response.status;

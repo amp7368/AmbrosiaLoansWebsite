@@ -8,12 +8,10 @@ import { routes } from '../../util/routes';
 
 function ClientRow(client: ClientProfile) {
     return (
-        <>
-            <Stack direction="row" key={client.discordTag}>
-                <Typography>{client.displayName}</Typography>
-                <Typography>{client.discordTag}</Typography>
-            </Stack>
-        </>
+        <Stack direction="row" key={client.uuid}>
+            <Typography>{client.displayName}</Typography>
+            <Typography>{client.discordTag}</Typography>
+        </Stack>
     );
 }
 export function ClientsPage() {

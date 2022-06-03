@@ -8,6 +8,8 @@ import { LoginPage } from './components/login/LoginPage';
 import { OverviewPage } from './components/overview/OverviewPage';
 import { routes } from './util/routes';
 import { CreateClientPage } from './components/clients/CreateClientPage';
+import { LoansPage } from './components/loans/LoanPage';
+import { CreateLoanPage } from './components/loans/CreateLoanPage';
 
 export function App() {
     return (
@@ -30,6 +32,22 @@ export function App() {
                         element={
                             <AuthorizedPage>
                                 <CreateClientPage />
+                            </AuthorizedPage>
+                        }
+                    />
+                    <Route
+                        path={routes.loan}
+                        element={
+                            <AuthorizedPage>
+                                <LoansPage />
+                            </AuthorizedPage>
+                        }
+                    />
+                    <Route
+                        path={routes.createLoan}
+                        element={
+                            <AuthorizedPage>
+                                <CreateLoanPage />
                             </AuthorizedPage>
                         }
                     />

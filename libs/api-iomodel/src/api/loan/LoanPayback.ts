@@ -31,9 +31,7 @@ export class LoanPaybackRuntime implements LoanPaybackCreate {
     @IsNumber()
     amountBack: number;
 }
-export type LoanPaybackRequest = {
-    payback: LoanPaybackCreate;
-};
+export type LoanPaybackRequest = { payback: LoanPaybackCreate };
 export class LoanPaybackRequestRuntime implements LoanPaybackRequest {
     @ValidateNested()
     @IsDefined()

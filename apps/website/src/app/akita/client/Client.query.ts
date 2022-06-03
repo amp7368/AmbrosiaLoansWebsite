@@ -4,6 +4,7 @@ import {
     AmbrosiaResponseOK,
     ClientCreateRequest,
     ClientCreateResponse,
+    ClientListResponse,
     ClientProfile,
     okResponse,
 } from '@api/io-model';
@@ -15,7 +16,7 @@ import { ClientState, clientStore } from './Client.store';
 export class ClientQuery extends AppEntityQuery<ClientState> {
     clients = new UpdatableState<ClientProfile[]>(() => this.supplyClients());
     private async supplyClients(): Promise<UpdatedState<ClientProfile[]>> {
-        const response = await API.clientList();
+        const response: ClientListResponse = await API.clientList();
         if (response.isOk) {
             return { newState: response.clients, isError: false };
         }

@@ -11,7 +11,7 @@ import {
     IsUUID,
     ValidateNested,
 } from 'class-validator';
-import { AmbrosiaResponseOK } from '../BaseResponse';
+import { AmbrosiaException, AmbrosiaResponseOK } from '../BaseResponse';
 import { Type } from 'class-transformer';
 
 export interface Loan {
@@ -22,7 +22,7 @@ export interface Loan {
     rate: number;
     broker: string;
     startDate: Date;
-    payback: string[];
+    payback: number[];
 }
 export type CreateLoan = Omit<Loan, 'uuid' | 'startDate' | 'payback'> & {
     startDate?: Date;
@@ -56,4 +56,7 @@ export class LoanCreateRequestRuntime implements LoanCreateRequest {
     @Type(() => CreateLoanRuntime)
     loan: CreateLoanRuntime;
 }
-export type LoanCreateResponse = { loan: Loan } & AmbrosiaResponseOK;
+export type LoanCreateResponseOk = { loan: Loan } & AmbrosiaResponseOK;
+export type LoanCreateResponse = LoanCreateResponseOk | AmbrosiaException;
+export type LoanListResponseOk = { loans: Loan[] } & AmbrosiaResponseOK;
+export type LoanListResponse = LoanListResponseOk | AmbrosiaException;

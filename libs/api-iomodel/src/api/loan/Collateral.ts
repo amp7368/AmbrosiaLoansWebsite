@@ -1,21 +1,18 @@
 import { IsString, IsUUID } from 'class-validator';
-import { AmbrosiaResponseOK } from '../BaseResponse';
+import { AmbrosiaException, AmbrosiaResponseOK } from '../BaseResponse';
 
 export interface Collateral {
     uuid: string;
     comments: string;
 }
-export type CollateralResponse = {
+export type CollateralResponseOk = {
     collateral: Collateral;
 } & AmbrosiaResponseOK;
+export type CollateralResponse = CollateralResponseOk | AmbrosiaException;
 
-export type CollateralCreateRequest = {
-    comments: string;
-};
+export type CollateralCreateRequest = { comments: string };
 export class CollateralCreateRequestRuntime implements CollateralCreateRequest {
     @IsString()
     comments: string;
 }
-export type CollateralIdentifyRequest = {
-    uuid: string;
-};
+export type CollateralIdentifyRequest = { uuid: string };

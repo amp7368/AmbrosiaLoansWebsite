@@ -1,4 +1,9 @@
-import { LoanCreateRequestRuntime, okResponse } from '@api/io-model';
+import {
+    Loan,
+    LoanCreateRequestRuntime,
+    LoanListResponse,
+    okResponse,
+} from '@api/io-model';
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { CollateralEntity } from '../../database/entity/collateral/Collateral.entity';
 import { collateralQuery } from '../../database/entity/collateral/Collateral.query';
@@ -26,7 +31,9 @@ export class LoanController extends ControllerBase {
         return { loan, ...okResponse };
     }
     @Get('/list')
-    async list(): Promise<LoanEntity[]> {
-        return await loanQuery.list();
+    async list(): Promise<LoanListResponse> {
+        const entities: LoanEntity[] = (await loanQuery.getLoans()) ?? [];
+        const loans: Loan[] = entities.map(loanQuery.convertLoan);
+        return { loans, ...okResponse };
     }
 }

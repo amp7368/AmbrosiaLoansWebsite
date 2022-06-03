@@ -1,17 +1,20 @@
-import { RequestBuilder, RequestMethod } from './RequestBuilder';
-import settings from '../settings.json';
 import {
     AmbrosiaException,
     ClientCreateRequest,
     ClientCreateResponse,
     ClientListResponse,
+    LoanCreateRequest,
+    LoanCreateResponse,
+    LoanListResponse,
     LoginRequest,
     LoginResponse,
 } from '@api/io-model';
-import { selfUserQuery } from '../akita/self-user/SelfUser.query';
-import { ClientRequest } from 'http';
-import { Optional } from '@appleptr16/utilities';
 import { StatusCodes } from 'http-status-codes';
+
+import { selfUserQuery } from '../akita/self-user/SelfUser.query';
+import settings from '../settings.json';
+import { RequestBuilder, RequestMethod } from './RequestBuilder';
+
 export module API {
     function request(url: string): RequestBuilder {
         return new RequestBuilder(settings.apiUrl + url);
@@ -35,19 +38,23 @@ export module API {
             authorization: `Bearer ${token}`,
         });
     }
-    export async function login(
-        login: LoginRequest
-    ): Promise<LoginResponse | AmbrosiaException> {
+    export async function login(login: LoginRequest): Promise<LoginResponse> {
         return await get('/auth/login').config('auth', login).build();
     }
-    export async function clientList(): Promise<
-        ClientListResponse | AmbrosiaException
-    > {
+    export async function clientList(): Promise<ClientListResponse> {
         return await authorize(get('/client/list')).build();
     }
     export async function clientCreate(
         request: ClientCreateRequest
-    ): Promise<ClientCreateResponse | AmbrosiaException> {
+    ): Promise<ClientCreateResponse> {
         return await authorize(post('/client/create')).payload(request).build();
+    }
+    export async function loanList(): Promise<LoanListResponse> {
+        return await authorize(get('/loan/list')).build();
+    }
+    export async function loanCreate(
+        request: LoanCreateRequest
+    ): Promise<LoanCreateResponse> {
+        return await authorize(post('/loan/create')).payload(request).build();
     }
 }

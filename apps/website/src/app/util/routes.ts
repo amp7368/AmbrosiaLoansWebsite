@@ -3,4 +3,6 @@ export const routes = {
     createClient: '/client/create',
     client: '/client',
     login: '/login',
+    loan: '/loan',
+    createLoan: '/loan/create',
 };

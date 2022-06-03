@@ -41,6 +41,7 @@ export function AppHeader() {
                     justifyContent="flex-end"
                     spacing={3}
                 >
+                    <AppLink route={routes.loan} title="Loan" />
                     <AppLink route={routes.client} title="Client" />
                     <AppLink route={routes.login} title="Login" />
                 </Stack>
