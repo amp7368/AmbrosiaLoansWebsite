@@ -1,5 +1,5 @@
-import { Loan } from '@api/io-model';
 import { CreateClassFactory } from '@appleptr16/utilities';
+import { Investment } from 'libs/api-iomodel/src/api/investment/Investment';
 import {
     Column,
     Entity,
@@ -10,12 +10,12 @@ import {
 
 import { ClientEntity } from '../client/Client.entity';
 import { emeraldType, loanRateType } from '../EntityTypes';
-import { LoanEventEntity } from './LoanEvent.entity';
+import { LoanEventEntity } from '../loans/LoanEvent.entity';
+import { InvestEventEntity } from './InvestEvent.entity';
 
-@Entity('loan')
-export class LoanEntity implements Loan {
-    static create = new CreateClassFactory(LoanEntity).createFn();
-    // meta
+@Entity('investment')
+export class InvestmentEntity implements Investment {
+    static create = new CreateClassFactory(InvestmentEntity).createFn();
     @PrimaryGeneratedColumn('uuid')
     uuid: string;
     @ManyToOne(() => ClientEntity, (client) => client.investments)
@@ -23,16 +23,14 @@ export class LoanEntity implements Loan {
     @Column({ type: 'varchar', length: 100 })
     broker: string;
 
-    // content
     @Column(emeraldType)
-    currentLoan: number;
+    currentInvestment: number;
 
-    // history
     @OneToMany(() => LoanEventEntity, (event) => event.uuid)
-    history: LoanEventEntity[];
+    history: InvestEventEntity[];
 
     @Column(emeraldType)
-    amountLoaned: number;
-    @Column(loanRateType)
-    rate: number;
+    initialInvestment: number;
+    @Column('timestamp')
+    startDate: Date;
 }

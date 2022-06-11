@@ -1,3 +1,3 @@
-export * from './login/LoginResponse';
+export * from './LoginResponse';
 export * from './SessionBase';
-export * from './login/LoginRequest';
+export * from './LoginRequest';

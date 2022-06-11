@@ -1,9 +1,4 @@
-import {
-    AmbrosiaResponseOK,
-    CollateralCreateRequestRuntime,
-    CollateralResponse,
-    okResponse,
-} from '@api/io-model';
+import { AmbrosiaResponseOK, okResponse } from '@api/io-model';
 import {
     Body,
     Controller,
@@ -16,13 +11,17 @@ import {
 } from '@nestjs/common';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { existsSync, mkdirSync } from 'fs';
+import {
+    CollateralCreateRequestRuntime,
+    CollateralResponse,
+} from '@api/io-model';
 import { Multer } from 'multer';
 import { join } from 'path';
 import sharp from 'sharp';
 
-import { collateralQuery } from '../../database/entity/collateral/Collateral.query';
 import { ControllerBase } from '../base/ControllerBase';
 import { EndpointUrls } from '../EndpointUrls';
+import { collateralQuery } from '../../database/entity/collateral/query/Collateral.query';
 
 const folder = join('data', 'collateral');
 mkdirSync(folder, { recursive: true });
@@ -34,7 +33,8 @@ export class CollateralController extends ControllerBase {
     async create(
         @Body() request: CollateralCreateRequestRuntime
     ): Promise<CollateralResponse> {
-        const collateral = await collateralQuery.newCollateral(request);
+        const entity = await collateralQuery.create(request);
+        const collateral = collateralQuery.toSimple(entity);
         return { collateral, ...okResponse };
     }
     @Get('/image')
@@ -57,7 +57,6 @@ export class CollateralController extends ControllerBase {
         return okResponse;
     }
     getPath(uuid: string) {
-        if (uuid == null) return null;
         return join(folder, uuid + '.png');
     }
 }

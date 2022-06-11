@@ -7,43 +7,55 @@ import {
     IsNumber,
     IsObject,
     IsOptional,
+    isString,
     IsString,
     IsUUID,
     ValidateNested,
 } from 'class-validator';
 import { AmbrosiaException, AmbrosiaResponseOK } from '../BaseResponse';
 import { Type } from 'class-transformer';
+import { LoanEvent } from './LoanEvent';
+import { Collateral } from '../collateral';
 
 export interface Loan {
+    // meta
     uuid: string;
     client: string;
-    collateral: string[];
+    broker: string;
+    // content
+    currentLoan: number;
+    // history
+    history: LoanEvent[];
     amountLoaned: number;
     rate: number;
-    broker: string;
-    startDate: Date;
-    payback: number[];
 }
-export type CreateLoan = Omit<Loan, 'uuid' | 'startDate' | 'payback'> & {
-    startDate?: Date;
-};
+export interface SimpleLoan {
+    // meta
+    uuid: string;
+    client: string;
+    broker: string;
+    // content
+    currentLoan: number;
+    // history
+    history: string[];
+    amountLoaned: number;
+    rate: number;
+}
+export type CreateLoan = Omit<SimpleLoan, 'uuid'>;
 export class CreateLoanRuntime implements CreateLoan {
     @IsUUID('4')
     client: string;
-
+    @IsString()
+    broker: string;
+    @IsNumber()
+    currentLoan: number;
     @IsArray()
     @IsUUID('4', { each: true })
-    collateral: string[];
-
+    history: string[];
     @IsNumber()
     amountLoaned: number;
     @IsNumber()
     rate: number;
-    @IsString()
-    broker: string;
-    @IsOptional()
-    @IsDate()
-    startDate?: Date;
 }
 export type LoanCreateRequest = {
     loan: CreateLoan;
@@ -56,7 +68,7 @@ export class LoanCreateRequestRuntime implements LoanCreateRequest {
     @Type(() => CreateLoanRuntime)
     loan: CreateLoanRuntime;
 }
-export type LoanCreateResponseOk = { loan: Loan } & AmbrosiaResponseOK;
+export type LoanCreateResponseOk = { loan: SimpleLoan } & AmbrosiaResponseOK;
 export type LoanCreateResponse = LoanCreateResponseOk | AmbrosiaException;
-export type LoanListResponseOk = { loans: Loan[] } & AmbrosiaResponseOK;
+export type LoanListResponseOk = { loans: SimpleLoan[] } & AmbrosiaResponseOK;
 export type LoanListResponse = LoanListResponseOk | AmbrosiaException;

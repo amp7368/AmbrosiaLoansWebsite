@@ -1,19 +1,24 @@
-import { ClientProfile } from '@api/io-model';
+import { Client, ClientSimple } from '@api/io-model';
 import { getManager } from 'typeorm';
 
 import { AmbrosiaQuery } from '../../AmbrosiaQuery';
+import { investmentQuery } from '../investment/Investment.query';
 import { ClientEntity } from './Client.entity';
 
-export class UserAccountQuery extends AmbrosiaQuery {
-    async getClients(): Promise<ClientEntity[]> {
-        return await this.managerQueryBuilder(ClientEntity, 'user').getMany();
+export class ClientQuery extends AmbrosiaQuery<ClientEntity> {
+    toSimple(client: ClientEntity): ClientSimple {
+        return {
+            ...client,
+            investments: client.investments.map((invest) => invest.uuid),
+            loans: client.loans.map((loan) => loan.uuid),
+        };
     }
-    async newClient(
-        client: Omit<ClientProfile, 'uuid'>
+    async create(
+        client: Omit<ClientSimple, 'uuid' | 'loans' | 'investments'>
     ): Promise<ClientEntity> {
         const entity: ClientEntity = ClientEntity.create(client);
-        return await getManager().save(entity);
+        return await this.save(entity);
     }
 }
 
-export const clientQuery = new UserAccountQuery();
+export const clientQuery = new ClientQuery(ClientEntity, 'client');

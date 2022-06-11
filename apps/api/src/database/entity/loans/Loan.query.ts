@@ -1,24 +1,29 @@
-import { Loan } from '@api/io-model';
+import { CreateLoan, Loan, SimpleLoan } from '@api/io-model';
 import { getManager } from 'typeorm';
 import { AmbrosiaQuery } from '../../AmbrosiaQuery';
 import { LoanEntity } from './Loan.entity';
+import { LoanEventEntity } from './LoanEvent.entity';
+import { loanEventQuery } from './LoanEvent.query';
 
-export class LoanQuery extends AmbrosiaQuery {
-    convertLoan(loan: LoanEntity): Loan {
+export class LoanQuery extends AmbrosiaQuery<LoanEntity> {
+    toSimple(loan: LoanEntity): SimpleLoan {
         return {
             ...loan,
-            collateral: loan.collateral?.map((coll) => coll.uuid),
-            payback: loan.payback?.map((pay) => pay.uuid),
+            history: loan.history.map((pay) => pay.uuid),
         };
     }
-    async findByIds(loan: string): Promise<LoanEntity> {
-        return await getManager().findOne(LoanEntity, loan);
-    }
     async getLoans(): Promise<LoanEntity[]> {
-        return await this.managerQueryBuilder(LoanEntity, 'loan').getMany();
+        return await this.managerQB().getMany();
     }
-    async newloan(entity: LoanEntity): Promise<LoanEntity> {
-        return await getManager().save(LoanEntity, entity);
+    async createLoan(loan: CreateLoan): Promise<LoanEntity> {
+        const history: LoanEventEntity[] = await loanEventQuery.findByIds(
+            loan.history
+        );
+        const entity: LoanEntity = LoanEntity.create({
+            ...loan,
+            history,
+        });
+        return await this.save(entity);
     }
 }
-export const loanQuery = new LoanQuery();
+export const loanQuery = new LoanQuery(LoanEntity, 'loan');
