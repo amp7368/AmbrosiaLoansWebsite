@@ -1,5 +1,5 @@
+import { Investment } from '@api/io-model';
 import { CreateClassFactory } from '@appleptr16/utilities';
-import { Investment } from 'libs/api-iomodel/src/api/investment/Investment';
 import {
     Column,
     Entity,

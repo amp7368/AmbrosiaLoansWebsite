@@ -1,5 +1,5 @@
 import { CreateClassFactory } from '@appleptr16/utilities';
-import { InvestEvent } from './InvestmentEvent';
+import { InvestEvent } from '../invest-event/InvestEvent';
 
 export interface Investment {
     uuid: string;

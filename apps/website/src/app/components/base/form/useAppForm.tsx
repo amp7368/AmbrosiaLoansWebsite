@@ -67,7 +67,6 @@ export function Example() {
     const { register, handleSubmit, setValue, fields } =
         useAppForm<ExampleData>(['hello']);
     const onSubmit: SubmitHandler<ExampleData> = (data, e) => {
-        console.log('rawr');
         if (e) e.preventDefault();
     };
     return (

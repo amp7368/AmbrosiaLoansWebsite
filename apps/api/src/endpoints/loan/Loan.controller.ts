@@ -4,7 +4,7 @@ import {
     LoanCreateResponse,
     LoanListResponse,
     okResponse,
-    SimpleLoan,
+    LoanSimple,
 } from '@api/io-model';
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { LoanEntity } from '../../database/entity/loans/Loan.entity';
@@ -19,13 +19,13 @@ export class LoanController extends ControllerBase {
         @Body() request: LoanCreateRequestRuntime
     ): Promise<LoanCreateResponse> {
         if (!request || !request.loan) this.exception.badRequest(request);
-        const loan: LoanEntity = await loanQuery.createLoan(request.loan);
+        const loan: LoanEntity = await loanQuery.create(request.loan);
         return { loan: loanQuery.toSimple(loan), ...okResponse };
     }
     @Get('/list')
     async list(): Promise<LoanListResponse> {
         const entities: LoanEntity[] = (await loanQuery.getLoans()) ?? [];
-        const loans: SimpleLoan[] = entities.map(loanQuery.toSimple);
+        const loans: LoanSimple[] = entities.map(loanQuery.toSimple);
         return { loans, ...okResponse };
     }
 }

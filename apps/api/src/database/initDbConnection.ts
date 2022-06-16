@@ -1,4 +1,3 @@
-import { InvestEvent } from '@api/io-model';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import { ConnectionOptions, createConnection } from 'typeorm';
@@ -7,8 +6,7 @@ import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConne
 import ormconfig from '../../ormconfig.json';
 import { BrokerEntity } from './entity/broker/Broker.entity';
 import { ClientEntity } from './entity/client/Client.entity';
-import { CollateralInvestEntity } from './entity/collateral/entity/CollateralInvest.entity';
-import { CollateralLoanEntity } from './entity/collateral/entity/CollateralLoan.entity';
+import { CollateralEntity } from './entity/collateral/entity/Collateral.entity';
 import { InvestEventEntity } from './entity/investment/InvestEvent.entity';
 import { InvestmentEntity } from './entity/investment/Investment.entity';
 import { LoanEntity } from './entity/loans/Loan.entity';
@@ -17,8 +15,7 @@ import { LoanEventEntity } from './entity/loans/LoanEvent.entity';
 const entities = [
     BrokerEntity,
     ClientEntity,
-    CollateralLoanEntity,
-    CollateralInvestEntity,
+    CollateralEntity,
     LoanEventEntity,
     LoanEntity,
     InvestEventEntity,

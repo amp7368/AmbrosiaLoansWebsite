@@ -3,5 +3,7 @@ export * from './auth';
 export * from './client';
 export * from './BaseResponse';
 export * from './loan';
-export * from './investment';
+export * from './invest';
+export * from './loan-event';
+export * from './invest-event';
 export * from './collateral';

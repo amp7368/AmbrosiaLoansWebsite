@@ -1,9 +1,15 @@
-import { AmbrosiaResponseOK, okResponse } from '@api/io-model';
+import {
+    AmbrosiaResponseOK,
+    CollateralCreateRequestRuntime,
+    CollateralResponse,
+    okResponse,
+} from '@api/io-model';
 import {
     Body,
     Controller,
     Get,
     Post,
+    Put,
     Query,
     StreamableFile,
     UploadedFiles,
@@ -11,17 +17,12 @@ import {
 } from '@nestjs/common';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { existsSync, mkdirSync } from 'fs';
-import {
-    CollateralCreateRequestRuntime,
-    CollateralResponse,
-} from '@api/io-model';
-import { Multer } from 'multer';
 import { join } from 'path';
 import sharp from 'sharp';
 
+import { collateralQuery } from '../../database/entity/collateral/query/Collateral.query';
 import { ControllerBase } from '../base/ControllerBase';
 import { EndpointUrls } from '../EndpointUrls';
-import { collateralQuery } from '../../database/entity/collateral/query/Collateral.query';
 
 const folder = join('data', 'collateral');
 mkdirSync(folder, { recursive: true });
@@ -56,7 +57,7 @@ export class CollateralController extends ControllerBase {
         sharp(files[0].buffer).toFile(filePath);
         return okResponse;
     }
-    getPath(uuid: string) {
+    getPath(uuid: string): string {
         return join(folder, uuid + '.png');
     }
 }

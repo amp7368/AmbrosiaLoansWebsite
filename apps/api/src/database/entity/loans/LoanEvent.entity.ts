@@ -1,9 +1,21 @@
-import { LoanEvent, LoanEventType } from '@api/io-model';
+import { Loan } from '@api/io-model';
 import { CreateClassFactory } from '@appleptr16/utilities';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { CollateralLoanEntity } from '../collateral/entity/CollateralLoan.entity';
+import { IsOptional } from 'class-validator';
+import { LoanEvent, LoanEventType } from 'libs/api-iomodel/src/api/loan-event';
+import {
+    Column,
+    Entity,
+    JoinColumn,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryGeneratedColumn,
+} from 'typeorm';
+import { CollateralEntity } from '../collateral/entity/Collateral.entity';
 
 import { emeraldType } from '../EntityTypes';
+import { LoanEntity } from './Loan.entity';
 
 @Entity('loan_event')
 export class LoanEventEntity implements LoanEvent {
@@ -20,6 +32,12 @@ export class LoanEventEntity implements LoanEvent {
     @Column(emeraldType)
     emeraldChange: number;
 
-    @OneToMany(() => CollateralLoanEntity, (collateral) => collateral.event)
-    collateral: CollateralLoanEntity[];
+    //todo
+    @ManyToOne(() => CollateralEntity, (c) => c.uuid, {
+        nullable: true,
+    })
+    collateral?: CollateralEntity;
+
+    @ManyToOne(() => LoanEntity, (loan) => loan.history)
+    loan: LoanEntity;
 }

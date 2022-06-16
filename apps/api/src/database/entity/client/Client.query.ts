@@ -7,11 +7,7 @@ import { ClientEntity } from './Client.entity';
 
 export class ClientQuery extends AmbrosiaQuery<ClientEntity> {
     toSimple(client: ClientEntity): ClientSimple {
-        return {
-            ...client,
-            investments: client.investments.map((invest) => invest.uuid),
-            loans: client.loans.map((loan) => loan.uuid),
-        };
+        return { ...client };
     }
     async create(
         client: Omit<ClientSimple, 'uuid' | 'loans' | 'investments'>

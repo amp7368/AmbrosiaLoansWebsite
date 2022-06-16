@@ -1,4 +1,4 @@
-import { Collateral } from '../collateral';
+import { Collateral, CollateralInvest } from '../collateral';
 
 export enum InvestEventType {
     Create,
@@ -15,8 +15,8 @@ export class InvestEvent {
     eventType: string;
     emeraldChange: number;
 
-    collateral: Collateral[];
+    collateral?: Collateral;
 }
 export type InvestEventSimple = Omit<InvestEvent, 'collateral'> & {
-    collateral: string[];
+    collateral?: string;
 };

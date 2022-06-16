@@ -28,11 +28,9 @@ export class LoanEntity implements Loan {
     currentLoan: number;
 
     // history
-    @OneToMany(() => LoanEventEntity, (event) => event.uuid)
+    @OneToMany(() => LoanEventEntity, (event) => event.loan, { eager: true })
     history: LoanEventEntity[];
 
-    @Column(emeraldType)
-    amountLoaned: number;
     @Column(loanRateType)
     rate: number;
 }

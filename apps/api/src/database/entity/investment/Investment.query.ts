@@ -1,4 +1,4 @@
-import { InvestmentSimple } from '@api/io-model';
+import { CreateInvestmentRuntime, InvestmentSimple } from '@api/io-model';
 import { getManager } from 'typeorm';
 
 import { AmbrosiaQuery } from '../../AmbrosiaQuery';
@@ -8,6 +8,11 @@ import { investEventQuery } from './InvestEvent.query';
 import { InvestmentEntity } from './Investment.entity';
 
 export class InvestmentQuery extends AmbrosiaQuery<InvestmentEntity> {
+    async create(
+        investment: CreateInvestmentRuntime
+    ): Promise<InvestmentEntity> {
+        return await this.save(InvestmentEntity.create({ ...investment }));
+    }
     toSimple(entity: InvestmentEntity): InvestmentSimple {
         return {
             ...entity,

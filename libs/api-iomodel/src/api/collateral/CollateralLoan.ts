@@ -1,6 +1,5 @@
-import { IsString, IsUUID } from 'class-validator';
 import { AmbrosiaException, AmbrosiaResponseOK } from '../BaseResponse';
-import { LoanEvent } from '../loan';
+import { LoanEvent } from '../loan-event';
 import { Collateral, CollateralSimple } from './Collateral';
 
 export type CollateralLoan = Collateral & { event: LoanEvent };

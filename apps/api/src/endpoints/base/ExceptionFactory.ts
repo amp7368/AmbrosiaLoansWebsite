@@ -16,7 +16,7 @@ export class ExceptionFactory {
             isOk: false,
             ...extra,
         };
-        
+
         throw new HttpException(response, status);
     }
 
@@ -45,6 +45,9 @@ export class ExceptionFactory {
     }
     loginBadCredentials() {
         this.unauthorized('The username or password is invalid');
+    }
+    expectationFailed(message: string) {
+        this.exception(message, StatusCodes.EXPECTATION_FAILED);
     }
 }
 ExceptionFactory.instance = new ExceptionFactory();

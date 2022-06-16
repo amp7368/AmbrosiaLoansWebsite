@@ -1,7 +1,14 @@
+import { InvestEvent } from '@api/io-model';
 import { CreateClassFactory } from '@appleptr16/utilities';
-import { InvestEvent } from 'libs/api-iomodel/src/api/investment/InvestmentEvent';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { CollateralInvestEntity } from '../collateral/entity/CollateralInvest.entity';
+import {
+    Column,
+    Entity,
+    JoinColumn,
+    OneToMany,
+    OneToOne,
+    PrimaryGeneratedColumn,
+} from 'typeorm';
+import { CollateralEntity } from '../collateral/entity/Collateral.entity';
 import { emeraldType } from '../EntityTypes';
 
 enum InvestEventType {
@@ -25,6 +32,7 @@ export class InvestEventEntity implements InvestEvent {
     @Column(emeraldType)
     emeraldChange: number;
 
-    @OneToMany(() => CollateralInvestEntity, (collateral) => collateral.event)
-    collateral: CollateralInvestEntity[];
+    @JoinColumn()
+    @OneToOne(() => CollateralEntity)
+    collateral?: CollateralEntity;
 }

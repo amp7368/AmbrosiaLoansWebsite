@@ -12,10 +12,13 @@ export class AmbrosiaQuery<T> {
         return this.repo().createQueryBuilder(this.alias);
     }
     async list(): Promise<T[]> {
-        return await this.repoQB().getMany();
+        return await this.managerQB().getMany();
     }
     async findByIds(ids: unknown[]): Promise<T[]> {
         return await this.repo().findByIds(ids);
+    }
+    async find(id: unknown): Promise<T> {
+        return await this.repo().findOne(id);
     }
     async save(entity: DeepPartial<T>): Promise<T> {
         return await this.repo().save(entity);

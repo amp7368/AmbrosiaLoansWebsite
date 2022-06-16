@@ -1,6 +1,12 @@
 import { Collateral } from '@api/io-model';
 import { CreateClassFactory } from '@appleptr16/utilities';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+    Column,
+    Entity,
+    ManyToOne,
+    OneToMany,
+    PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('collateral')
 export class CollateralEntity implements Collateral {

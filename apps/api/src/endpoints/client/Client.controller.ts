@@ -14,7 +14,6 @@ import { ControllerBase } from '../base/ControllerBase';
 import { EndpointUrls } from '../EndpointUrls';
 
 @Controller(EndpointUrls.api.client.url)
-@Roles(Role.Admin)
 export class ClientController extends ControllerBase {
     @Get('list')
     async list(): Promise<ClientListResponse> {

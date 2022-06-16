@@ -10,7 +10,7 @@ import {
 } from 'class-validator';
 
 import { AmbrosiaException, AmbrosiaResponseOK } from '../BaseResponse';
-import { Investment } from '../investment/Investment';
+import { Investment } from '../invest/Investment';
 import { Loan } from '../loan';
 
 export interface Client {
@@ -39,47 +39,4 @@ export interface ClientSimple {
     // discord
     discordId?: number;
     discordTag?: string;
-
-    loans: string[];
-    investments: string[];
-}
-export class ClientRuntime implements ClientSimple {
-    @IsUUID()
-    uuid: string;
-    @IsString()
-    displayName: string;
-    @IsUUID()
-    mcId?: string;
-    @IsString()
-    mcName?: string;
-    @IsNumber()
-    discordId?: number;
-    @IsString()
-    discordTag?: string;
-    @IsArray()
-    @IsUUID('4', { each: true })
-    loans: string[];
-    @IsArray()
-    @IsUUID('4', { each: true })
-    investments: string[];
-}
-export type ClientListResponseOk = AmbrosiaResponseOK & {
-    clients: ClientSimple[];
-};
-export type ClientListResponse = ClientListResponseOk | AmbrosiaException;
-
-export type ClientCreateResponseOk = AmbrosiaResponseOK & {
-    client: ClientSimple;
-};
-export type ClientCreateResponse = ClientCreateResponseOk | AmbrosiaException;
-
-export type ClientCreateRequest = {
-    client: Omit<ClientSimple, 'uuid' | 'loans' | 'investments'>;
-};
-export class ClientCreateRequestRuntime implements ClientCreateRequest {
-    @IsObject()
-    @ValidateNested()
-    @IsDefined()
-    @Type(() => ClientRuntime)
-    client: Omit<ClientRuntime, 'uuid' | 'loans' | 'investments'>;
 }
