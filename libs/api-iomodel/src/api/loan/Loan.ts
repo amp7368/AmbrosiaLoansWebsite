@@ -1,59 +1,24 @@
-import {
-    IsArray,
-    IsDate,
-    IsDecimal,
-    IsDefined,
-    IsNotEmptyObject,
-    IsNumber,
-    IsObject,
-    IsOptional,
-    IsString,
-    IsUUID,
-    ValidateNested,
-} from 'class-validator';
-import { AmbrosiaResponseOK } from '../BaseResponse';
-import { Type } from 'class-transformer';
+import { LoanEvent } from '../loan-event/LoanEvent';
 
 export interface Loan {
+    // meta
     uuid: string;
     client: string;
-    collateral: string[];
-    amountLoaned: number;
-    rate: number;
     broker: string;
-    startDate: Date;
-    payback: string[];
+    // content
+    currentLoan: number;
+    // history
+    history: LoanEvent[];
+    rate: number;
 }
-export type CreateLoan = Omit<Loan, 'uuid' | 'startDate' | 'payback'> & {
-    startDate?: Date;
-};
-export class CreateLoanRuntime implements CreateLoan {
-    @IsUUID('4')
+export interface LoanSimple {
+    // meta
+    uuid: string;
     client: string;
-
-    @IsArray()
-    @IsUUID('4', { each: true })
-    collateral: string[];
-
-    @IsNumber()
-    amountLoaned: number;
-    @IsNumber()
-    rate: number;
-    @IsString()
     broker: string;
-    @IsOptional()
-    @IsDate()
-    startDate?: Date;
+    // content
+    currentLoan: number;
+    // history
+    history: string[];
+    rate: number;
 }
-export type LoanCreateRequest = {
-    loan: CreateLoan;
-};
-export class LoanCreateRequestRuntime implements LoanCreateRequest {
-    @ValidateNested()
-    @IsDefined()
-    @IsNotEmptyObject()
-    @IsObject()
-    @Type(() => CreateLoanRuntime)
-    loan: CreateLoanRuntime;
-}
-export type LoanCreateResponse = { loan: Loan } & AmbrosiaResponseOK;

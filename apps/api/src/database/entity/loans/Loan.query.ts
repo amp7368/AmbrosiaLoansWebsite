@@ -1,16 +1,57 @@
-import { getManager } from 'typeorm';
-import { AmbrosiaQuery } from '../../AmbrosiaQuery';
-import { LoanEntity } from './Loan.entity';
+import {
+    Collateral,
+    CreateLoan,
+    LoanEventType,
+    LoanSimple,
+} from '@api/io-model';
 
-export class LoanQuery extends AmbrosiaQuery {
-    async findByIds(loan: string): Promise<LoanEntity> {
-        return await getManager().findOne(LoanEntity, loan);
+import { AmbrosiaQuery } from '../../AmbrosiaQuery';
+import { collateralQuery } from '../collateral/query/Collateral.query';
+import { LoanEntity } from './Loan.entity';
+import { LoanEventEntity } from './LoanEvent.entity';
+import { loanEventQuery } from './LoanEvent.query';
+function collateralFind(collateral: string) {
+    return collateralQuery.find(collateral);
+}
+export class LoanQuery extends AmbrosiaQuery<LoanEntity> {
+    toSimple(loan: LoanEntity): LoanSimple {
+        return {
+            ...loan,
+            history: loan.history?.map((pay) => pay.uuid),
+        };
     }
-    async list(): Promise<LoanEntity[]> {
-        return await this.managerQueryBuilder(LoanEntity, 'loan').getMany();
+    async getLoans(): Promise<LoanEntity[]> {
+        return await this.managerQB().getMany();
     }
-    async newloan(entity: LoanEntity): Promise<LoanEntity> {
-        return await getManager().save(LoanEntity, entity);
+    async create(loan: CreateLoan): Promise<LoanEntity> {
+        const loanPreEntity = LoanEntity.create({
+            ...loan,
+            currentLoan: loan.amountLoaned,
+        });
+        const loanEntity: LoanEntity = await this.save(loanPreEntity);
+        const collateralToEvent = async (collateral: Promise<Collateral>) =>
+            LoanEventEntity.create({
+                date: loan.date,
+                eventType: LoanEventType.Create,
+                emeraldChange: 0,
+                loan: loanEntity,
+                collateral: await collateral,
+            });
+        const eventPreEntity: LoanEventEntity[] = await Promise.all([
+            ...loan.collateral.map(collateralFind).map(collateralToEvent),
+            Promise.resolve(
+                LoanEventEntity.create({
+                    date: loan.date,
+                    eventType: LoanEventType.Create,
+                    emeraldChange: loan.amountLoaned,
+                    loan: loanEntity,
+                    collateral: undefined,
+                })
+            ),
+        ]);
+        console.log(eventPreEntity);
+        await Promise.all(eventPreEntity.map((e) => loanEventQuery.save(e)));
+        return this.find(loanEntity.uuid);
     }
 }
-export const loanQuery = new LoanQuery();
+export const loanQuery = new LoanQuery(LoanEntity, 'loan');

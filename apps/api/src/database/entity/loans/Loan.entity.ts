@@ -9,28 +9,28 @@ import {
 } from 'typeorm';
 
 import { ClientEntity } from '../client/Client.entity';
-import { CollateralEntity } from '../collateral/Collateral.entity';
 import { emeraldType, loanRateType } from '../EntityTypes';
-import { LoanPaybackEntity } from './payback/LoanPayback.entity';
+import { LoanEventEntity } from './LoanEvent.entity';
 
 @Entity('loan')
-export class LoanEntity {
+export class LoanEntity implements Loan {
     static create = new CreateClassFactory(LoanEntity).createFn();
+    // meta
     @PrimaryGeneratedColumn('uuid')
     uuid: string;
-    @ManyToOne(() => ClientEntity, (client) => client.loans)
+    @ManyToOne(() => ClientEntity, (client) => client.investments)
     client: string;
-    @OneToMany(() => CollateralEntity, (collateral) => collateral.loan)
-    collateral: CollateralEntity[];
-
-    @Column(emeraldType)
-    amountLoaned: number;
-    @Column(loanRateType)
-    rate: number;
     @Column({ type: 'varchar', length: 100 })
     broker: string;
-    @Column('timestamp')
-    startDate: Date;
-    @OneToMany(() => LoanPaybackEntity, (payback) => payback.loan)
-    payback: LoanPaybackEntity[];
+
+    // content
+    @Column(emeraldType)
+    currentLoan: number;
+
+    // history
+    @OneToMany(() => LoanEventEntity, (event) => event.loan, { eager: true })
+    history: LoanEventEntity[];
+
+    @Column(loanRateType)
+    rate: number;
 }

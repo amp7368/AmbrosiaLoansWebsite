@@ -1,3 +1,4 @@
+import { SEE_OTHER } from 'http-status-codes';
 import { uppercaseFirst } from '../formatStrings/formatStrings';
 
 type SetFn = `set${string}`;
@@ -46,7 +47,11 @@ export module DateFactory {
     export function addMillis(date: Date, amount: number): Date {
         return dateAddUnits(date, 'milliseconds', amount);
     }
-
+    export function addDate(date: Date, other: Date): Date {
+        const newDate = new Date();
+        newDate.setTime(date.getTime() + other.getTime());
+        return newDate;
+    }
     export function fromNowDays(amount: number): Date {
         return addDays(new Date(), amount);
     }

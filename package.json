@@ -60,6 +60,7 @@
         "@fontsource/roboto": "^4.5.3",
         "@mui/icons-material": "^5.5.0",
         "@mui/material": "^5.4.1",
+        "@mui/x-data-grid": "^5.12.2",
         "@nestjs/common": "^8.2.6",
         "@nestjs/core": "^8.2.6",
         "@nestjs/platform-express": "^8.4.1",

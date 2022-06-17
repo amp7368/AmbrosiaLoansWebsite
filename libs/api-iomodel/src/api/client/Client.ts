@@ -1,31 +1,42 @@
-import { IsObject, IsString, IsUUID } from 'class-validator';
-import { AmbrosiaResponseOK } from '../BaseResponse';
+import { Type } from 'class-transformer';
+import {
+    IsArray,
+    IsDefined,
+    IsNumber,
+    IsObject,
+    IsString,
+    IsUUID,
+    ValidateNested,
+} from 'class-validator';
 
-export interface ClientProfile {
+import { AmbrosiaException, AmbrosiaResponseOK } from '../BaseResponse';
+import { Investment } from '../invest/Investment';
+import { Loan } from '../loan';
+
+export interface Client {
     uuid: string;
     displayName: string;
+
+    // minecraft
+    mcId: string;
+    mcName: string;
+
+    // discord
+    discordId: number;
     discordTag: string;
+
+    loans: Loan[];
+    investments: Investment[];
 }
-export class ClientProfileRuntime implements ClientProfile {
-    @IsUUID()
+export interface ClientSimple {
     uuid: string;
-    @IsString()
     displayName: string;
-    @IsString()
-    discordTag: string;
-}
-export type ClientListResponse = AmbrosiaResponseOK & {
-    clients: ClientProfile[];
-};
 
-export type ClientCreateResponse = AmbrosiaResponseOK & {
-    client: ClientProfile;
-};
+    // minecraft
+    mcId?: string;
+    mcName?: string;
 
-export type ClientCreateRequest = {
-    client: Omit<ClientProfile, 'uuid'>;
-};
-export class ClientCreateRequestRuntime implements ClientCreateRequest {
-    @IsObject()
-    client: Omit<ClientProfileRuntime, 'uuid'>;
+    // discord
+    discordId?: number;
+    discordTag?: string;
 }

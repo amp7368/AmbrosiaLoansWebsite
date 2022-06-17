@@ -6,16 +6,20 @@ import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConne
 import ormconfig from '../../ormconfig.json';
 import { BrokerEntity } from './entity/broker/Broker.entity';
 import { ClientEntity } from './entity/client/Client.entity';
-import { CollateralEntity } from './entity/collateral/Collateral.entity';
+import { CollateralEntity } from './entity/collateral/entity/Collateral.entity';
+import { InvestEventEntity } from './entity/investment/InvestEvent.entity';
+import { InvestmentEntity } from './entity/investment/Investment.entity';
 import { LoanEntity } from './entity/loans/Loan.entity';
-import { LoanPaybackEntity } from './entity/loans/payback/LoanPayback.entity';
+import { LoanEventEntity } from './entity/loans/LoanEvent.entity';
 
 const entities = [
     BrokerEntity,
     ClientEntity,
     CollateralEntity,
-    LoanPaybackEntity,
+    LoanEventEntity,
     LoanEntity,
+    InvestEventEntity,
+    InvestmentEntity,
 ];
 type Writeable<T> = { -readonly [P in keyof T]: T[P] };
 

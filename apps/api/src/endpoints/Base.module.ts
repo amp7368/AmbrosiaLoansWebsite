@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
 import { ClientController } from './client/Client.controller';
-import { CollateralController } from './loan/Collateral.controller';
+import { CollateralController } from './collateral/Collateral.controller';
+import { InvestEventController } from './investment/InvestEvent.controller';
 import { LoanController } from './loan/Loan.controller';
-import { LoanPaybackController } from './loan/LoanPayback.controller';
 
 @Module({
     controllers: [
         ClientController,
         CollateralController,
         LoanController,
-        LoanPaybackController,
+        InvestEventController,
     ],
 })
 export class BaseModule {}

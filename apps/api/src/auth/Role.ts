@@ -46,8 +46,12 @@ export class RolesGuard implements CanActivate {
     verifyAdmin(request: any) {
         const auth: string = request.headers.authorization;
         const starting = 'Bearer ';
-        if (!auth || !auth.startsWith(starting)) {
-            ExceptionFactory.instance.badRequest(auth);
+        if (!auth) {
+            ExceptionFactory.instance.badRequest('No authorization header');
+            return false;
+        }
+        if (!auth.startsWith(starting)) {
+            ExceptionFactory.instance.badRequest('Bad authorization format');
             return false;
         }
         const token = auth.substring(starting.length);

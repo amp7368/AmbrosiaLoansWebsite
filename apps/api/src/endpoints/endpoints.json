@@ -1,0 +1,27 @@
+{
+    "url": "/api",
+    "auth": {
+        "url": "/api/auth",
+        "login": {
+            "url": "/api/auth/login"
+        }
+    },
+    "client": {
+        "url": "/api/client"
+    },
+    "collateral": {
+        "url": "/api/collateral"
+    },
+    "investment": {
+        "url": "/api/investment"
+    },
+    "loan": {
+        "url": "/api/loan"
+    },
+    "loanEvent": {
+        "url": "/api/loanEvent"
+    },
+    "investEvent": {
+        "url": "/api/investEvent"
+    }
+}
