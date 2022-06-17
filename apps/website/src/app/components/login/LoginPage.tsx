@@ -20,7 +20,7 @@ import {
 import { Navigate } from 'react-router-dom';
 import { selfUserQuery } from '../../akita/self-user/SelfUser.query';
 import { routes } from '../../util/routes';
-import { useAppForm, UseAppFormReturn } from '../base/form/useAppForm';
+import { useAppForm, UseAppFormReturn } from '../common/form/useAppForm';
 
 export function LoginForm() {
     const { handleSubmit, setValue, fields }: UseAppFormReturn<LoginRequest> =

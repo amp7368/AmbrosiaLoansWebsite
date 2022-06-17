@@ -2,8 +2,8 @@ import { CssBaseline } from '@mui/material';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { ClientsPage } from './components/clients/ClientsPage';
-import { AppHeader } from './components/base/AppHeader';
-import { AuthorizedPage } from './components/base/AuthorizedPage';
+import { AppHeader } from './components/common/AppHeader';
+import { AuthorizedPage } from './components/common/AuthorizedPage';
 import { LoginPage } from './components/login/LoginPage';
 import { OverviewPage } from './components/overview/OverviewPage';
 import { routes } from './util/routes';

@@ -5,7 +5,7 @@ import { ReactNode, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 
 import { loanQuery } from '../../akita/loan/Loan.query';
-import { useAppForm, UseAppFormReturn } from '../base/form/useAppForm';
+import { useAppForm, UseAppFormReturn } from '../common/form/useAppForm';
 
 export function CreateLoanPage() {
     const {

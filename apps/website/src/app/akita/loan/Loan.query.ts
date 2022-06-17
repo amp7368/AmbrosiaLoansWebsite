@@ -3,6 +3,7 @@ import {
     AmbrosiaResponseOK,
     Loan,
     LoanCreateRequest,
+    LoanSimple,
     okResponse,
 } from '@api/io-model';
 
@@ -12,8 +13,8 @@ import { UpdatableState, UpdatedState } from '../base/UpdateState';
 import { LoanState, loanStore } from './Loan.store';
 
 export class LoanQuery extends AppEntityQuery<LoanState> {
-    loans = new UpdatableState<Loan[]>(() => this.supplyLoans());
-    private async supplyLoans(): Promise<UpdatedState<Loan[]>> {
+    loans = new UpdatableState<LoanSimple[]>(() => this.supplyLoans());
+    private async supplyLoans(): Promise<UpdatedState<LoanSimple[]>> {
         const response = await API.loanList();
         if (response.isOk) {
             return { newState: response.loans, isError: false };
@@ -28,7 +29,7 @@ export class LoanQuery extends AppEntityQuery<LoanState> {
     ): Promise<AmbrosiaResponseOK | AmbrosiaException> {
         const response = await API.loanCreate(request);
         if (!response.isOk) return response;
-        this.loans.set((state: UpdatedState<Loan[]>) => ({
+        this.loans.set((state: UpdatedState<LoanSimple[]>) => ({
             newState: [...(state.newState ?? []), response.loan],
             isError: state.isError,
         }));

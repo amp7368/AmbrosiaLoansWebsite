@@ -1,14 +1,11 @@
-import { ClientCreateRequest, LoginRequest } from '@api/io-model';
-import { Button, Divider, Input, Stack, Typography } from '@mui/material';
+import { ClientCreateRequest } from '@api/io-model';
+import { Button, Divider, Stack, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { ReactNode, useState } from 'react';
-import { SubmitHandler, useForm, UseFormReturn } from 'react-hook-form';
-import { Navigate } from 'react-router-dom';
-import { clientQuery } from '../../akita/client/Client.query';
+import { SubmitHandler } from 'react-hook-form';
 
-import { selfUserQuery } from '../../akita/self-user/SelfUser.query';
-import { routes } from '../../util/routes';
-import { useAppForm, UseAppFormReturn } from '../base/form/useAppForm';
+import { clientQuery } from '../../akita/client/Client.query';
+import { useAppForm, UseAppFormReturn } from '../common/form/useAppForm';
 
 export function CreateClientPage() {
     const {

@@ -2,10 +2,11 @@ import {
     AmbrosiaException,
     AmbrosiaResponse,
     AmbrosiaResponseOK,
+    Client,
     ClientCreateRequest,
     ClientCreateResponse,
     ClientListResponse,
-    ClientProfile,
+    ClientSimple,
     okResponse,
 } from '@api/io-model';
 import { API } from '../../api/API';
@@ -14,8 +15,8 @@ import { UpdatableState, UpdatedState } from '../base/UpdateState';
 import { ClientState, clientStore } from './Client.store';
 
 export class ClientQuery extends AppEntityQuery<ClientState> {
-    clients = new UpdatableState<ClientProfile[]>(() => this.supplyClients());
-    private async supplyClients(): Promise<UpdatedState<ClientProfile[]>> {
+    clients = new UpdatableState<ClientSimple[]>(() => this.supplyClients());
+    private async supplyClients(): Promise<UpdatedState<ClientSimple[]>> {
         const response: ClientListResponse = await API.clientList();
         if (response.isOk) {
             return { newState: response.clients, isError: false };
@@ -30,7 +31,7 @@ export class ClientQuery extends AppEntityQuery<ClientState> {
     ): Promise<AmbrosiaResponseOK | AmbrosiaException> {
         const response = await API.clientCreate(request);
         if (!response.isOk) return response;
-        this.clients.set((state: UpdatedState<ClientProfile[]>) => ({
+        this.clients.set((state: UpdatedState<ClientSimple[]>) => ({
             newState: [...(state.newState ?? []), response.client],
             isError: state.isError,
         }));

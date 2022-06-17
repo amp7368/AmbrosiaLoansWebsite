@@ -1,4 +1,4 @@
-import { ClientProfile } from '@api/io-model';
+import { Client, ClientSimple } from '@api/io-model';
 import { useObservableList } from '@appleptr16/elemental';
 import { Button, Stack, Typography } from '@mui/material';
 import { map } from 'rxjs';
@@ -6,7 +6,7 @@ import { map } from 'rxjs';
 import { clientQuery } from '../../akita/client/Client.query';
 import { routes } from '../../util/routes';
 
-function ClientRow(client: ClientProfile) {
+function ClientRow(client: ClientSimple) {
     return (
         <Stack direction="row" key={client.uuid}>
             <Typography>{client.displayName}</Typography>
