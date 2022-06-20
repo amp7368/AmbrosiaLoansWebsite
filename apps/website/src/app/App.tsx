@@ -10,6 +10,7 @@ import { routes } from './util/routes';
 import { CreateClientPage } from './components/clients/CreateClientPage';
 import { LoansPage } from './components/loans/LoanPage';
 import { CreateLoanPage } from './components/loans/CreateLoanPage';
+import { ClientStats } from './components/clients/stats/ClientStats';
 
 export function App() {
     return (
@@ -48,6 +49,14 @@ export function App() {
                         element={
                             <AuthorizedPage>
                                 <CreateLoanPage />
+                            </AuthorizedPage>
+                        }
+                    />
+                    <Route
+                        path={routes.clientDetails}
+                        element={
+                            <AuthorizedPage>
+                                <ClientStats />
                             </AuthorizedPage>
                         }
                     />

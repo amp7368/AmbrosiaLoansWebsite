@@ -1,36 +1,14 @@
-import { Loan, LoanSimple } from '@api/io-model';
+import { LoanSimple } from '@api/io-model';
 import { useObservableList } from '@appleptr16/elemental';
-import {
-    alpha,
-    Button,
-    colors,
-    Container,
-    List,
-    ListItem,
-    Stack,
-    Table,
-    TableHead,
-    Typography,
-} from '@mui/material';
+import { alpha, Button, colors, Container, Stack } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { map } from 'rxjs';
-import { loanQuery } from '../../akita/loan/Loan.query';
 
+import { loanQuery } from '../../akita/loan/Loan.query';
 import { routes } from '../../util/routes';
-import { AppPaper } from '../common/AppPaper';
 import { EmeraldDisplay, EmeraldDisplayHeader } from '../common/EmeraldDisplay';
 import { Page } from '../common/Page';
 
-function LoanRow(Loan: LoanSimple) {
-    return (
-        <ListItem>
-            <Stack direction="row" key={Loan.uuid}>
-                <Typography>{Loan.broker}</Typography>
-                <Typography>{Loan.currentLoan}</Typography>
-            </Stack>
-        </ListItem>
-    );
-}
 const columns: GridColDef[] = [
     { field: 'broker', headerName: 'Broker', width: 100 },
     {

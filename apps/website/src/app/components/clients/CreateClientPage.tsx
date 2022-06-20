@@ -1,10 +1,11 @@
 import { ClientCreateRequest } from '@api/io-model';
-import { Button, Divider, Stack, Typography } from '@mui/material';
+import { Button, Divider, Stack,  } from '@mui/material';
 import { Box } from '@mui/system';
 import { ReactNode, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 
 import { clientQuery } from '../../akita/client/Client.query';
+import { AppTypography } from '../common/AppTypography';
 import { useAppForm, UseAppFormReturn } from '../common/form/useAppForm';
 
 export function CreateClientPage() {
@@ -32,7 +33,7 @@ export function CreateClientPage() {
         <Button variant="contained" type="submit">
             Submit
         </Button>,
-        <Typography>{errorElement}</Typography>,
+        <AppTypography>{errorElement}</AppTypography>,
     ];
     return (
         <form onSubmit={handleSubmit(onSubmit)}>

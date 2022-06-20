@@ -1,14 +1,13 @@
 import {
     AmbrosiaException,
-    AmbrosiaResponse,
     AmbrosiaResponseOK,
-    Client,
     ClientCreateRequest,
-    ClientCreateResponse,
     ClientListResponse,
     ClientSimple,
     okResponse,
 } from '@api/io-model';
+import { map } from 'rxjs';
+
 import { API } from '../../api/API';
 import { AppEntityQuery } from '../base/AppEntityQuery';
 import { UpdatableState, UpdatedState } from '../base/UpdateState';
@@ -19,6 +18,7 @@ export class ClientQuery extends AppEntityQuery<ClientState> {
     private async supplyClients(): Promise<UpdatedState<ClientSimple[]>> {
         const response: ClientListResponse = await API.clientList();
         if (response.isOk) {
+            this.store.add(response.clients);
             return { newState: response.clients, isError: false };
         }
         return {

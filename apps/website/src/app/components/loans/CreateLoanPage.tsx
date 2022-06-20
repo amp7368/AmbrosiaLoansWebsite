@@ -5,6 +5,7 @@ import { ReactNode, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 
 import { loanQuery } from '../../akita/loan/Loan.query';
+import { AppTypography } from '../common/AppTypography';
 import { useAppForm, UseAppFormReturn } from '../common/form/useAppForm';
 
 export function CreateLoanPage() {
@@ -34,7 +35,7 @@ export function CreateLoanPage() {
         <Button variant="contained" type="submit">
             Submit
         </Button>,
-        <Typography>{errorElement}</Typography>,
+        <AppTypography>{errorElement}</AppTypography>,
     ];
     return (
         <form onSubmit={handleSubmit(onSubmit)}>

@@ -29,9 +29,11 @@ export class ClientEntity implements Client {
     @Column('varchar', { length: 32, nullable: true })
     discordTag: string;
 
-    @OneToMany(() => LoanEntity, (loan) => loan.client)
+    @OneToMany(() => LoanEntity, (loan) => loan.client, { eager: true })
     loans: LoanEntity[];
-    @OneToMany(() => InvestmentEntity, (investment) => investment.client)
+    @OneToMany(() => InvestmentEntity, (investment) => investment.client, {
+        eager: true,
+    })
     investments: InvestmentEntity[];
     // investments
 }

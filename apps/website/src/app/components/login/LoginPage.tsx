@@ -20,6 +20,7 @@ import {
 import { Navigate } from 'react-router-dom';
 import { selfUserQuery } from '../../akita/self-user/SelfUser.query';
 import { routes } from '../../util/routes';
+import { AppTypography } from '../common/AppTypography';
 import { useAppForm, UseAppFormReturn } from '../common/form/useAppForm';
 
 export function LoginForm() {
@@ -42,7 +43,7 @@ export function LoginForm() {
         <Button variant="contained" type="submit">
             Submit
         </Button>,
-        <Typography>{errorElement}</Typography>,
+        <AppTypography>{errorElement}</AppTypography>,
         <Button variant="contained" onClick={fillFields}>
             Fill
         </Button>,

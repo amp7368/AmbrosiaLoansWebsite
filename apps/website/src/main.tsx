@@ -1,4 +1,6 @@
 import 'reflect-metadata';
+import './app/akita/client/Client.query';
+import './app/akita/loan/Loan.query';
 
 import { ThemeProvider } from '@emotion/react';
 import { CssBaseline } from '@mui/material';
@@ -11,13 +13,11 @@ import { initAkita } from './appStorage';
 
 initAkita();
 render(
-    <>
-        <CssBaseline />
-        <StrictMode>
-            <ThemeProvider theme={defaultTheme}>
-                <App />
-            </ThemeProvider>
-        </StrictMode>
-    </>,
+    <StrictMode>
+        <ThemeProvider theme={defaultTheme}>
+            <CssBaseline />
+            <App />
+        </ThemeProvider>
+    </StrictMode>,
     document.getElementById('root')
 );

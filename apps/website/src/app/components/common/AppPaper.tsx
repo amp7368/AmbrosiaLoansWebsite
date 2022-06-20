@@ -1,32 +1,18 @@
 import { alpha, Opacity, Paper, PaperProps, Theme } from '@mui/material';
 
 type Opaceness = 'highest' | 'higher' | 'high' | 'normal' | 'low' | 'lower';
+const OpacenessMap: Record<Opaceness, number> = {
+    highest: 1,
+    higher: 0.8,
+    high: 0.7,
+    normal: 0.5,
+    low: 0.2,
+    lower: 0.1,
+};
 export function AppPaper(props: PaperProps & { opacity?: Opaceness | number }) {
     let opacity: number;
     if (typeof props.opacity === 'number') opacity = props.opacity;
-    else {
-        switch (props.opacity) {
-            case 'highest':
-                opacity = 1;
-                break;
-            case 'higher':
-                opacity = 0.8;
-                break;
-            case 'high':
-                opacity = 0.7;
-                break;
-            case 'normal':
-                opacity = 0.5;
-                break;
-            case 'lower':
-                opacity = 0.1;
-                break;
-            case 'low':
-            default:
-                opacity = 0.2;
-                break;
-        }
-    }
+    else opacity = OpacenessMap[props.opacity ?? 'low'];
     return (
         <Paper
             {...props}

@@ -1,7 +1,6 @@
 import {
     AmbrosiaException,
     AmbrosiaResponseOK,
-    Loan,
     LoanCreateRequest,
     LoanSimple,
     okResponse,

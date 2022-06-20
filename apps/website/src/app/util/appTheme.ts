@@ -4,14 +4,19 @@ export const defaultThemeOptions: ThemeOptions = {
     palette: {
         mode: 'dark',
         primary: {
-            main: '#230058',
+            main: '#2f115c',
+            contrastText: '#f50057',
         },
         secondary: {
             main: '#f50057',
         },
         background: {
             default: '#131314',
-            paper: '#1b393b',
+            paper: '#666666',
+        },
+        text: {
+            primary: '#f50057',
+            secondary: '#ffffff',
         },
     },
 };
