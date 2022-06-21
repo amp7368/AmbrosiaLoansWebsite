@@ -55,6 +55,7 @@ export module API {
     export async function loanCreate(
         request: LoanCreateRequest
     ): Promise<LoanCreateResponse> {
+        console.log(request);
         return await authorize(post('/loan/create')).payload(request).build();
     }
 }

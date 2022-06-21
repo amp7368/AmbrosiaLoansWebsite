@@ -4,13 +4,17 @@ import {
     ClientCreateRequest,
     ClientListResponse,
     ClientSimple,
+    LoanSimple,
     okResponse,
 } from '@api/io-model';
+import { useObservableMemo } from '@appleptr16/elemental';
+import { Optional } from '@appleptr16/utilities';
 import { map } from 'rxjs';
 
 import { API } from '../../api/API';
 import { AppEntityQuery } from '../base/AppEntityQuery';
 import { UpdatableState, UpdatedState } from '../base/UpdateState';
+import { loanQuery } from '../loan/Loan.query';
 import { ClientState, clientStore } from './Client.store';
 
 export class ClientQuery extends AppEntityQuery<ClientState> {
@@ -39,3 +43,26 @@ export class ClientQuery extends AppEntityQuery<ClientState> {
     }
 }
 export const clientQuery = new ClientQuery(clientStore);
+export function useClient(client: Optional<string>): Optional<ClientSimple> {
+    return useObservableMemo(
+        () => clientQuery.selectEntity((c) => c.displayName === client),
+        [client, clientQuery],
+        undefined
+    );
+}
+export function useClientLoans(
+    client: Optional<ClientSimple>
+): Optional<LoanSimple[]> {
+    return useObservableMemo(
+        () => loanQuery.selectMany(client?.loans ?? []),
+        [client, clientQuery],
+        undefined
+    );
+}
+// export function useClientInvestments(client: Optional<ClientSimple>) {
+//     return useObservableMemo(
+//         () => investmentQuery.selectMany(client?.loans ?? []),
+//         [client, clientQuery],
+//         undefined
+//     );
+// }

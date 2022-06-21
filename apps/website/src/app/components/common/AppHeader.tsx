@@ -1,24 +1,31 @@
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import { AppBar, Button, Stack, Typography, useTheme } from '@mui/material';
-import { routes } from '../../util/routes';
+import {
+    AppBar,
+    Button,
+    Divider,
+    Stack,
+    Typography,
+    useTheme,
+} from '@mui/material';
+import { urls } from '../../util/routes';
 
 function AppLink(props: { route: string; title: string }) {
     return (
-        <Button
-            color="secondary"
-            variant="text"
-            disableElevation={true}
-            href={props.route}
-        >
-            <Typography variant="h6">{props.title}</Typography>
+        <Button color="secondary" variant="text" href={props.route}>
+            <Typography color="primary.contrastText" variant="h4">
+                {props.title}
+            </Typography>
         </Button>
     );
 }
 
 export function AppHeader() {
-    const height = useTheme().spacing(7);
     return (
-        <AppBar position="static" enableColorOnDark={true} sx={{ height }}>
+        <AppBar
+            position="static"
+            enableColorOnDark={true}
+            sx={{ height: '4rem' }}
+        >
             <Stack
                 height="100%"
                 direction="row"
@@ -30,7 +37,7 @@ export function AppHeader() {
                     color="secondary"
                     variant="text"
                     disableElevation={true}
-                    href={routes.home}
+                    href={urls.home}
                 >
                     <AccountBalanceIcon color="secondary" fontSize="large" />
                 </Button>
@@ -40,10 +47,17 @@ export function AppHeader() {
                     alignItems="center"
                     justifyContent="flex-end"
                     spacing={3}
+                    divider={
+                        <Divider
+                            variant="fullWidth"
+                            color="secondary"
+                            orientation="vertical"
+                        />
+                    }
                 >
-                    <AppLink route={routes.loan} title="Loan" />
-                    <AppLink route={routes.client} title="Client" />
-                    <AppLink route={routes.login} title="Login" />
+                    <AppLink route={urls.loan} title="Loan" />
+                    <AppLink route={urls.client} title="Client" />
+                    <AppLink route={urls.login} title="Login" />
                 </Stack>
             </Stack>
         </AppBar>

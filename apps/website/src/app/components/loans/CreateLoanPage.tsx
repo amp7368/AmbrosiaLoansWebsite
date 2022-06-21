@@ -1,49 +1,48 @@
-import { LoanCreateRequest } from '@api/io-model';
-import { Button, Divider, Stack, Typography } from '@mui/material';
-import { Box } from '@mui/system';
+import { ClientSimple, LoanSimple } from '@api/io-model';
+import { Optional } from '@appleptr16/utilities';
+import { Stack } from '@mui/material';
 import { ReactNode, useState } from 'react';
-import { SubmitHandler } from 'react-hook-form';
 
-import { loanQuery } from '../../akita/loan/Loan.query';
+import { useClient, useClientLoans } from '../../akita/client/Client.query';
 import { AppTypography } from '../common/AppTypography';
-import { useAppForm, UseAppFormReturn } from '../common/form/useAppForm';
+import { Page } from '../common/Page';
+import { CreateLoanForm } from './CreateLoanForm';
+import { LoanSnippet } from './LoanSnippet';
 
-export function CreateLoanPage() {
-    const {
-        handleSubmit,
-        fields,
-    }: UseAppFormReturn<LoanCreateRequest['loan']> = useAppForm<
-        LoanCreateRequest['loan']
-    >(['amountLoaned', 'broker', 'client', 'rate']);
-    const [errorElement, setErrorElement] = useState<string[]>();
-    const onSubmit: SubmitHandler<LoanCreateRequest['loan']> = async (
-        loan,
-        event
-    ) => {
-        event?.preventDefault();
-        const response = await loanQuery.createLoan({ loan });
-        if (!response.isOk) {
-            setErrorElement([response.message]);
-        }
-    };
-    const fieldElements = [
-        <fields.amountLoaned.text />,
-        <fields.broker.text />,
-        <fields.client.text />,
-        <fields.rate.text />,
-
-        <Button variant="contained" type="submit">
-            Submit
-        </Button>,
-        <AppTypography>{errorElement}</AppTypography>,
-    ];
-    return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <Stack direction="column" divider={<Divider />} spacing={1}>
-                {fieldElements.map((field, i) => (
-                    <Box key={i}>{field}</Box>
+interface ClientInfoProps {
+    client: string | undefined;
+}
+function ClientInfo(props: ClientInfoProps) {
+    const client: Optional<ClientSimple> = useClient(props.client);
+    const loans: Optional<LoanSimple[]> = useClientLoans(client);
+    let statsElement = null;
+    if (client && loans) {
+        statsElement = (
+            <Stack direction="column">
+                {loans.map((loan) => (
+                    <LoanSnippet loan={loan} />
                 ))}
             </Stack>
-        </form>
+        );
+    }
+    return (
+        <Stack direction="column">
+            <AppTypography variant="h4">Client Stats</AppTypography>
+            <AppTypography variant="h5">
+                {client?.displayName ?? 'No client was found'}
+            </AppTypography>
+            {statsElement}
+        </Stack>
+    );
+}
+export function CreateLoanPage() {
+    const [client, setClient] = useState<string>();
+    return (
+        <Page title="Withdrawl">
+            <Stack direction="row" justifyContent="center" spacing={3}>
+                <CreateLoanForm setClient={setClient} />
+                <ClientInfo client={client} />
+            </Stack>
+        </Page>
     );
 }

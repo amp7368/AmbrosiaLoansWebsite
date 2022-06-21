@@ -1,4 +1,4 @@
-export const routes = {
+export const urls = {
     home: '/',
     createClient: '/client/create',
     client: '/client',
@@ -6,6 +6,13 @@ export const routes = {
     loan: '/loan',
     createLoan: '/loan/create',
     clientDetails: '/client/stats/:clientId',
-    getClientDetails: (client: string) => `/client/stats/${client}`,
-    fromClientDetails: (url: string) => url.split('/')[3],
 };
+export const nav = {
+    client: {
+        clientToURL: (client: string) => `/client/stats/${client}`,
+        fromURL: () => window.location.pathname.split('/')[3],
+    },
+};
+export function navTo(url: string) {
+    window.location.href = url;
+}

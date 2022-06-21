@@ -6,7 +6,7 @@ import { AppHeader } from './components/common/AppHeader';
 import { AuthorizedPage } from './components/common/AuthorizedPage';
 import { LoginPage } from './components/login/LoginPage';
 import { OverviewPage } from './components/overview/OverviewPage';
-import { routes } from './util/routes';
+import { urls } from './util/routes';
 import { CreateClientPage } from './components/clients/CreateClientPage';
 import { LoansPage } from './components/loans/LoanPage';
 import { CreateLoanPage } from './components/loans/CreateLoanPage';
@@ -19,9 +19,9 @@ export function App() {
             <AppHeader />
             <BrowserRouter>
                 <Routes>
-                    <Route path={routes.home} element={<OverviewPage />} />
+                    <Route path={urls.home} element={<OverviewPage />} />
                     <Route
-                        path={routes.client}
+                        path={urls.client}
                         element={
                             <AuthorizedPage>
                                 <ClientsPage />
@@ -29,7 +29,7 @@ export function App() {
                         }
                     />
                     <Route
-                        path={routes.createClient}
+                        path={urls.createClient}
                         element={
                             <AuthorizedPage>
                                 <CreateClientPage />
@@ -37,7 +37,7 @@ export function App() {
                         }
                     />
                     <Route
-                        path={routes.loan}
+                        path={urls.loan}
                         element={
                             <AuthorizedPage>
                                 <LoansPage />
@@ -45,7 +45,7 @@ export function App() {
                         }
                     />
                     <Route
-                        path={routes.createLoan}
+                        path={urls.createLoan}
                         element={
                             <AuthorizedPage>
                                 <CreateLoanPage />
@@ -53,14 +53,14 @@ export function App() {
                         }
                     />
                     <Route
-                        path={routes.clientDetails}
+                        path={urls.clientDetails}
                         element={
                             <AuthorizedPage>
                                 <ClientStats />
                             </AuthorizedPage>
                         }
                     />
-                    <Route path={routes.login} element={<LoginPage />} />
+                    <Route path={urls.login} element={<LoginPage />} />
                 </Routes>
             </BrowserRouter>
         </>

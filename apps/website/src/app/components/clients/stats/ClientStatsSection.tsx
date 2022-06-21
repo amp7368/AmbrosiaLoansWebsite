@@ -14,7 +14,7 @@ export interface ClientStatsSectionProps {
 }
 function ClientStatsSectionBase(props: ClientStatsSectionProps) {
     const actionElements = props.actions.map((action) => (
-        <Button variant="contained" onClick={action.onClick}>
+        <Button variant="contained" onClick={action.onClick} key={action.title}>
             {action.title}
         </Button>
     ));

@@ -1,52 +1,47 @@
-import { ClientCreateRequest, LoginRequest } from '@api/io-model';
-import { ObservableTernary, ObserveableToElement } from '@appleptr16/elemental';
-import {
-    Button,
-    Container,
-    Divider,
-    FormControl,
-    Input,
-    Stack,
-    Typography,
-} from '@mui/material';
+import { LoginRequest } from '@api/io-model';
+import { ObservableTernary } from '@appleptr16/elemental';
+import { Button, Divider, Input, Stack } from '@mui/material';
 import { Box } from '@mui/system';
 import { ReactNode, useState } from 'react';
-import {
-    SubmitHandler,
-    useForm,
-    UseFormHandleSubmit,
-    UseFormReturn,
-} from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { Navigate } from 'react-router-dom';
+
 import { selfUserQuery } from '../../akita/self-user/SelfUser.query';
-import { routes } from '../../util/routes';
+import { urls } from '../../util/routes';
 import { AppTypography } from '../common/AppTypography';
+import { AppButton } from '../common/button/AppButton';
+import { AppInput } from '../common/form/AppInput';
 import { useAppForm, UseAppFormReturn } from '../common/form/useAppForm';
+import { Page } from '../common/Page';
 
 export function LoginForm() {
-    const { handleSubmit, setValue, fields }: UseAppFormReturn<LoginRequest> =
-        useAppForm<LoginRequest>(['username', 'password']);
+    const { handleSubmit, setValue, register } = useForm<LoginRequest>();
     const [errorElement, setErrorElement] = useState<ReactNode>();
     const onSubmit: SubmitHandler<LoginRequest> = async (data, event) => {
         event?.preventDefault();
         const response = await selfUserQuery.login(data);
         if (!response.isOk) setErrorElement([response.message]);
-        else setErrorElement(<Navigate to={routes.client} />);
+        else setErrorElement(<Navigate to={urls.client} />);
     };
     const fillFields = () => {
         setValue('username', 'appleptr16');
         setValue('password', 'appleptr16');
+        console.log('lol');
     };
     const fieldElements = [
-        <fields.username.text />,
-        <fields.password.text type="password" />,
-        <Button variant="contained" type="submit">
+        <AppInput {...register('username')} placeholder="Username" />,
+        <AppInput
+            {...register('password')}
+            type="password"
+            placeholder="Password"
+        />,
+        <AppButton variant="contained" type="submit">
             Submit
-        </Button>,
+        </AppButton>,
         <AppTypography>{errorElement}</AppTypography>,
-        <Button variant="contained" onClick={fillFields}>
+        <AppButton variant="contained" onClick={fillFields}>
             Fill
-        </Button>,
+        </AppButton>,
     ];
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -60,12 +55,14 @@ export function LoginForm() {
 }
 export function LoginPage() {
     return (
-        <>
-            <ObservableTernary
-                observable={selfUserQuery.isLoggedIn$}
-                onTrue={() => <Navigate to={routes.client} />}
-                onFalse={() => <LoginForm />}
-            />
-        </>
+        <ObservableTernary
+            observable={selfUserQuery.isLoggedIn$}
+            onTrue={() => <Navigate to={urls.client} />}
+            onFalse={() => (
+                <Page title="Login">
+                    <LoginForm />
+                </Page>
+            )}
+        />
     );
 }

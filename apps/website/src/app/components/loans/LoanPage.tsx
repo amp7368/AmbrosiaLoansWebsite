@@ -5,8 +5,9 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { map } from 'rxjs';
 
 import { loanQuery } from '../../akita/loan/Loan.query';
-import { routes } from '../../util/routes';
-import { EmeraldDisplay, EmeraldDisplayHeader } from '../common/EmeraldDisplay';
+import { urls } from '../../util/routes';
+import { EmeraldDisplay } from '../common/emerald/EmeraldDisplay';
+import { EmeraldDisplayHeader } from '../common/emerald/EmeraldDisplayHeader';
 import { Page } from '../common/Page';
 
 const columns: GridColDef[] = [
@@ -17,7 +18,7 @@ const columns: GridColDef[] = [
         type: 'number',
         width: 200,
         renderCell: (ems) => {
-            return <EmeraldDisplay emeralds={ems.value} />;
+            return <EmeraldDisplay length="short" emeralds={ems.value} />;
         },
         renderHeader: EmeraldDisplayHeader,
     },
@@ -53,7 +54,7 @@ export function LoansPage() {
                         <Button
                             variant="outlined"
                             color="secondary"
-                            href={routes.createLoan}
+                            href={urls.createLoan}
                         >
                             +
                         </Button>

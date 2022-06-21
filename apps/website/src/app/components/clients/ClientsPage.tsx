@@ -5,7 +5,7 @@ import { DataGrid, GridColDef, GridRowParams } from '@mui/x-data-grid';
 import { map } from 'rxjs';
 
 import { clientQuery } from '../../akita/client/Client.query';
-import { routes } from '../../util/routes';
+import { nav, navTo, urls } from '../../util/routes';
 import { Page } from '../common/Page';
 
 const columns: GridColDef[] = [
@@ -29,7 +29,7 @@ export function ClientsPage() {
                     fullWidth
                     variant="contained"
                     color="primary"
-                    href={routes.createClient}
+                    href={urls.createClient}
                 >
                     Create
                 </Button>
@@ -38,9 +38,7 @@ export function ClientsPage() {
             <Stack direction="column" bgcolor={alpha(colors.common.black, 0.4)}>
                 <DataGrid
                     onRowClick={(row: GridRowParams<ClientSimple>) => {
-                        window.location.href = routes.getClientDetails(
-                            row.row.uuid
-                        );
+                        navTo(nav.client.clientToURL(row.row.uuid));
                     }}
                     rowSpacingType="margin"
                     autoHeight

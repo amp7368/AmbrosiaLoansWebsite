@@ -5,7 +5,7 @@ import { Stack } from '@mui/material';
 
 import { clientQuery } from '../../../akita/client/Client.query';
 import { loanQuery } from '../../../akita/loan/Loan.query';
-import { routes } from '../../../util/routes';
+import { nav, urls } from '../../../util/routes';
 import { AppTypography } from '../../common/AppTypography';
 import { Page } from '../../common/Page';
 import { ClientStatsActions } from './ClientStatsActions';
@@ -14,7 +14,7 @@ import { ClientStatsLoans } from './ClientStatsLoans';
 import { ClientStatsUserInfo } from './ClientStatsUserInfo';
 
 export function ClientStats() {
-    const clientUUID = routes.fromClientDetails(window.location.pathname);
+    const clientUUID = nav.client.fromURL();
     const client: Optional<ClientSimple> = useObservableMemo(
         () => clientQuery.selectEntity(clientUUID),
         [clientUUID],
@@ -41,7 +41,7 @@ export function ClientStats() {
                     justifyContent="stretch"
                     alignItems="stretch"
                 >
-                    <ClientStatsLoans loans={loans} />
+                    <ClientStatsLoans client={client} loans={loans} />
                     <ClientStatsInvest investments={[]} />
                 </Stack>
             </Stack>
