@@ -7,11 +7,13 @@ export interface AmbrosiaException {
     isOk: false;
     extra?: unknown;
 }
-export interface AmbrosiaResponseOK {
+export type AmbrosiaResponseOK<T = unknown> = {
     status: StatusCodes.OK;
     isOk: true;
-}
-export type AmbrosiaResponse = AmbrosiaException | AmbrosiaResponseOK;
+} & T;
+export type AmbrosiaResponse<OnOk = unknown> =
+    | AmbrosiaException
+    | (AmbrosiaResponseOK & OnOk);
 export const okResponse: AmbrosiaResponseOK = {
     status: StatusCodes.OK,
     isOk: true,

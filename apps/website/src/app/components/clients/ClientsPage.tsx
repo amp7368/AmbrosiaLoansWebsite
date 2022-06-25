@@ -1,10 +1,8 @@
 import { ClientSimple } from '@api/io-model';
-import { useObservableList } from '@appleptr16/elemental';
 import { alpha, Button, colors, Container, Stack } from '@mui/material';
 import { DataGrid, GridColDef, GridRowParams } from '@mui/x-data-grid';
-import { map } from 'rxjs';
 
-import { clientQuery } from '../../akita/client/Client.query';
+import { useClients } from '../../elf/client/Client.repository';
 import { nav, navTo, urls } from '../../util/routes';
 import { Page } from '../common/Page';
 
@@ -15,13 +13,7 @@ const columns: GridColDef[] = [
 ];
 
 export function ClientsPage() {
-    const clientsRaw = clientQuery.clients
-        .select()
-        .pipe(map((state) => state.newState ?? []));
-
-    const clients = useObservableList(clientsRaw, (a, b) =>
-        a.displayName.localeCompare(b.displayName)
-    );
+    const clients = useClients();
     return (
         <Page title="Clients">
             <Container sx={{ width: '50%' }}>

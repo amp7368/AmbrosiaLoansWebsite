@@ -1,17 +1,20 @@
-import { LoginRequest } from '@api/io-model';
+import { LoginRequest, LoginResponse } from '@api/io-model';
 import { ObservableTernary } from '@appleptr16/elemental';
-import { Button, Divider, Input, Stack } from '@mui/material';
+import { Login } from '@mui/icons-material';
+import { Divider, Stack } from '@mui/material';
 import { Box } from '@mui/system';
 import { ReactNode, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Navigate } from 'react-router-dom';
+import {
+    selfUserLogin,
+    useIsLoggedIn,
+} from '../../elf/self-user/SelfUser.repository';
 
-import { selfUserQuery } from '../../akita/self-user/SelfUser.query';
-import { urls } from '../../util/routes';
+import { navTo, urls } from '../../util/routes';
 import { AppTypography } from '../common/AppTypography';
 import { AppButton } from '../common/button/AppButton';
 import { AppInput } from '../common/form/AppInput';
-import { useAppForm, UseAppFormReturn } from '../common/form/useAppForm';
 import { Page } from '../common/Page';
 
 export function LoginForm() {
@@ -19,14 +22,13 @@ export function LoginForm() {
     const [errorElement, setErrorElement] = useState<ReactNode>();
     const onSubmit: SubmitHandler<LoginRequest> = async (data, event) => {
         event?.preventDefault();
-        const response = await selfUserQuery.login(data);
+        const response: LoginResponse = await selfUserLogin(data);
         if (!response.isOk) setErrorElement([response.message]);
         else setErrorElement(<Navigate to={urls.client} />);
     };
     const fillFields = () => {
         setValue('username', 'appleptr16');
         setValue('password', 'appleptr16');
-        console.log('lol');
     };
     const fieldElements = [
         <AppInput {...register('username')} placeholder="Username" />,
@@ -54,15 +56,11 @@ export function LoginForm() {
     );
 }
 export function LoginPage() {
+    const isLoggedIn = useIsLoggedIn();
+    if (isLoggedIn) navTo(urls.client);
     return (
-        <ObservableTernary
-            observable={selfUserQuery.isLoggedIn$}
-            onTrue={() => <Navigate to={urls.client} />}
-            onFalse={() => (
-                <Page title="Login">
-                    <LoginForm />
-                </Page>
-            )}
-        />
+        <Page title="Login">
+            <LoginForm />
+        </Page>
     );
 }

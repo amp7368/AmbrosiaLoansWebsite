@@ -1,11 +1,12 @@
 import { ClientSimple, LoanSimple } from '@api/io-model';
 import { Optional } from '@appleptr16/utilities';
 import { Box } from '@mui/material';
-import { selfUserQuery } from '../../../akita/self-user/SelfUser.query';
-import { selfUserStore } from '../../../akita/self-user/SelfUser.store';
-import { urls } from '../../../util/routes';
+import { ReactNode } from 'react';
+import { setUI } from '../../../elf/ui/UI.repository';
+import { navTo, urls } from '../../../util/routes';
 
 import { AppTypography } from '../../common/AppTypography';
+import { CreateLoanPageUI } from '../../loans/CreateLoanPage';
 import { ClientStatsSection } from './ClientStatsSection';
 
 const loadingElement = <AppTypography variant="h3">Loading!</AppTypography>;
@@ -17,7 +18,7 @@ export interface ClientStatsLoansProps {
     client: ClientSimple;
 }
 export function ClientStatsLoans({ loans, client }: ClientStatsLoansProps) {
-    const loansElement = loans ? loans.map(LoanRow) : loadingElement;
+    const loansElement: ReactNode = loans ? loans.map(LoanRow) : loadingElement;
     return (
         <ClientStatsSection
             title="Loan"
@@ -25,10 +26,8 @@ export function ClientStatsLoans({ loans, client }: ClientStatsLoansProps) {
                 {
                     title: 'Create',
                     onClick: () => {
-                        selfUserStore.setProp('currentClient', {
-                            uuid: client.uuid,
-                        });
-                        window.location.href = urls.createLoan;
+                        setUI(CreateLoanPageUI, 'client', client.uuid);
+                        navTo(urls.createLoan);
                     },
                 },
             ]}

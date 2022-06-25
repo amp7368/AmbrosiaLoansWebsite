@@ -1,10 +1,10 @@
 import { ClientCreateRequest } from '@api/io-model';
-import { Button, Divider, Stack,  } from '@mui/material';
+import { Button, Divider, Stack } from '@mui/material';
 import { Box } from '@mui/system';
 import { ReactNode, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
+import { createClient } from '../../elf/client/Client.repository';
 
-import { clientQuery } from '../../akita/client/Client.query';
 import { AppTypography } from '../common/AppTypography';
 import { useAppForm, UseAppFormReturn } from '../common/form/useAppForm';
 
@@ -21,7 +21,7 @@ export function CreateClientPage() {
         event
     ) => {
         event?.preventDefault();
-        const response = await clientQuery.createClient({ client });
+        const response = await createClient({ client });
         if (!response.isOk) {
             setErrorElement([response.message]);
         }

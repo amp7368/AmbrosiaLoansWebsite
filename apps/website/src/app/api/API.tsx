@@ -10,8 +10,11 @@ import {
     LoginResponse,
 } from '@api/io-model';
 import { StatusCodes } from 'http-status-codes';
+import {
+    getSessionToken,
+    selfUserStore,
+} from '../elf/self-user/SelfUser.repository';
 
-import { selfUserQuery } from '../akita/self-user/SelfUser.query';
 import settings from '../settings.json';
 import { RequestBuilder, RequestMethod } from './RequestBuilder';
 
@@ -26,7 +29,7 @@ export module API {
         return request(url).setMethod(RequestMethod.Post);
     }
     export function authorize(request: RequestBuilder): RequestBuilder {
-        const token = selfUserQuery.getValue().session?.sessionToken;
+        const token = getSessionToken();
         if (!token)
             return request.returnWith({
                 status: StatusCodes.NOT_ACCEPTABLE,

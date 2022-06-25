@@ -2,16 +2,16 @@ import { LoanCreateRequest } from '@api/io-model';
 import { Box, Button, Divider, Input, Stack } from '@mui/material';
 import { ReactNode, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useClient } from '../../elf/client/Client.repository';
+import { createLoan } from '../../elf/loan/Loan.repository';
 
-import { clientQuery } from '../../akita/client/Client.query';
-import { loanQuery } from '../../akita/loan/Loan.query';
 import { AppTypography } from '../common/AppTypography';
 import { AppInput } from '../common/form/AppInput';
 import { ClientSelector } from '../common/form/ClientSelector';
-import { CollateralSelector } from '../common/form/CollateralSelector';
+import { CollateralListInput } from '../common/form/CollateralListInput';
 
 export interface CreateLoanFormProps {
-    setClient: (client: string) => void;
+    uiId: string;
 }
 export function CreateLoanForm(props: CreateLoanFormProps) {
     const { handleSubmit, register } = useForm<LoanCreateRequest['loan']>();
@@ -21,20 +21,26 @@ export function CreateLoanForm(props: CreateLoanFormProps) {
         event
     ) => {
         event?.preventDefault();
-        loan.client =
-            clientQuery
-                .getAll()
-                .find((client) =>
-                    client.displayName.matchAll(new RegExp(loan.client, 'ig'))
-                )?.uuid ?? '';
-
-        const response = await loanQuery.createLoan({ loan });
+        loan.client = useClient(loan.client)?.uuid ?? '';
+        const response = await createLoan({ loan });
         if (!response.isOk) {
             setMsgElement([response.message]);
             return;
         }
     };
     const fieldElements = [
+        <ClientSelector
+            renderInput={(params) => (
+                <AppInput
+                    {...params}
+                    {...register('client', { required: true })}
+                    inputProps={{ ...params.inputProps }}
+                    placeholder="user"
+                    label="Client"
+                />
+            )}
+            uiId={props.uiId}
+        />,
         <AppInput
             {...register('amountLoaned', {
                 required: true,
@@ -44,23 +50,14 @@ export function CreateLoanForm(props: CreateLoanFormProps) {
             placeholder="33214"
         />,
         <AppInput
-            {...register('broker', { required: true })}
-            label="Broker"
-            placeholder="Tealycraft"
+            {...register('rate', {
+                required: true,
+                valueAsNumber: true,
+            })}
+            placeholder="Rate"
+            label="Rate"
         />,
-        <ClientSelector
-            renderInput={(params) => (
-                <AppInput
-                    {...params}
-                    {...register('client', { required: true })}
-                    inputProps={{ ...params.inputProps }}
-                    placeholder="Client"
-                />
-            )}
-            setClient={props.setClient}
-        />,
-        <CollateralSelector />,
-        <AppInput {...register('rate')} placeholder={'Rate'} />,
+        <CollateralListInput />,
     ];
     return (
         <form onSubmit={handleSubmit(onSubmit)}>

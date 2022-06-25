@@ -1,10 +1,8 @@
 import { LoanSimple } from '@api/io-model';
-import { useObservableList } from '@appleptr16/elemental';
 import { alpha, Button, colors, Container, Stack } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { map } from 'rxjs';
 
-import { loanQuery } from '../../akita/loan/Loan.query';
+import { useLoans } from '../../elf/loan/Loan.repository';
 import { urls } from '../../util/routes';
 import { EmeraldDisplay } from '../common/emerald/EmeraldDisplay';
 import { EmeraldDisplayHeader } from '../common/emerald/EmeraldDisplayHeader';
@@ -31,11 +29,7 @@ const columns: GridColDef[] = [
 ];
 
 export function LoansPage() {
-    const Loans = loanQuery.loans
-        .select()
-        .pipe(map((state) => state.newState ?? []));
-
-    const loans = useObservableList(Loans);
+    const loans = useLoans();
     return (
         <>
             <Page title="Loans">

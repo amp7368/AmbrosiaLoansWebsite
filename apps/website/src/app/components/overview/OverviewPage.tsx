@@ -1,9 +1,8 @@
 import { Button } from '@mui/material';
-import { clearAppStorage } from 'apps/website/src/appStorage';
 
 export function OverviewPage() {
     return (
-        <Button variant="contained" onClick={clearAppStorage}>
+        <Button variant="contained" onClick={() => console.log('TODO')}>
             Clear Stores
         </Button>
     );

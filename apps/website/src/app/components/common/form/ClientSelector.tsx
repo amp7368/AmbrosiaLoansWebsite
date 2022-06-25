@@ -1,28 +1,26 @@
+import { ClientSimple } from '@api/io-model';
 import { useObservableMemo } from '@appleptr16/elemental';
 import { Autocomplete, Box, Container, Input } from '@mui/material';
 import { ReactNode } from 'react';
-import { clientQuery } from '../../../akita/client/Client.query';
+import { useClients } from '../../../elf/client/Client.repository';
+import { setUI } from '../../../elf/ui/UI.repository';
 
 export function ClientSelector(props: {
     renderInput: (params: any) => ReactNode;
-    setClient: (client: string) => void;
+    uiId: string;
 }) {
-    const options = useObservableMemo(
-        () => clientQuery.clients.select(),
-        [clientQuery.clients],
-        clientQuery.clients.getValue()
-    );
+    const options: ClientSimple[] = useClients();
     return (
         <Autocomplete
-            options={options.newState ?? []}
-            getOptionLabel={(option) => option.displayName}
+            options={options}
+            getOptionLabel={(option: ClientSimple) => option.displayName}
             renderInput={props.renderInput}
             renderOption={(props, option) => (
                 <Container key={option.uuid}>
                     <li {...props}>{option.displayName}</li>
                 </Container>
             )}
-            onChange={(event, val) => props.setClient(val?.displayName ?? '')}
+            onChange={(e, val) => setUI(props.uiId, 'client', val?.uuid)}
         />
     );
 }

@@ -2,9 +2,9 @@ import { ClientSimple, LoanSimple } from '@api/io-model';
 import { useObservableMemo } from '@appleptr16/elemental';
 import { Optional } from '@appleptr16/utilities';
 import { Stack } from '@mui/material';
+import { useClient } from '../../../elf/client/Client.repository';
+import { useClientLoans } from '../../../elf/loan/Loan.repository';
 
-import { clientQuery } from '../../../akita/client/Client.query';
-import { loanQuery } from '../../../akita/loan/Loan.query';
 import { nav, urls } from '../../../util/routes';
 import { AppTypography } from '../../common/AppTypography';
 import { Page } from '../../common/Page';
@@ -15,16 +15,8 @@ import { ClientStatsUserInfo } from './ClientStatsUserInfo';
 
 export function ClientStats() {
     const clientUUID = nav.client.fromURL();
-    const client: Optional<ClientSimple> = useObservableMemo(
-        () => clientQuery.selectEntity(clientUUID),
-        [clientUUID],
-        undefined
-    );
-    const loans: Optional<LoanSimple[]> = useObservableMemo(
-        () => loanQuery.selectMany(client?.loans ?? []),
-        [client?.loans],
-        undefined
-    );
+    const client = useClient(clientUUID);
+    const loans = useClientLoans(client);
     // const investments: Optional<LoanSimple[]> = useObservableMemo(
     //     () => investmentQuery.selectMany(client.investments),
     //     [client.investments],

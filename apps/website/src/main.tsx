@@ -1,6 +1,4 @@
 import 'reflect-metadata';
-import './app/akita/client/Client.query';
-import './app/akita/loan/Loan.query';
 
 import { ThemeProvider } from '@emotion/react';
 import { CssBaseline } from '@mui/material';
@@ -9,9 +7,8 @@ import { render } from 'react-dom';
 
 import { App } from './app/App';
 import { defaultTheme } from './app/util/appTheme';
-import { initAkita } from './appStorage';
+import { enableElfProdMode } from '@ngneat/elf';
 
-initAkita();
 render(
     <StrictMode>
         <ThemeProvider theme={defaultTheme}>
@@ -21,3 +18,6 @@ render(
     </StrictMode>,
     document.getElementById('root')
 );
+if (false) {
+    enableElfProdMode();
+}
