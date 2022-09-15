@@ -4,7 +4,7 @@ import { Button, Stack } from '@mui/material';
 import { Variant } from '@mui/material/styles/createTypography';
 import { setUI } from '../../elf/ui/UI.repository';
 import { navTo, urls } from '../../util/routes';
-import { AppTypography } from '../common/AppTypography';
+import { AppTypography } from '../../components/AppTypography';
 import { createLoanPageUiId } from '../loans/CreateLoanPage';
 
 interface ClientActionProps {

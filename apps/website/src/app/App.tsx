@@ -1,13 +1,13 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import { ClientsPage } from './components/client-list/ClientsPage';
-import { LoginPage } from './components/login/LoginPage';
-import { OverviewPage } from './components/overview/OverviewPage';
+import { ClientsPage } from './pages/client-list/ClientsPage';
+import { LoginPage } from './pages/login/LoginPage';
+import { OverviewPage } from './pages/overview/OverviewPage';
 import { urls } from './util/routes';
-import { CreateClientPage } from './components/client-list/CreateClientPage';
-import { LoansPage } from './components/loans/LoanPage';
-import { CreateLoanPage } from './components/loans/CreateLoanPage';
-import { ClientStatsPage } from './components/client/ClientStatsPage';
+import { CreateClientPage } from './pages/client-list/CreateClientPage';
+import { LoansPage } from './pages/loans/LoanPage';
+import { CreateLoanPage } from './pages/loans/CreateLoanPage';
+import { ClientStatsPage } from './pages/client/ClientStatsPage';
 
 export function App() {
     return (

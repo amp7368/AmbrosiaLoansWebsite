@@ -10,8 +10,8 @@ import {
     Input,
 } from '@mui/material';
 import { ReactNode } from 'react';
-import { useClients } from '../../../elf/client/Client.repository';
-import { setUI } from '../../../elf/ui/UI.repository';
+import { useClients } from '../../elf/client/Client.repository';
+import { setUI } from '../../elf/ui/UI.repository';
 
 export function ClientSelector(props: {
     renderInput: (params: AutocompleteRenderInputParams) => ReactNode;

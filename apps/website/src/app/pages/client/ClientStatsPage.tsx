@@ -8,11 +8,11 @@ import { useClientInvestments } from '../../elf/investment/Investment.repository
 import { useClientLoans } from '../../elf/loan/Loan.repository';
 import { setUI } from '../../elf/ui/UI.repository';
 import { nav, navTo, urls } from '../../util/routes';
-import { AppPaper } from '../common/AppPaper';
-import { AppTypography } from '../common/AppTypography';
-import { AppButton } from '../common/button/AppButton';
-import { EmeraldDisplay } from '../common/emerald/EmeraldDisplay';
-import { Page } from '../common/Page';
+import { AppPaper } from '../../components/AppPaper';
+import { AppTypography } from '../../components/AppTypography';
+import { AppButton } from '../../components/button/AppButton';
+import { EmeraldDisplay } from '../../components/emerald/EmeraldDisplay';
+import { Page } from '../../components/Page';
 import { createLoanPageUiId } from '../loans/CreateLoanPage';
 import { ClientStatsActions } from './ClientStatsActions';
 import { ClientStatsSection } from './ClientStatsSection';

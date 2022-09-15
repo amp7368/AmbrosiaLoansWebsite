@@ -1,7 +1,7 @@
 import { Button, Stack } from '@mui/material';
 
 import { resetStores } from '../../elf/Elf';
-import { Page } from '../common/Page';
+import { Page } from '../../components/Page';
 
 export function OverviewPage() {
     return (

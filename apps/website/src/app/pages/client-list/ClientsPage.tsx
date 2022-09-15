@@ -5,12 +5,15 @@ import { DataGrid, GridColDef, GridRowParams } from '@mui/x-data-grid';
 
 import { useClients } from '../../elf/client/Client.repository';
 import { nav, navTo, urls } from '../../util/routes';
-import { AppTypography } from '../common/AppTypography';
-import { AddButton } from '../common/button/AddButton';
-import { AppDataGrid, AppDataGridProps } from '../common/grid/AppDataGrid';
-import { gridDef } from '../common/grid/GridDef';
-import { Page } from '../common/Page';
-import { PageDataDisplay } from '../common/PageDataDisplay ';
+import { AppTypography } from '../../components/AppTypography';
+import { AddButton } from '../../components/button/AddButton';
+import {
+    AppDataGrid,
+    AppDataGridProps,
+} from '../../components/grid/AppDataGrid';
+import { gridDef } from '../../components/grid/GridDef';
+import { Page } from '../../components/Page';
+import { PageDataDisplay } from '../../components/PageDataDisplay ';
 
 const columns: GridColDef[] = gridDef([
     { field: 'displayName', headerName: 'Name' },

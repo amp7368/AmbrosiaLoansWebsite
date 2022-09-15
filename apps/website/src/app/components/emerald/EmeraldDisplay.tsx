@@ -2,7 +2,7 @@ import { Stack } from '@mui/material';
 import { display } from '@mui/system';
 import { ReactNode } from 'react';
 
-import { ECurrency } from '../../../util/Emerald';
+import { ECurrency } from '../../util/Emerald';
 import { EmeraldUnit, EmeraldUnitType } from './EmeraldUnit';
 
 export interface EmeraldDisplayProps {

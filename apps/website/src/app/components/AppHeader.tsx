@@ -1,6 +1,6 @@
 import { AppBar, Button, Divider, Stack } from '@mui/material';
 
-import { urls } from '../../util/routes';
+import { urls } from '../util/routes';
 import { AppTypography } from './AppTypography';
 import { Logo } from './Logo';
 
@@ -48,7 +48,6 @@ export function AppHeader() {
                     }
                 >
                     <Logo />
-                    <AppLink route={urls.home} title="Overview" />
                     <AppLink route={urls.loan} title="Loan" />
                     <AppLink route={urls.client} title="Client" />
                     <AppLink route={urls.login} title="Login" />

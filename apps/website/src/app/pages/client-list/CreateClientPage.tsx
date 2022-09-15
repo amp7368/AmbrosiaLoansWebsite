@@ -6,11 +6,11 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { createClient } from '../../elf/client/Client.repository';
 import { navTo, urls } from '../../util/routes';
 
-import { AppTypography } from '../common/AppTypography';
-import { AppButton } from '../common/button/AppButton';
-import { AppForm } from '../common/form/AppForm';
-import { AppInput } from '../common/form/AppInput';
-import { Page } from '../common/Page';
+import { AppTypography } from '../../components/AppTypography';
+import { AppButton } from '../../components/button/AppButton';
+import { AppForm } from '../../components/form/AppForm';
+import { AppInput } from '../../components/form/AppInput';
+import { Page } from '../../components/Page';
 
 export function CreateClientPage() {
     const { handleSubmit, register } = useForm<ClientCreateRequest['client']>();

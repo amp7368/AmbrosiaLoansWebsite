@@ -1,7 +1,7 @@
 import { Card, Grid, ImageList, Stack } from '@mui/material';
 import { ReactFragment, ReactNode } from 'react';
 
-import { AppTypography } from '../common/AppTypography';
+import { AppTypography } from '../../components/AppTypography';
 
 export interface ClientStatsActionProps {
     title: string;

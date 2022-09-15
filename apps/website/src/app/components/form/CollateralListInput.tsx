@@ -3,12 +3,12 @@ import { title } from 'process';
 import { useState } from 'react';
 import { UseFormRegister, UseFormRegisterReturn } from 'react-hook-form';
 
-import { LoanBuildRequest } from '../../../elf/loan/Loan.repository';
+import { LoanBuildRequest } from '../../elf/loan/Loan.repository';
 import {
     addCollateralUI,
     removeCollateralUI,
     useCollateralUI,
-} from '../../../elf/ui/CollateralUI';
+} from '../../elf/ui/CollateralUI';
 import { AppButton } from '../button/AppButton';
 import { AppInput } from './AppInput';
 

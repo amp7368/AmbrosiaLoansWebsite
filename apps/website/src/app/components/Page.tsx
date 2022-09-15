@@ -2,8 +2,8 @@ import { PropsJustChildren } from '@appleptr16/elemental';
 import { Box, Stack } from '@mui/material';
 import { ReactNode } from 'react';
 
-import { useIsLoggedIn } from '../../elf/self-user/SelfUser.repository';
-import { navTo, urls } from '../../util/routes';
+import { useIsLoggedIn } from '../elf/self-user/SelfUser.repository';
+import { navTo, urls } from '../util/routes';
 import { AppTypography } from './AppTypography';
 import { AppForm } from './form/AppForm';
 

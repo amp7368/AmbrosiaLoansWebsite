@@ -2,8 +2,8 @@ import { ClientSimple } from '@api/io-model';
 import { Box, Container, Divider, Stack } from '@mui/material';
 import { ReactNode } from 'react';
 
-import { AppPaper } from '../common/AppPaper';
-import { AppTypography } from '../common/AppTypography';
+import { AppPaper } from '../../components/AppPaper';
+import { AppTypography } from '../../components/AppTypography';
 
 interface StatProps {
     title: string;

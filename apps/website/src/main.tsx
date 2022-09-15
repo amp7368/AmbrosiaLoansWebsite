@@ -8,7 +8,7 @@ import { render } from 'react-dom';
 import { App } from './app/App';
 import { defaultTheme } from './app/util/appTheme';
 import { enableElfProdMode } from '@ngneat/elf';
-import { AppHeader } from './app/components/common/AppHeader';
+import { AppHeader } from './app/components/AppHeader';
 
 render(
     <StrictMode>
