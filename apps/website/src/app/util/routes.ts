@@ -1,15 +1,20 @@
 export const urls = {
     home: '/',
-    createClient: '/client/create',
-    client: '/client',
     login: '/login',
+    client: '/client',
+    clientDetails: '/client/details/:clientId',
+    createClient: '/client/create',
     loan: '/loan',
+    loanDetails: '/loan/details/:loan',
     createLoan: '/loan/create',
-    clientDetails: '/client/stats/:clientId',
 };
 export const nav = {
     client: {
-        clientToURL: (client: string) => `/client/stats/${client}`,
+        clientToURL: (client: string) => `/client/details/${client}`,
+        fromURL: () => window.location.pathname.split('/')[3],
+    },
+    loan: {
+        loanToURL: (loan: string) => `/loan/details/${loan}`,
         fromURL: () => window.location.pathname.split('/')[3],
     },
 };

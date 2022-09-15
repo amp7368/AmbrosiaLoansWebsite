@@ -12,17 +12,19 @@ const OpacenessMap: Record<Opaceness, number> = {
 export function AppPaper(props: PaperProps & { opacity?: Opaceness | number }) {
     let opacity: number;
     if (typeof props.opacity === 'number') opacity = props.opacity;
-    else opacity = OpacenessMap[props.opacity ?? 'low'];
+    else opacity = OpacenessMap[props.opacity ?? 'normal'];
     return (
         <Paper
             {...props}
             sx={{
-                ...props.sx,
-                bgcolor: (theme: Theme) =>
-                    alpha(theme.palette.background.paper, opacity),
-
+                bgcolor: (theme) => theme.palette.grey[500],
+                border: 'solid',
+                borderColor: (theme) => theme.palette.secondary.main,
+                borderWidth: 2,
+                padding: 2,
                 boxShadow: (theme: Theme) =>
-                    `0 0 12px 4px ${alpha(theme.palette.primary.main, 0.2)}`,
+                    `0 0 12px 4px ${alpha(theme.palette.secondary.main, 0.2)}`,
+                ...props.sx,
             }}
         />
     );

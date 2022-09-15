@@ -1,9 +1,16 @@
-import { Button } from '@mui/material';
+import { Button, Stack } from '@mui/material';
+
+import { resetStores } from '../../elf/Elf';
+import { Page } from '../common/Page';
 
 export function OverviewPage() {
     return (
-        <Button variant="contained" onClick={() => console.log('TODO')}>
-            Clear Stores
-        </Button>
+        <Page title="Overview" isPublic>
+            <Stack direction="column">
+                <Button variant="contained" onClick={() => resetStores()}>
+                    Clear Stores
+                </Button>
+            </Stack>
+        </Page>
     );
 }

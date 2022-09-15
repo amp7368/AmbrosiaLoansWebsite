@@ -16,7 +16,7 @@ import { InvestEvent, InvestEventSimple, InvestEventType } from './InvestEvent';
 export type CreateInvestEvent = Omit<InvestEventSimple, 'uuid' | 'date'>;
 export class CreateInvestEventRuntime implements CreateInvestEvent {
     @IsUUID('4')
-    collateral: string[];
+    collateral: string;
     @IsEnum(InvestEventType)
     eventType: string;
     @IsNumber()

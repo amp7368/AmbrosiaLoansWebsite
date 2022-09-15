@@ -1,43 +1,70 @@
-import { Collateral } from '@api/io-model';
 import { Stack } from '@mui/material';
+import { title } from 'process';
 import { useState } from 'react';
+import { UseFormRegister, UseFormRegisterReturn } from 'react-hook-form';
 
+import { LoanBuildRequest } from '../../../elf/loan/Loan.repository';
+import {
+    addCollateralUI,
+    removeCollateralUI,
+    useCollateralUI,
+} from '../../../elf/ui/CollateralUI';
 import { AppButton } from '../button/AppButton';
 import { AppInput } from './AppInput';
 
 interface CollateralInputProps {
     remove: () => void;
-    key: number;
-    img?: Buffer;
-    comments: string;
+    comments: UseFormRegisterReturn;
+    image: UseFormRegisterReturn;
 }
-interface CollateralInputState {
-    img?: Buffer;
-    comments: string;
-}
+
 function CollateralInput(props: CollateralInputProps) {
     return (
-        <Stack direction="row">
-            <AppInput />
-            <AppButton>Remove</AppButton>
+        <Stack direction="row" spacing={2} alignItems="center">
+            <AppInput
+                {...props.comments}
+                multiline
+                minRows={4}
+                sx={{ padding: 0.5 }}
+                title="Comments"
+            />
+            <Stack direction="column">
+                <input
+                    {...props.image}
+                    type="file"
+                    onChange={(e) => {
+                        e.persist();
+                        console.log('file', e.target.value); // you get all the files object here
+                    }}
+                />
+                <AppButton onClick={props.remove}>Remove</AppButton>
+            </Stack>
         </Stack>
     );
 }
-export function CollateralListInput() {
-    const [state, setState] = useState<CollateralInputState[]>([]);
+export interface CollateralListInputProps {
+    uiId: string;
+    register: UseFormRegister<LoanBuildRequest>;
+}
+export function CollateralListInput(props: CollateralListInputProps) {
+    const ui = useCollateralUI(props.uiId);
     return (
-        <Stack direction="column">
-            <Stack direction="column">
-                {state.map((props, i) => (
-                    <CollateralInput
-                        {...props}
-                        key={i}
-                        remove={() => setState([...state].splice(i, 1))}
-                    />
-                ))}
-            </Stack>
-            <AppButton onClick={() => setState([...state, { comments: '' }])}>
-                Add [+]
+        <Stack direction="column" spacing={2}>
+            {ui.collateral.map((subProps, i) => (
+                <CollateralInput
+                    {...subProps}
+                    key={i}
+                    remove={() => removeCollateralUI(props.uiId, i)}
+                    comments={props.register(
+                        `collateral.${i}.comments` as 'collateral.0.comments'
+                    )}
+                    image={props.register(
+                        `collateral.${i}.image` as 'collateral.0.image'
+                    )}
+                />
+            ))}
+            <AppButton onClick={() => addCollateralUI(props.uiId)}>
+                Add Collateral [+]
             </AppButton>
         </Stack>
     );

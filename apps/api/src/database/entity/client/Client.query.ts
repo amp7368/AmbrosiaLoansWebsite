@@ -2,6 +2,7 @@ import { Client, ClientSimple, Investment } from '@api/io-model';
 import { getManager } from 'typeorm';
 
 import { AmbrosiaQuery } from '../../AmbrosiaQuery';
+import { EntityTables } from '../EntityTables';
 import { ClientEntity } from './Client.entity';
 
 export class ClientQuery extends AmbrosiaQuery<ClientEntity> {
@@ -20,4 +21,7 @@ export class ClientQuery extends AmbrosiaQuery<ClientEntity> {
     }
 }
 
-export const clientQuery = new ClientQuery(ClientEntity, 'client');
+export const clientQuery = new ClientQuery(ClientEntity, EntityTables.Client, [
+    'loans',
+    'investments',
+]);

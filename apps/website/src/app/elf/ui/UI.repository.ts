@@ -3,12 +3,14 @@ import { useObservableMemo } from '@appleptr16/elemental';
 import { Optional } from '@appleptr16/utilities';
 import { createStore } from '@ngneat/elf';
 import {
+    getEntity,
     selectEntity,
     UIEntitiesRef,
     updateEntities,
     withUIEntities,
 } from '@ngneat/elf-entities';
 import { useClient } from '../client/Client.repository';
+import { persist } from '../Elf';
 
 type UIEnv = {
     id: string;
@@ -21,6 +23,7 @@ export const uiStore = createStore(
         initialValue: [{ id: 'global', client: undefined }],
     })
 );
+persist(uiStore);
 export function setUI<Key extends EnvKey>(
     id: string,
     key: Key,
@@ -39,4 +42,7 @@ export function useUI<Key extends EnvKey>(id: string, key: Key): UIEnv[Key] {
 export function useUIClient(id: string): Optional<ClientSimple> {
     const uuid = useUI(id, 'client');
     return useClient(uuid);
+}
+export function getUIClient(id: string): Optional<string> {
+    return uiStore.query(getEntity(id, { ref: UIEntitiesRef }))?.client;
 }

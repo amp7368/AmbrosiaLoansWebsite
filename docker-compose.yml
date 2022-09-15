@@ -18,7 +18,7 @@ services:
         networks:
             - 'ambrosia-loans'
         volumes:
-            - ${MOUNT}/database:/${WORKINGDIR}/database
+            - ${MOUNT}/database:/var/lib/postgresql/data
         ports:
             - '5432:5432'
     api:

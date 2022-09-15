@@ -1,4 +1,4 @@
-import { Color } from '@mui/material';
+import { Color, useTheme } from '@mui/material';
 import { green } from '@mui/material/colors';
 import { ReactNode } from 'react';
 import { AppTypography } from '../AppTypography';
@@ -15,9 +15,7 @@ const units: Record<EmeraldUnitType, keyof Color> = {
     em: 100,
 };
 export function EmeraldUnit(props: EmeraldUnitProps) {
-    return (
-        <AppTypography color={green[units[props.units]]}>
-            {props.amount}
-        </AppTypography>
-    );
+    const color: string = green[units[props.units]];
+    // const t = useTheme().palette.getContrastText(color);
+    return <AppTypography color={color}>{props.amount}</AppTypography>;
 }

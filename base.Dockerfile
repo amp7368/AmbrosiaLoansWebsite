@@ -16,9 +16,8 @@ COPY ./libs ./libs
 COPY ./tsconfig* ./
 COPY ./babel* ./
 
-RUN npx nx affected:build --parallel --all
-# RUN npm prune --production
-
+RUN npx nx run-many --target=build --configuration=remote --all=true
+RUN npm prune --production
 
 FROM docker.appleptr16.com/util/secrets as secrets
 ARG WORKINGDIR

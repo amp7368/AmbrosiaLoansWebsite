@@ -1,17 +1,20 @@
 import { LoginRequest, LoginResponse, SessionBase } from '@api/io-model';
-import { useObservable } from '@appleptr16/elemental';
+import { useObservable, useObservableMemo } from '@appleptr16/elemental';
 import { Optional } from '@appleptr16/utilities';
-import { createStore, setProp, withProps } from '@ngneat/elf';
+import { createState, createStore, setProp, withProps } from '@ngneat/elf';
 import { localStorageStrategy, persistState } from '@ngneat/elf-persist-state';
+import { useCallback, useEffect, useState } from 'react';
+import { map } from 'rxjs';
 import { API } from '../../api/API';
 import { persist } from '../Elf';
 
+export type SelfUserBroker = { displayName: string };
 export type SelfUserState = {
     session: Optional<SessionBase>;
-    broker?: { displayName: string };
+    broker: Optional<SelfUserBroker>;
 };
 export const selfUserStore = createStore(
-    { name: 'loan' },
+    { name: 'selfUser' },
     withProps<SelfUserState>({
         session: undefined,
         broker: { displayName: 'Tealycraft' },
@@ -32,8 +35,28 @@ export async function selfUserLogin(
 export function getSessionToken() {
     return selfUserStore.getValue().session?.sessionToken;
 }
-export function useIsLoggedIn() {
-    const state = selfUserStore.getValue();
-    if (!state.session) return false;
-    return new Date() < new Date(state.session.expiration);
+export function useIsLoggedIn(): Optional<boolean> {
+    const session: null | Optional<SessionBase> = useObservableMemo(
+        () => selfUserStore.pipe(map((state) => state.session)),
+        [selfUserStore],
+        null
+    );
+    const [s, refresh] = useState(null);
+    useEffect(() => {
+        if (!session) return;
+        const expiration =
+            new Date(session.expiration).getTime() - new Date().getTime();
+        const timeout = setTimeout(() => refresh(null), expiration);
+        return () => clearTimeout(timeout);
+    });
+    if (session === undefined) return false;
+    if (session === null) return undefined;
+    return new Date(session.expiration) > new Date();
+}
+export function useBroker(): Optional<SelfUserBroker> {
+    return useObservableMemo(
+        () => selfUserStore.pipe(map((state) => state.broker)),
+        [selfUserStore],
+        undefined
+    );
 }

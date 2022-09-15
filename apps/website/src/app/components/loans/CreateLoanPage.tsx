@@ -16,6 +16,7 @@ interface ClientInfoProps {
 function ClientInfo(props: ClientInfoProps) {
     const client: Optional<ClientSimple> = useUIClient(props.uiId);
     const loans: Optional<LoanSimple[]> = useClientLoans(client);
+    console.log(client);
     let statsElement = null;
     if (client && loans) {
         statsElement = (
@@ -36,13 +37,13 @@ function ClientInfo(props: ClientInfoProps) {
         </Stack>
     );
 }
-export const CreateLoanPageUI = 'CreateLoanPage';
+export const createLoanPageUiId = 'CreateLoanPage';
 export function CreateLoanPage() {
     return (
-        <Page title="Withdrawl">
+        <Page title="Withdrawl" variant="form">
             <Stack direction="row" justifyContent="center" spacing={3}>
-                <CreateLoanForm uiId={CreateLoanPageUI} />
-                <ClientInfo uiId={CreateLoanPageUI} />
+                <CreateLoanForm uiId={createLoanPageUiId} />
+                <ClientInfo uiId={createLoanPageUiId} />
             </Stack>
         </Page>
     );

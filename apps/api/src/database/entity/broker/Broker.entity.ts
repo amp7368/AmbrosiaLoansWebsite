@@ -1,6 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { EntityTables } from '../EntityTables';
 
-@Entity('broker')
+@Entity(EntityTables.Broker)
 export class BrokerEntity {
     @PrimaryGeneratedColumn('uuid')
     uuid: string;

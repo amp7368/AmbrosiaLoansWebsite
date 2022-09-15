@@ -12,7 +12,11 @@ import {
     IsUUID,
     ValidateNested,
 } from 'class-validator';
-import { AmbrosiaException, AmbrosiaResponseOK } from '../BaseResponse';
+import {
+    AmbrosiaException,
+    AmbrosiaResponse,
+    AmbrosiaResponseOK,
+} from '../BaseResponse';
 import { Type } from 'class-transformer';
 import { LoanEvent } from '../loan-event/LoanEvent';
 import { Collateral } from '../collateral';
@@ -50,4 +54,4 @@ export class LoanCreateRequestRuntime implements LoanCreateRequest {
     loan: CreateLoanRuntime;
 }
 export type LoanCreateResponseOk = { loan: LoanSimple } & AmbrosiaResponseOK;
-export type LoanCreateResponse = LoanCreateResponseOk | AmbrosiaException;
+export type LoanCreateResponse = AmbrosiaResponse<LoanCreateResponseOk>;

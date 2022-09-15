@@ -7,7 +7,6 @@ import {
 } from '@api/io-model';
 import { Body, Controller, Get, Post } from '@nestjs/common';
 
-import { Role, Roles } from '../../auth/Role';
 import { ClientEntity } from '../../database/entity/client/Client.entity';
 import { clientQuery } from '../../database/entity/client/Client.query';
 import { ControllerBase } from '../base/ControllerBase';
@@ -25,8 +24,8 @@ export class ClientController extends ControllerBase {
     async createClient(
         @Body() request: ClientCreateRequestRuntime
     ): Promise<ClientCreateResponse> {
-        const entity = await clientQuery.create(request.client);
-        const client = clientQuery.toSimple(entity);
+        const entity: ClientEntity = await clientQuery.create(request.client);
+        const client: ClientSimple = clientQuery.toSimple(entity);
         return { client, ...okResponse };
     }
 }

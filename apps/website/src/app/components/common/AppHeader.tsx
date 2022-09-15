@@ -1,65 +1,59 @@
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import {
-    AppBar,
-    Button,
-    Divider,
-    Stack,
-    Typography,
-    useTheme,
-} from '@mui/material';
-import { urls } from '../../util/routes';
+import { AppBar, Button, Divider, Stack } from '@mui/material';
 
-function AppLink(props: { route: string; title: string }) {
+import { urls } from '../../util/routes';
+import { AppTypography } from './AppTypography';
+import { Logo } from './Logo';
+
+interface AppLinkProps {
+    route: string;
+    title: string;
+}
+function AppLink(props: AppLinkProps) {
+    const color =
+        location.pathname === props.route
+            ? 'secondary'
+            : 'primary.contrastText';
     return (
-        <Button color="secondary" variant="text" href={props.route}>
-            <Typography color="primary.contrastText" variant="h4">
+        <Button variant="text" color="secondary" href={props.route}>
+            <AppTypography color={color} variant="h4">
                 {props.title}
-            </Typography>
+            </AppTypography>
         </Button>
     );
 }
 
 export function AppHeader() {
+    const appBarColor = '#333333';
     return (
-        <AppBar
-            position="static"
-            enableColorOnDark={true}
-            sx={{ height: '4rem' }}
-        >
-            <Stack
-                height="100%"
-                direction="row"
-                alignItems="center"
-                justifyContent="space-around"
-                spacing={0}
+        <Stack marginBottom={3}>
+            <AppBar
+                position="static"
+                sx={{
+                    bgcolor: appBarColor,
+                    zIndex: (theme) => theme.zIndex.appBar,
+                }}
             >
-                <Button
-                    color="secondary"
-                    variant="text"
-                    disableElevation={true}
-                    href={urls.home}
-                >
-                    <AccountBalanceIcon color="secondary" fontSize="large" />
-                </Button>
                 <Stack
-                    width="50%"
-                    direction="row"
+                    height="4rem"
+                    justifyContent="flex-start"
+                    spacing={4}
                     alignItems="center"
-                    justifyContent="flex-end"
-                    spacing={3}
+                    direction="row"
                     divider={
                         <Divider
-                            variant="fullWidth"
-                            color="secondary"
+                            flexItem
                             orientation="vertical"
+                            variant="fullWidth"
                         />
                     }
                 >
+                    <Logo />
+                    <AppLink route={urls.home} title="Overview" />
                     <AppLink route={urls.loan} title="Loan" />
                     <AppLink route={urls.client} title="Client" />
                     <AppLink route={urls.login} title="Login" />
                 </Stack>
-            </Stack>
-        </AppBar>
+            </AppBar>
+        </Stack>
     );
 }

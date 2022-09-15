@@ -9,11 +9,12 @@ import {
 } from 'typeorm';
 
 import { ClientEntity } from '../client/Client.entity';
-import { emeraldType, loanRateType } from '../EntityTypes';
+import { EntityTables } from '../EntityTables';
+import { emeraldType, loanRateType } from '../EntityTables';
 import { LoanEventEntity } from '../loans/LoanEvent.entity';
 import { InvestEventEntity } from './InvestEvent.entity';
 
-@Entity('investment')
+@Entity(EntityTables.Investment)
 export class InvestmentEntity implements Investment {
     static create = new CreateClassFactory(InvestmentEntity).createFn();
     @PrimaryGeneratedColumn('uuid')
@@ -26,7 +27,7 @@ export class InvestmentEntity implements Investment {
     @Column(emeraldType)
     currentInvestment: number;
 
-    @OneToMany(() => LoanEventEntity, (event) => event.uuid)
+    @OneToMany(() => InvestEventEntity, (event) => event.investment)
     history: InvestEventEntity[];
 
     @Column(emeraldType)
