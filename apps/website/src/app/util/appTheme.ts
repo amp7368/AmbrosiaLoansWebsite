@@ -1,18 +1,29 @@
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 import { createTheme, ThemeOptions } from '@mui/material';
 
-export const defaultThemeOptions: ThemeOptions = {
+export const defaultThemeOptions: ThemeOptions & any = {
     palette: {
         mode: 'dark',
         primary: {
-            main: '#230058',
+            main: '#7154d9',
         },
         secondary: {
-            main: '#f50057',
+            main: '#649c3a',
         },
         background: {
-            default: '#131314',
-            paper: '#1b393b',
+            default: '#232323',
+            paper: '#623492',
         },
+        text: {
+            primary: '#cc174a',
+            secondary: '#ffffff',
+        },
+        divider: '#cc174a',
+
+        grey: { [500]: '#333333' },
     },
 };
 export const defaultTheme = createTheme(defaultThemeOptions);

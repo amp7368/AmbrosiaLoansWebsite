@@ -4,8 +4,8 @@ import { AmbrosiaException, AmbrosiaResponseOK } from '../BaseResponse';
 export interface Collateral {
     uuid: string;
     comments: string;
-    depositDate: Date;
     withdrawlDate: Date;
+    depositDate: Date;
 }
 export type CollateralSimple = Collateral;
 export type CollateralResponseOk = {

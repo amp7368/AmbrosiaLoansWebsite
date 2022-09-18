@@ -12,12 +12,13 @@ import {
     OneToOne,
     PrimaryGeneratedColumn,
 } from 'typeorm';
-import { CollateralEntity } from '../collateral/entity/Collateral.entity';
+import { CollateralEntity } from '../collateral/Collateral.entity';
+import { EntityTables } from '../EntityTables';
 
-import { emeraldType } from '../EntityTypes';
+import { emeraldType } from '../EntityTables';
 import { LoanEntity } from './Loan.entity';
 
-@Entity('loan_event')
+@Entity(EntityTables.LoanEvent)
 export class LoanEventEntity implements LoanEvent {
     static create = new CreateClassFactory(LoanEventEntity).createFn();
     // metadata
@@ -32,10 +33,7 @@ export class LoanEventEntity implements LoanEvent {
     @Column(emeraldType)
     emeraldChange: number;
 
-    //todo
-    @ManyToOne(() => CollateralEntity, (c) => c.uuid, {
-        nullable: true,
-    })
+    @ManyToOne(() => CollateralEntity, { nullable: true })
     collateral?: CollateralEntity;
 
     @ManyToOne(() => LoanEntity, (loan) => loan.history)

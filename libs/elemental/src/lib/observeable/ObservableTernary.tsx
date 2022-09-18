@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { Observable } from 'rxjs';
 import { ObserveableToElement } from './ObservableToElement';
+import { useObservable } from './useObservable';
 
 export interface ObservableTernaryProps {
     observable: Observable<boolean>;
@@ -9,7 +10,7 @@ export interface ObservableTernaryProps {
 }
 export function ObservableTernary(props: ObservableTernaryProps) {
     const mapFn = (flag: boolean) => (flag ? props.onTrue() : props.onFalse());
-    return (
-        <ObserveableToElement observable={props.observable} mappingFn={mapFn} />
-    );
+    const val = useObservable(props.observable, false);
+    if (val) return props.onTrue();
+    else return props.onFalse();
 }

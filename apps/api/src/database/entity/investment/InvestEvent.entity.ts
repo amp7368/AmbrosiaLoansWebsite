@@ -4,12 +4,15 @@ import {
     Column,
     Entity,
     JoinColumn,
+    ManyToOne,
     OneToMany,
     OneToOne,
     PrimaryGeneratedColumn,
 } from 'typeorm';
-import { CollateralEntity } from '../collateral/entity/Collateral.entity';
-import { emeraldType } from '../EntityTypes';
+import { CollateralEntity } from '../collateral/Collateral.entity';
+import { EntityTables } from '../EntityTables';
+import { emeraldType } from '../EntityTables';
+import { InvestmentEntity } from './Investment.entity';
 
 enum InvestEventType {
     Create,
@@ -17,7 +20,7 @@ enum InvestEventType {
     Deposit,
     ZeroOut,
 }
-@Entity('invest_event')
+@Entity(EntityTables.InvestEvent)
 export class InvestEventEntity implements InvestEvent {
     static create = new CreateClassFactory(InvestEvent).createFn();
     // metadata
@@ -35,4 +38,7 @@ export class InvestEventEntity implements InvestEvent {
     @JoinColumn()
     @OneToOne(() => CollateralEntity)
     collateral?: CollateralEntity;
+
+    @ManyToOne(() => InvestmentEntity, (invest) => invest.history)
+    investment: InvestmentEntity;
 }

@@ -5,6 +5,7 @@ import {
     okResponse,
 } from '@api/io-model';
 import { Optional } from '@appleptr16/utilities';
+import { HttpStatus } from '@nestjs/common';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { StatusCodes } from 'http-status-codes';
 
@@ -23,7 +24,6 @@ export class RequestBuilder {
     private body: unknown = {};
     private requestMethod: RequestMethod = RequestMethod.Get;
     private configData: AxiosRequestConfig = {};
-    private returnWithVal: Optional<AmbrosiaResponse> = undefined;
     constructor(baseUrl: string) {
         this.urlField.push(baseUrl);
     }
@@ -32,10 +32,6 @@ export class RequestBuilder {
         for (const additionUrl of additionalURL) {
             this.urlField.push(additionUrl);
         }
-        return this;
-    }
-    returnWith(returnWithVal: AmbrosiaResponse): this {
-        this.returnWithVal = returnWithVal;
         return this;
     }
     config<Key extends keyof AxiosRequestConfig>(
@@ -69,42 +65,46 @@ export class RequestBuilder {
         return this;
     }
     async build<T extends AmbrosiaResponse | AmbrosiaException>(): Promise<T> {
-        return axios(this.buildUrl())
-            .then((response: AxiosResponse<any, any>): AmbrosiaResponse => {
-                const status = response.status;
-                return {
-                    ...response.data,
-                    status,
-                    isOk: status === StatusCodes.OK,
-                };
-            })
-            .catch((error) => {
-                const response = error.response;
-                const status = response.status;
-                return {
-                    ...response.data,
-                    status,
-                    isOk: status === StatusCodes.OK,
-                };
-            });
+        return axios(this.buildConfig())
+            .then(convertResponse)
+            .catch(convertError);
+    }
+    async buildForm(form: FormData) {
+        return axios
+            .post(this.buildUrl(), form, this.configData)
+            .then(convertResponse)
+            .catch(convertError);
     }
 
-    private serializeQueryParams(param: RequestParam) {
-        return `${param.key}=${param.val}`;
-    }
-
-    private buildUrl(): AxiosRequestConfig {
-        let url: string = this.urlField.join('/');
-        const params: string = this.queryParams
-            .map((queryParam) => this.serializeQueryParams(queryParam))
-            .join('&');
-
-        if (params) url += '?' + params;
-        return {
+    private buildConfig(): AxiosRequestConfig {
+        const config = {
             method: this.requestMethod,
-            url,
+            url: this.buildUrl(),
             data: this.body ?? null,
             ...this.configData,
         };
+        console.log(config);
+        return config;
     }
+    private buildUrl(): string {
+        let url: string = this.urlField.join('/');
+        const params: string = this.queryParams
+            .map((param) => `${param.key}=${param.val}`)
+            .join('&');
+
+        if (params) url += '?' + params;
+        return url;
+    }
+}
+function convertResponse(response: AxiosResponse<any, any>): AmbrosiaResponse {
+    const status = response.status;
+    return { ...response.data, status, isOk: isOk(status) };
+}
+function convertError(error: any) {
+    const response = error.response;
+    const status = response.status;
+    return { ...response.data, status, isOk: isOk(status) };
+}
+function isOk(status: StatusCodes) {
+    return status === StatusCodes.OK || status === StatusCodes.CREATED;
 }

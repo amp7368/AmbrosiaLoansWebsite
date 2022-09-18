@@ -2,6 +2,7 @@ import { CreateInvestmentRuntime, InvestmentSimple } from '@api/io-model';
 import { getManager } from 'typeorm';
 
 import { AmbrosiaQuery } from '../../AmbrosiaQuery';
+import { EntityTables } from '../EntityTables';
 import { loanQuery } from '../loans/Loan.query';
 import { InvestEventEntity } from './InvestEvent.entity';
 import { investEventQuery } from './InvestEvent.query';
@@ -35,5 +36,6 @@ export class InvestmentQuery extends AmbrosiaQuery<InvestmentEntity> {
 }
 export const investmentQuery = new InvestmentQuery(
     InvestmentEntity,
-    'investment'
+    EntityTables.Investment,
+    ['history', 'client']
 );

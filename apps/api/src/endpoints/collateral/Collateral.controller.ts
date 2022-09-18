@@ -9,9 +9,9 @@ import {
     Controller,
     Get,
     Post,
-    Put,
     Query,
     StreamableFile,
+    UploadedFile,
     UploadedFiles,
     UseInterceptors,
 } from '@nestjs/common';
@@ -20,7 +20,7 @@ import { existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
 import sharp from 'sharp';
 
-import { collateralQuery } from '../../database/entity/collateral/query/Collateral.query';
+import { collateralQuery } from '../../database/entity/collateral/Collateral.query';
 import { ControllerBase } from '../base/ControllerBase';
 import { EndpointUrls } from '../EndpointUrls';
 
@@ -51,11 +51,18 @@ export class CollateralController extends ControllerBase {
     async postImage(
         @Query('uuid') uuid: string,
         @UploadedFiles() files: Array<Express.Multer.File>
-    ): Promise<AmbrosiaResponseOK> {
+    ): Promise<CollateralResponse> {
         if (!uuid) this.exception.badRequest('uuid=' + uuid);
+        if (!files || files.length === 0)
+            this.exception.badRequest('No files found');
+        const collateral = await collateralQuery.findOne(uuid);
+        if (!collateral)
+            this.exception.expectationFailed(
+                `No collateral found matching ${uuid}`
+            );
         const filePath = this.getPath(uuid);
         sharp(files[0].buffer).toFile(filePath);
-        return okResponse;
+        return { collateral, ...okResponse };
     }
     getPath(uuid: string): string {
         return join(folder, uuid + '.png');

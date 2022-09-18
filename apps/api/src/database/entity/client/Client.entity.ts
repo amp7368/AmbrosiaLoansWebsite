@@ -1,11 +1,12 @@
 import { Client } from '@api/io-model';
 import { CreateClassFactory } from '@appleptr16/utilities';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { EntityTables } from '../EntityTables';
 import { InvestmentEntity } from '../investment/Investment.entity';
 
 import { LoanEntity } from '../loans/Loan.entity';
 
-@Entity('client')
+@Entity(EntityTables.Client)
 export class ClientEntity implements Client {
     static create = new CreateClassFactory(ClientEntity, () => ({
         loans: [],
@@ -33,5 +34,4 @@ export class ClientEntity implements Client {
     loans: LoanEntity[];
     @OneToMany(() => InvestmentEntity, (investment) => investment.client)
     investments: InvestmentEntity[];
-    // investments
 }

@@ -1,60 +1,33 @@
-import { CssBaseline } from '@mui/material';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import { ClientsPage } from './components/clients/ClientsPage';
-import { AppHeader } from './components/common/AppHeader';
-import { AuthorizedPage } from './components/common/AuthorizedPage';
-import { LoginPage } from './components/login/LoginPage';
-import { OverviewPage } from './components/overview/OverviewPage';
-import { routes } from './util/routes';
-import { CreateClientPage } from './components/clients/CreateClientPage';
-import { LoansPage } from './components/loans/LoanPage';
-import { CreateLoanPage } from './components/loans/CreateLoanPage';
+import { ClientsPage } from './pages/client-list/ClientsPage';
+import { LoginPage } from './pages/login/LoginPage';
+import { OverviewPage } from './pages/overview/OverviewPage';
+import { urls } from './util/routes';
+import { CreateClientPage } from './pages/client-list/CreateClientPage';
+import { LoansPage } from './pages/loans/LoanPage';
+import { CreateLoanPage } from './pages/loans/CreateLoanPage';
+import { ClientStatsPage } from './pages/client/ClientStatsPage';
 
 export function App() {
     return (
-        <>
-            <CssBaseline />
-            <AppHeader />
-            <BrowserRouter>
-                <Routes>
-                    <Route path={routes.home} element={<OverviewPage />} />
-                    <Route
-                        path={routes.client}
-                        element={
-                            <AuthorizedPage>
-                                <ClientsPage />
-                            </AuthorizedPage>
-                        }
-                    />
-                    <Route
-                        path={routes.createClient}
-                        element={
-                            <AuthorizedPage>
-                                <CreateClientPage />
-                            </AuthorizedPage>
-                        }
-                    />
-                    <Route
-                        path={routes.loan}
-                        element={
-                            <AuthorizedPage>
-                                <LoansPage />
-                            </AuthorizedPage>
-                        }
-                    />
-                    <Route
-                        path={routes.createLoan}
-                        element={
-                            <AuthorizedPage>
-                                <CreateLoanPage />
-                            </AuthorizedPage>
-                        }
-                    />
-                    <Route path={routes.login} element={<LoginPage />} />
-                </Routes>
-            </BrowserRouter>
-        </>
+        <BrowserRouter>
+            <Routes>
+                <Route path={urls.home} element={<OverviewPage />} />
+                <Route path={urls.client} element={<ClientsPage />} />
+                <Route
+                    path={urls.createClient}
+                    element={<CreateClientPage />}
+                />
+                <Route path={urls.loan} element={<LoansPage />} />
+                <Route path={urls.createLoan} element={<CreateLoanPage />} />
+                <Route
+                    path={urls.clientDetails}
+                    element={<ClientStatsPage />}
+                />
+                <Route path={urls.login} element={<LoginPage />} />
+            </Routes>
+        </BrowserRouter>
     );
 }
 

@@ -24,7 +24,7 @@ export class LoanController extends ControllerBase {
     }
     @Get('/list')
     async list(): Promise<LoanListResponse> {
-        const entities: LoanEntity[] = (await loanQuery.getLoans()) ?? [];
+        const entities: LoanEntity[] = await loanQuery.list();
         const loans: LoanSimple[] = entities.map(loanQuery.toSimple);
         return { loans, ...okResponse };
     }

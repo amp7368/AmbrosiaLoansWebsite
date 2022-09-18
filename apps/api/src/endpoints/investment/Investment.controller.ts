@@ -34,6 +34,7 @@ export class InvestmentController extends ControllerBase {
         const investments: InvestmentSimple[] = entities.map(
             investmentQuery.toSimple
         );
+        console.log(investments);
         return { investments, ...okResponse };
     }
 }

@@ -1,13 +1,17 @@
-import { Client, ClientSimple } from '@api/io-model';
+import { Client, ClientSimple, Investment } from '@api/io-model';
 import { getManager } from 'typeorm';
 
 import { AmbrosiaQuery } from '../../AmbrosiaQuery';
-import { investmentQuery } from '../investment/Investment.query';
+import { EntityTables } from '../EntityTables';
 import { ClientEntity } from './Client.entity';
 
 export class ClientQuery extends AmbrosiaQuery<ClientEntity> {
     toSimple(client: ClientEntity): ClientSimple {
-        return { ...client };
+        return {
+            ...client,
+            loans: client.loans?.map((loan) => loan.uuid),
+            investments: client.investments?.map((invest) => invest.uuid),
+        };
     }
     async create(
         client: Omit<ClientSimple, 'uuid' | 'loans' | 'investments'>
@@ -17,4 +21,7 @@ export class ClientQuery extends AmbrosiaQuery<ClientEntity> {
     }
 }
 
-export const clientQuery = new ClientQuery(ClientEntity, 'client');
+export const clientQuery = new ClientQuery(ClientEntity, EntityTables.Client, [
+    'loans',
+    'investments',
+]);

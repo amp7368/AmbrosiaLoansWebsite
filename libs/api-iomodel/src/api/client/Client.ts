@@ -1,15 +1,3 @@
-import { Type } from 'class-transformer';
-import {
-    IsArray,
-    IsDefined,
-    IsNumber,
-    IsObject,
-    IsString,
-    IsUUID,
-    ValidateNested,
-} from 'class-validator';
-
-import { AmbrosiaException, AmbrosiaResponseOK } from '../BaseResponse';
 import { Investment } from '../invest/Investment';
 import { Loan } from '../loan';
 
@@ -39,4 +27,7 @@ export interface ClientSimple {
     // discord
     discordId?: number;
     discordTag?: string;
+
+    loans: string[];
+    investments: string[];
 }
