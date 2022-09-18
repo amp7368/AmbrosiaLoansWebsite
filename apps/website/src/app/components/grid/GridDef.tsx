@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid';
-import { AppTypography } from '../AppTypography';
+import { AppTypography } from '.Typography';
 
 export function gridDef(gridDef: GridColDef[]): GridColDef[] {
     return gridDef.map(

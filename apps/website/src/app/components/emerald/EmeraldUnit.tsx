@@ -1,7 +1,7 @@
 import { Color, useTheme } from '@mui/material';
 import { green } from '@mui/material/colors';
 import { ReactNode } from 'react';
-import { AppTypography } from '../AppTypography';
+import { AppTypography } from '.Typography';
 
 export type EmeraldUnitType = 'stx' | 'le' | 'eb' | 'em';
 interface EmeraldUnitProps {

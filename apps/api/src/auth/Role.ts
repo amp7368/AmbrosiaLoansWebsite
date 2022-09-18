@@ -6,8 +6,8 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { isArray } from 'class-validator';
-import { sessionStore } from '../database/session/SessionStorage';
-import { ExceptionFactory } from '../endpoints/base/ExceptionFactory';
+import { ExceptionFactory } from '../app/base/ExceptionFactory';
+import { sessionStore } from './session/SessionStorage';
 
 export enum Role {
     Public = 'public',

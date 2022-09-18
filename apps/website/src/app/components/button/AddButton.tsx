@@ -1,6 +1,6 @@
 import AddCircleRounded from '@mui/icons-material/AddCircleRounded';
 import { Button, ButtonProps, Stack } from '@mui/material';
-import { AppTypography } from '../AppTypography';
+import { AppTypography } from '.Typography';
 
 export function AddButton({ children = 'New', ...props }: ButtonProps) {
     return (

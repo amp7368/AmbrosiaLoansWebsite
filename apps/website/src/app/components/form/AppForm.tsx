@@ -1,7 +1,7 @@
 import { alpha, Box, Stack } from '@mui/material';
 import { ReactNode } from 'react';
 
-import { AppPaper } from '../AppPaper';
+import { AppPaper } from '.Paper';
 
 type AppFormProps = React.ClassAttributes<HTMLFormElement> &
     React.FormHTMLAttributes<HTMLFormElement> & {

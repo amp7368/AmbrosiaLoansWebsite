@@ -1,7 +1,7 @@
 import { Button, ButtonProps, Theme, Typography } from '@mui/material';
 import { common } from '@mui/material/colors';
 import { Variant } from '@mui/material/styles/createTypography';
-import { AppTypography } from '../AppTypography';
+import { AppTypography } from '.Typography';
 
 export type AppButtonProps = ButtonProps & { textVariant?: Variant };
 export function AppButton({

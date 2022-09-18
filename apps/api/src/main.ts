@@ -1,18 +1,16 @@
-import { InvestEventType, LoanEventType } from '@api/io-model';
 import {
     INestApplication,
     Module,
     NestApplicationOptions,
-    ParseEnumPipe,
     PipeTransform,
     ValidationPipe,
 } from '@nestjs/common';
 import { APP_GUARD, NestFactory } from '@nestjs/core';
-import { Multer } from 'multer';
+
+import { AuthModule } from './app/auth/auth.module';
+import { BaseModule } from './app/Base.module';
+import { initTypeOrmDbConnection } from './app/initDbConnection';
 import { RolesGuard } from './auth/Role';
-import { initTypeOrmDbConnection } from './database/initDbConnection';
-import { AuthModule } from './endpoints/auth/auth.module';
-import { BaseModule } from './endpoints/Base.module';
 import { MulterInit } from './MulterInit';
 
 const PORT = 80;
