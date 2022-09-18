@@ -1,6 +1,7 @@
 import { AppBar, Button, Divider, Stack } from '@mui/material';
 
 import { urls } from '../util/routes';
+import { AppBreadcrumbs } from './AppBreadcrumbs';
 import { AppTypography } from './AppTypography';
 import { Logo } from './Logo';
 

@@ -7,7 +7,7 @@ import { useClient } from '../../elf/client/Client.repository';
 import { useClientInvestments } from '../../elf/investment/Investment.repository';
 import { useClientLoans } from '../../elf/loan/Loan.repository';
 import { setUI } from '../../elf/ui/UI.repository';
-import { nav, navTo, urls } from '../../util/routes';
+import { nav, navTo } from '../../util/routes';
 import { AppPaper } from '../../components/AppPaper';
 import { AppTypography } from '../../components/AppTypography';
 import { AppButton } from '../../components/button/AppButton';
@@ -69,7 +69,7 @@ export function ClientStatsPage() {
                                         'client',
                                         client.uuid
                                     );
-                                    navTo(urls.createLoan);
+                                    navSub('/withdraw');
                                 }}
                                 key={1}
                             >

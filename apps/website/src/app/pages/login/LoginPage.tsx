@@ -1,32 +1,25 @@
 import { LoginRequest, LoginResponse } from '@api/io-model';
-import { Divider, Stack } from '@mui/material';
 import { Box } from '@mui/system';
 import { ReactNode, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Navigate } from 'react-router-dom';
 
-import {
-    selfUserLogin,
-    useIsLoggedIn,
-} from '../../elf/self-user/SelfUser.repository';
-import { navTo, urls } from '../../util/routes';
 import { AppTypography } from '../../components/AppTypography';
 import { AppButton } from '../../components/button/AppButton';
 import { AppForm } from '../../components/form/AppForm';
 import { AppInput } from '../../components/form/AppInput';
 import { Page } from '../../components/Page';
+import {
+    selfUserLogin,
+    useIsLoggedIn,
+} from '../../elf/self-user/SelfUser.repository';
 
 export function LoginPage() {
-    const isLoggedIn = useIsLoggedIn();
     const { handleSubmit, setValue, register } = useForm<LoginRequest>();
     const [errorElement, setErrorElement] = useState<ReactNode>();
-    if (isLoggedIn === undefined) return <>Loading</>;
-    if (isLoggedIn) navTo(urls.client);
     const onSubmit: SubmitHandler<LoginRequest> = async (data, event) => {
         event?.preventDefault();
         const response: LoginResponse = await selfUserLogin(data);
         if (!response.isOk) setErrorElement([response.message]);
-        else setErrorElement(<Navigate to={urls.client} />);
     };
     const fillFields = () => {
         setValue('username', 'appleptr16');

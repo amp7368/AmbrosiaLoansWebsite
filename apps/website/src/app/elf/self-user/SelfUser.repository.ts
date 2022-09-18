@@ -4,7 +4,7 @@ import { Optional } from '@appleptr16/utilities';
 import { createState, createStore, setProp, withProps } from '@ngneat/elf';
 import { localStorageStrategy, persistState } from '@ngneat/elf-persist-state';
 import { useCallback, useEffect, useState } from 'react';
-import { map } from 'rxjs';
+import { map, observable } from 'rxjs';
 import { API } from '../../api/API';
 import { persist } from '../Elf';
 

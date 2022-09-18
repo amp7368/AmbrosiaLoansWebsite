@@ -39,24 +39,6 @@ services:
         environment:
             - PORT=${NGINX_PORT}
             - WORKINGDIR=${WORKINGDIR}
-    website:
-        image: ${COMPOSE_NAME}/${WEBSITE_IMAGE}
-        container_name: ${COMPOSE_NAME}.${WEBSITE_IMAGE}
-        build:
-            context: .
-            dockerfile: ./apps/website/Dockerfile
-            args:
-                - WORKINGDIR=${WORKINGDIR}
-                - COMPOSE_NAME=${COMPOSE_NAME}
-                - BASE_IMAGE=${BASE_IMAGE}
-                - NGINX_VERSION=${NGINX_VERSION}
-                - NGINX_PORT=${NGINX_PORT}
-        networks:
-            - 'ambrosia-loans'
-        environment:
-            - PORT=${NGINX_PORT}
-            - WORKINGDIR=${WORKINGDIR}
-            - NGINX_PORT=${NGINX_PORT}
     nginx:
         depends_on:
             - website

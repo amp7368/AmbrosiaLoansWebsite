@@ -9,13 +9,17 @@ import { App } from './app/App';
 import { defaultTheme } from './app/util/appTheme';
 import { enableElfProdMode } from '@ngneat/elf';
 import { AppHeader } from './app/components/AppHeader';
+import { AppBreadcrumbs } from './app/components/AppBreadcrumbs';
+import { RouteRules } from './RouteRules';
 
 render(
     <StrictMode>
         <ThemeProvider theme={defaultTheme}>
             <CssBaseline />
             <AppHeader />
+            <AppBreadcrumbs />
             <App />
+            <RouteRules />
         </ThemeProvider>
     </StrictMode>,
     document.getElementById('root')
