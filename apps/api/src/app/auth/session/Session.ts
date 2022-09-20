@@ -1,4 +1,4 @@
-import { SessionBase } from '@api/io-model';
+import { Role, SessionBase } from '@api/io-model';
 import { DateFactory } from '@appleptr16/utilities';
 import { v4 } from 'uuid';
 
@@ -7,13 +7,17 @@ export class Session implements SessionBase {
 
     sessionToken: string = v4();
     expiration: Date;
+    role: Role;
 
-    constructor() {
+    constructor(role: Role) {
+        this.role = role;
         this.refresh();
     }
 
     refresh() {
+        if (!this.isValid()) return false;
         this.expiration = DateFactory.fromNowMinutes(Session.EXPIRATION_MINS);
+        return true;
     }
 
     isValid(): boolean {

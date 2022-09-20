@@ -1,3 +1,4 @@
 export * from './LoginResponse';
-export * from './SessionBase';
+export * from './Role';
 export * from './LoginRequest';
+export * from './SessionBase';

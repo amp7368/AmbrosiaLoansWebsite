@@ -10,7 +10,7 @@ import { APP_GUARD, NestFactory } from '@nestjs/core';
 import { AuthModule } from './app/auth/auth.module';
 import { BaseModule } from './app/Base.module';
 import { initTypeOrmDbConnection } from './app/initDbConnection';
-import { RolesGuard } from './auth/Role';
+import { RolesGuard } from './app/auth/Role';
 import { MulterInit } from './MulterInit';
 
 const PORT = 80;

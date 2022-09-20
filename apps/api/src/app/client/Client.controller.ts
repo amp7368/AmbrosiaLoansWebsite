@@ -11,6 +11,7 @@ import { ClientEntity } from './Client.entity';
 import { clientQuery } from './Client.query';
 import { ControllerBase } from '../base/ControllerBase';
 import { EndpointUrls } from '../EndpointUrls';
+import { Optional } from '@appleptr16/utilities';
 
 @Controller(EndpointUrls.api.client.url)
 export class ClientController extends ControllerBase {
@@ -24,7 +25,10 @@ export class ClientController extends ControllerBase {
     async createClient(
         @Body() request: ClientCreateRequestRuntime
     ): Promise<ClientCreateResponse> {
-        const entity: ClientEntity = await clientQuery.create(request.client);
+        const entity: Optional<ClientEntity> = await clientQuery.create(
+            request.client
+        );
+        if (!entity) this.exception.conflict('Username already taken');
         const client: ClientSimple = clientQuery.toSimple(entity);
         return { client, ...okResponse };
     }

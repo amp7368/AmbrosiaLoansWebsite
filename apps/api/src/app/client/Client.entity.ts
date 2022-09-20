@@ -15,7 +15,7 @@ export class ClientEntity implements Client {
 
     @PrimaryGeneratedColumn('uuid')
     uuid: string;
-    @Column('varchar', { length: 32 })
+    @Column('varchar', { length: 32, unique: true })
     displayName: string;
 
     // minecraft

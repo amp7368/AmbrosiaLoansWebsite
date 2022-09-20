@@ -1,4 +1,5 @@
 import { ClientSimple } from '@api/io-model';
+import { Optional } from '@appleptr16/utilities';
 
 import { AmbrosiaQuery } from '../AmbrosiaQuery';
 import { EntityTables } from '../EntityTables';
@@ -14,9 +15,9 @@ export class ClientQuery extends AmbrosiaQuery<ClientEntity> {
     }
     async create(
         client: Omit<ClientSimple, 'uuid' | 'loans' | 'investments'>
-    ): Promise<ClientEntity> {
+    ): Promise<Optional<ClientEntity>> {
         const entity: ClientEntity = ClientEntity.create(client);
-        return await this.save(entity);
+        return await this.save(entity).catch(() => undefined);
     }
 }
 

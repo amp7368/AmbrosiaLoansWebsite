@@ -41,7 +41,6 @@ services:
             - WORKINGDIR=${WORKINGDIR}
     nginx:
         depends_on:
-            - website
             - api
         container_name: ${COMPOSE_NAME}.${NGINX_IMAGE}
         image: ${COMPOSE_NAME}/${NGINX_IMAGE}
